@@ -4,13 +4,12 @@ import ttkbootstrap as tb
 from ttkbootstrap.scrolled import ScrolledFrame
 from tkinter.messagebox import showerror
 import sqlite3
-from PIL import ImageTk, Image
 
 root = tb.Window(themename = "pulse")
 root.title("Dip Coater Gui")
-root.geometry("400x800")
+# root.geometry("400x800")
 # root.attributes("-fullscreen", True)
-root.resizable(False, False)
+# root.resizable(False, False)
 
 # Connect to the favorite runs database
 conn = sqlite3.connect("favoriteruns.db")
@@ -37,53 +36,71 @@ c.execute("""CREATE TABLE favoriteruns (
 # Create a mode variable
 current_mode = 0
 
-# Create a function to switch control modes
-def switch_mode(x):
-    control_menu.config(text = f"{x}")
+# Create a function for the auto button
+def auto_switch():
     global current_mode
 
-    if (current_mode == 0 and x != "Automated Control") or (current_mode == 1 and x != "Manual Control") or (current_mode == 2 and x != "Favorite Runs"):
+    if current_mode == 1:
+        manual_frame.grid_forget()
+        auto_frame.grid(row = 1, column = 0, columnspan = 2, padx = 10, pady = 5)
+        auto_frame.focus_set()
+        auto_button.config(bootstyle = "primary, outline")
+        manual_button.config(bootstyle = "primary")
+        current_mode -= 1
 
-        if current_mode == 0:
-            auto_frame.grid_forget()
+    elif current_mode == 2:
+        history_frame.grid_forget()
+        auto_frame.grid(row = 1, column = 0, columnspan = 2, padx = 10, pady = 5)
+        auto_frame.focus_set()
+        auto_button.config(bootstyle = "primary, outline")
+        favorites_button.config(bootstyle = "primary")
+        current_mode -= 2
 
-            if x == "Manual Control":
-                manual_frame.grid(row = 1, column = 0, columnspan = 2, padx = 10, pady = 5)
-                manual_frame.focus_set()
-                current_mode += 1
+    else:
+        pass
 
-            elif x == "Favorite Runs":
-                history_frame.grid(row = 1, column = 0, columnspan = 2, padx = 10, pady = 5)
-                run_list.focus_set()
-                display_runs()
-                current_mode += 2
-        
-        elif current_mode == 1:
-            manual_frame.grid_forget()
+# Create a function for the manual button
+def manual_switch():
+    global current_mode
 
-            if x == "Automated Control":
-                auto_frame.grid(row = 1, column = 0, columnspan = 2, padx = 10, pady = 5)
-                auto_frame.focus_set()
-                current_mode -= 1
+    if current_mode == 0:
+        auto_frame.grid_forget()
+        manual_frame.grid(row = 1, column = 0, columnspan = 2, padx = 10, pady = 5)
+        manual_frame.focus_set()
+        manual_button.config(bootstyle = "primary, outline")
+        auto_button.config(bootstyle = "primary")
+        current_mode += 1
 
-            elif x == "Favorite Runs":
-                history_frame.grid(row = 1, column = 0, columnspan = 2, padx = 10, pady = 5)
-                run_list.focus_set()
-                display_runs()
-                current_mode += 1
-        
-        elif current_mode == 2:
-            history_frame.grid_forget()
+    elif current_mode == 2:
+        history_frame.grid_forget()
+        manual_frame.grid(row = 1, column = 0, columnspan = 2, padx = 10, pady = 5)
+        manual_frame.focus_set()
+        manual_button.config(bootstyle = "primary, outline")
+        favorites_button.config(bootstyle = "primary")
+        current_mode -= 1
 
-            if x == "Automated Control":
-                auto_frame.grid(row = 1, column = 0, columnspan = 2, padx = 10, pady = 5)
-                auto_frame.focus_set()
-                current_mode -= 2
+    else:
+        pass
 
-            elif x == "Manual Control":
-                manual_frame.grid(row = 1, column = 0, columnspan = 2, padx = 10, pady = 5)
-                manual_frame.focus_set()
-                current_mode -= 1
+# Create a function for the favorites button
+def favorites_switch():
+    global current_mode
+
+    if current_mode == 0:
+        auto_frame.grid_forget()
+        history_frame.grid(row = 1, column = 0, columnspan = 2, padx = 10, pady = 5)
+        run_list.focus_set()
+        favorites_button.config(bootstyle = "primary, outline")
+        auto_button.config(bootstyle = "primary")
+        current_mode += 2
+
+    elif current_mode == 1:
+        manual_frame.grid_forget()
+        history_frame.grid(row = 1, column = 0, columnspan = 2, padx = 10, pady = 5)
+        run_list.focus_set()
+        favorites_button.config(bootstyle = "primary, outline")
+        manual_button.config(bootstyle = "primary")
+        current_mode += 1
 
     else:
         pass
@@ -343,40 +360,21 @@ def favorite_lock_unlock():
 
 
 # Create the system sleep frame
-sleep_frame = tb.Labelframe(root, text = "Paladin Dip Coater", bootstyle = "secondary")
-sleep_frame.grid(row = 0, column = 0, padx = (10, 4), pady = (5, 0))
+control_frame = tb.Labelframe(root, text = "Control Modes", bootstyle = "secondary")
+control_frame.grid(row = 0, column = 0, padx = (10, 4), pady = (5, 0))
 
-# Set up the Furman image
-furman_img = Image.open("./FurmanText.jpg")
-resized_img = furman_img.resize((130, 51))
-img = ImageTk.PhotoImage(resized_img)
+# Create a manual mode button
+auto_button = tb.Button(control_frame, text = "Automated Control", bootstyle = "primary, outline", command = auto_switch)
+auto_button.grid(row = 0, column = 0, padx = 5, pady = 10)
 
-# Display the Furman image
-furman_label = Label(sleep_frame, image = img)
-furman_label.pack(anchor = "center", padx = 15)
+# Create a manual mode button
+manual_button = tb.Button(control_frame, text = "Manual Control", bootstyle = "primary", command = manual_switch)
+manual_button.grid(row = 0, column = 1, padx = 5, pady = 10)
 
+# Create a manual mode button
+favorites_button = tb.Button(control_frame, text = "Favorite Runs", bootstyle = "primary", command = favorites_switch)
+favorites_button.grid(row = 0, column = 2, padx = 5, pady = 10)
 
-###
-
-
-# Create the control modes frame
-controls_frame = tb.Labelframe(root, text = "Operation Modes", bootstyle = "secondary")
-controls_frame.grid(row = 0, column = 1, padx = (0, 10), pady = (5,0), sticky = "n")
-
-# Create a menu button for control options
-control_menu = tb.Menubutton(controls_frame, bootstyle = "primary", text = "Automated Control", width = 15)
-control_menu.grid(row = 0, column = 0, padx = 10, pady = (10, 15))
-
-# Create a menu for control options
-control_options = tb.Menu(control_menu)
-
-# Add items to the menu
-item_var = StringVar()
-for x in ["Automated Control", "Manual Control", "Favorite Runs"]:
-    control_options.add_radiobutton(label = x, variable = item_var, command = lambda x = x: switch_mode(x))
-
-# Associate the menu with the menubutton
-control_menu["menu"] = control_options
 
 
 ###

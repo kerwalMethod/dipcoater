@@ -383,7 +383,7 @@ control_frame.grid(row = 0, column = 0, padx = 5, pady = (5, 0))
 
 # Create a manual mode button
 auto_button = tb.Button(control_frame, text = "Auto Control", bootstyle = "primary, outline", width = 14, command = auto_switch)
-auto_button.grid(row = 0, column = 0, padx = (12, 6), pady = (7, 10))
+auto_button.grid(row = 0, column = 0, padx = (13, 6), pady = (7, 10))
 
 # Create a manual mode button
 manual_button = tb.Button(control_frame, text = "Manual Control", bootstyle = "primary", width = 14, command = manual_switch)
@@ -391,7 +391,7 @@ manual_button.grid(row = 0, column = 1, padx = 6, pady = (7, 10))
 
 # Create a manual mode button
 favorites_button = tb.Button(control_frame, text = "Favorite Runs", bootstyle = "primary", width = 14, command = favorites_switch)
-favorites_button.grid(row = 0, column = 2, padx = (6, 12), pady = (7, 10))
+favorites_button.grid(row = 0, column = 2, padx = (6, 13), pady = (7, 10))
 
 
 

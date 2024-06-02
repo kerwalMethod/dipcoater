@@ -90,6 +90,7 @@ def favorites_switch():
         auto_frame.grid_forget()
         history_frame.grid(row = 1, column = 0, columnspan = 2, padx = 10, pady = 5)
         run_list.focus_set()
+        display_runs()
         favorites_button.config(bootstyle = "primary, outline")
         auto_button.config(bootstyle = "primary")
         current_mode += 2
@@ -98,6 +99,7 @@ def favorites_switch():
         manual_frame.grid_forget()
         history_frame.grid(row = 1, column = 0, columnspan = 2, padx = 10, pady = 5)
         run_list.focus_set()
+        display_runs()
         favorites_button.config(bootstyle = "primary, outline")
         manual_button.config(bootstyle = "primary")
         current_mode += 1
@@ -120,12 +122,14 @@ def auto_lock_unlock():
     global parameters
     global state1
     
-    try: 
+    try:
         parameters.clear()
         parameters.extend([float(entry1.get()), float(entry2.get()), float(entry3.get()), float(entry4.get()), float(entry5.get()), int(entry6.get())])
 
         if state1 == 0:
-            control_menu.config(state = "disabled")
+            auto_button.config(state = "disabled")
+            manual_button.config(state = "disabled")
+            favorites_button.config(state = "disabled")
             clear_button.config(text = "Save as Favorite", bootstyle = "success", command = favorite_run)
 
             conn = sqlite3.connect("favoriteruns.db")
@@ -151,7 +155,9 @@ def auto_lock_unlock():
             state1 += 1
 
         elif state1 == 1:
-            control_menu.config(state = "enabled")
+            auto_button.config(state = "enabled")
+            manual_button.config(state = "enabled")
+            favorites_button.config(state = "enabled")
             clear_button.config(text = "Clear All", bootstyle = "secondary", command = clear_all, state = "enabled")
             for x in (entry1, entry2, entry3, entry4, entry5, entry6):
                 x.config(state = "enabled")
@@ -251,7 +257,9 @@ def up():
         up_button.config(text = "STOP UP")
         lock_unlock_button2.config(state = "disabled")
         down_button.config(state = "disabled")
-        control_menu.config(state = "disabled")
+        auto_button.config(state = "disabled")
+        manual_button.config(state = "disabled")
+        favorites_button.config(state = "disabled")
         state5 += 1
 
     elif state5 == 1:
@@ -260,7 +268,9 @@ def up():
         lock_unlock_button2.config(state = "enabled")
         if state3 == 1:
             down_button.config(state = "enabled")
-        control_menu.config(state = "enabled")
+        auto_button.config(state = "enabled")
+        manual_button.config(state = "enabled")
+        favorites_button.config(state = "enabled")
         state5 -= 1
 
 # Create a function for the down button
@@ -272,7 +282,9 @@ def down():
         down_button.config(text = "STOP DOWN")
         lock_unlock_button1.config(state = "disabled")
         up_button.config(state = "disabled")
-        control_menu.config(state = "disabled")
+        auto_button.config(state = "disabled")
+        manual_button.config(state = "disabled")
+        favorites_button.config(state = "disabled")
         state6 += 1
 
     elif state6 == 1:
@@ -281,7 +293,9 @@ def down():
         lock_unlock_button1.config(state = "enabled")
         if state2 == 1:
             up_button.config(state = "enabled")
-        control_menu.config(state = "enabled")
+        auto_button.config(state = "enabled")
+        manual_button.config(state = "enabled")
+        favorites_button.config(state = "enabled")
         state6 -= 1
 
 
@@ -334,7 +348,9 @@ def favorite_lock_unlock():
     global state4
 
     if state4 == 0:
-        control_menu.config(state = "disabled")
+        auto_button.config(state = "disabled")
+        manual_button.config(state = "disabled")
+        favorites_button.config(state = "disabled")
         delete_button.config(state = "disabled")
         lock_unlock_button3.config(text = "Unlock Parameters", bootstyle = "warning")
 
@@ -345,7 +361,9 @@ def favorite_lock_unlock():
         state4 += 1
     
     elif state4 == 1:
-        control_menu.config(state = "enabled")
+        auto_button.config(state = "enabled")
+        manual_button.config(state = "enabled")
+        favorites_button.config(state = "enabled")
         delete_button.config(state = "enabled")
         lock_unlock_button3.config(text = "Lock Parameters", bootstyle = "success")
 

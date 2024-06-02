@@ -8,7 +8,7 @@ import sqlite3
 root = tb.Window(themename = "pulse")
 root.title("Dip Coater Gui")
 # root.geometry("400x800")
-# root.attributes("-fullscreen", True)
+root.attributes("-fullscreen", True)
 # root.resizable(False, False)
 
 # Connect to the favorite runs database

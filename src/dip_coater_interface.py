@@ -474,11 +474,11 @@ unit_label7 = tb.Label(manual_frame, text = "cm/s", font = ("Helvetica", 12), bo
 unit_label7.grid(row = 1, column = 1, sticky = "w", padx = (0, 60))
 
 # Create the first lock/unlock button
-lock_unlock_button1 = tb.Button(manual_frame, text = "Lock Speed", bootstyle = "success", width = 25, command = lambda: manual_lock_unlock("UP"))
+lock_unlock_button1 = tb.Button(manual_frame, text = "Lock Speed", bootstyle = "success", width = 30, command = lambda: manual_lock_unlock("UP"))
 lock_unlock_button1.grid(row = 2, column = 0, columnspan = 2, padx = 15, pady = (10, 15))
 
 # Create the up button
-up_button = tb.Button(manual_frame, text = "START UP", bootstyle = "info", width = 35, state = "disabled", command = up)
+up_button = tb.Button(manual_frame, text = "START UP", bootstyle = "info", width = 40, state = "disabled", command = up)
 up_button.grid(row = 3, column = 0, columnspan = 2, padx = 50, pady = (10, 15), ipady = 40, sticky = "ew")
 
 # Create the second entry box and its labels
@@ -490,11 +490,11 @@ unit_label8 = tb.Label(manual_frame, text = "cm/s", font = ("Helvetica", 12), bo
 unit_label8.grid(row = 5, column = 1, sticky = "w", padx = (0, 60))
 
 # Create the second lock/unlock button
-lock_unlock_button2 = tb.Button(manual_frame, text = "Lock Speed", bootstyle = "success", width = 25, command = lambda: manual_lock_unlock("DOWN"))
+lock_unlock_button2 = tb.Button(manual_frame, text = "Lock Speed", bootstyle = "success", width = 30, command = lambda: manual_lock_unlock("DOWN"))
 lock_unlock_button2.grid(row = 6, column = 0, columnspan = 2, padx = 15, pady = (10, 15))
 
 # Create the down button
-down_button = tb.Button(manual_frame, text = "START DOWN", bootstyle = "info", width = 35, state = "disabled", command = down)
+down_button = tb.Button(manual_frame, text = "START DOWN", bootstyle = "info", width = 40, state = "disabled", command = down)
 down_button.grid(row = 7, column = 0, columnspan = 2, padx = 50, pady = (10, 15), ipady = 40, sticky = "ew")
 
 

@@ -42,7 +42,7 @@ def auto_switch():
 
     if current_mode == 1:
         manual_frame.grid_forget()
-        auto_frame.grid(row = 1, column = 0, columnspan = 2, padx = 5, pady = 5)
+        auto_frame.grid(row = 1, column = 0, padx = 5, pady = 5)
         auto_frame.focus_set()
         auto_button.config(bootstyle = "primary, outline")
         manual_button.config(bootstyle = "primary")
@@ -50,7 +50,7 @@ def auto_switch():
 
     elif current_mode == 2:
         history_frame.grid_forget()
-        auto_frame.grid(row = 1, column = 0, columnspan = 2, padx = 5, pady = 5)
+        auto_frame.grid(row = 1, column = 0, padx = 5, pady = 5)
         auto_frame.focus_set()
         auto_button.config(bootstyle = "primary, outline")
         favorites_button.config(bootstyle = "primary")
@@ -65,7 +65,7 @@ def manual_switch():
 
     if current_mode == 0:
         auto_frame.grid_forget()
-        manual_frame.grid(row = 1, column = 0, columnspan = 2, padx = 5, pady = 5)
+        manual_frame.grid(row = 1, column = 0, padx = 5, pady = 5)
         manual_frame.focus_set()
         manual_button.config(bootstyle = "primary, outline")
         auto_button.config(bootstyle = "primary")
@@ -73,7 +73,7 @@ def manual_switch():
 
     elif current_mode == 2:
         history_frame.grid_forget()
-        manual_frame.grid(row = 1, column = 0, columnspan = 2, padx = 5, pady = 5)
+        manual_frame.grid(row = 1, column = 0, padx = 5, pady = 5)
         manual_frame.focus_set()
         manual_button.config(bootstyle = "primary, outline")
         favorites_button.config(bootstyle = "primary")
@@ -88,7 +88,7 @@ def favorites_switch():
 
     if current_mode == 0:
         auto_frame.grid_forget()
-        history_frame.grid(row = 1, column = 0, columnspan = 2, padx = 5, pady = 5)
+        history_frame.grid(row = 1, column = 0, padx = 5, pady = 5)
         run_list.focus_set()
         display_runs()
         favorites_button.config(bootstyle = "primary, outline")
@@ -97,7 +97,7 @@ def favorites_switch():
 
     elif current_mode == 1:
         manual_frame.grid_forget()
-        history_frame.grid(row = 1, column = 0, columnspan = 2, padx = 5, pady = 5)
+        history_frame.grid(row = 1, column = 0, padx = 5, pady = 5)
         run_list.focus_set()
         display_runs()
         favorites_button.config(bootstyle = "primary, outline")
@@ -383,15 +383,15 @@ control_frame.grid(row = 0, column = 0, padx = 5, pady = (5, 0))
 
 # Create a manual mode button
 auto_button = tb.Button(control_frame, text = "Automated Control", bootstyle = "primary, outline", width = 15, command = auto_switch)
-auto_button.grid(row = 0, column = 0, padx = 5, pady = 10)
+auto_button.grid(row = 0, column = 0, padx = (10, 5), pady = (7, 10))
 
 # Create a manual mode button
 manual_button = tb.Button(control_frame, text = "Manual Control", bootstyle = "primary", width = 15, command = manual_switch)
-manual_button.grid(row = 0, column = 1, padx = 5, pady = 10)
+manual_button.grid(row = 0, column = 1, padx = 5, pady = (7, 10))
 
 # Create a manual mode button
 favorites_button = tb.Button(control_frame, text = "Favorite Runs", bootstyle = "primary", width = 15, command = favorites_switch)
-favorites_button.grid(row = 0, column = 2, padx = 5, pady = 10)
+favorites_button.grid(row = 0, column = 2, padx = (5, 10), pady = (7, 10))
 
 
 
@@ -400,11 +400,11 @@ favorites_button.grid(row = 0, column = 2, padx = 5, pady = 10)
 
 # Create the automated control frame
 auto_frame = tb.Labelframe(root, text = "Automated Control Mode", bootstyle = "primary")
-auto_frame.grid(row = 1, column = 0, columnspan = 2, padx = 5, pady = 5)
+auto_frame.grid(row = 1, column = 0, padx = 5, pady = 5)
 
 # Create the first entry box and its labels
 label1 = tb.Label(auto_frame, text = "Enter the substrate length in centimeters:", font = ("Helvetica", 14), bootstyle = "dark")
-label1.grid(row = 0, column = 0, columnspan = 2, padx = 10, pady = (20, 5), sticky = "w")
+label1.grid(row = 0, column = 0, columnspan = 2, padx = 10, pady = (15, 5), sticky = "w")
 entry1 = tb.Entry(auto_frame, font = ("Helvetica", 12), bootstyle = "secondary", width = 10)
 entry1.grid(row = 1, column = 0, padx = (0, 5), pady = 10, sticky = "e")
 unit_label1 = tb.Label(auto_frame, text = "cm", font = ("Helvetica", 12), bootstyle = "dark")
@@ -522,9 +522,9 @@ lock_unlock_button3.grid(row = 0, column = 1, padx = (10, 15), pady = (20, 5), s
 
 # Create the run frame
 run_frame = tb.Labelframe(root, text = "Run Dip Coater", bootstyle = "primary")
-run_frame.grid(row = 2, column = 0, columnspan = 2, padx = 10, pady = (0, 5))
+run_frame.grid(row = 2, column = 0, padx = 10, pady = (0, 5))
 
-run_button = tb.Button(run_frame, text = "RUN", bootstyle = "info", width = 40, state = "disabled")
+run_button = tb.Button(run_frame, text = "RUN", bootstyle = "info", width = 45, state = "disabled")
 run_button.grid(row = 0, column = 0, padx = 46, pady = (10, 15), ipady = 10)
 
 

@@ -382,16 +382,16 @@ control_frame = tb.Labelframe(root, text = "Control Modes", bootstyle = "seconda
 control_frame.grid(row = 0, column = 0, padx = 5, pady = (5, 0))
 
 # Create a manual mode button
-auto_button = tb.Button(control_frame, text = "Automated Control", bootstyle = "primary, outline", width = 14, command = auto_switch)
-auto_button.grid(row = 0, column = 0, padx = (10, 7), pady = (7, 10))
+auto_button = tb.Button(control_frame, text = "Automated Control", bootstyle = "primary, outline", width = 15, command = auto_switch)
+auto_button.grid(row = 0, column = 0, padx = (7, 5), pady = (7, 10))
 
 # Create a manual mode button
-manual_button = tb.Button(control_frame, text = "Manual Control", bootstyle = "primary", width = 14, command = manual_switch)
-manual_button.grid(row = 0, column = 1, padx = 7, pady = (7, 10))
+manual_button = tb.Button(control_frame, text = "Manual Control", bootstyle = "primary", width = 15, command = manual_switch)
+manual_button.grid(row = 0, column = 1, padx = 5, pady = (7, 10))
 
 # Create a manual mode button
-favorites_button = tb.Button(control_frame, text = "Favorite Runs", bootstyle = "primary", width = 14, command = favorites_switch)
-favorites_button.grid(row = 0, column = 2, padx = (7, 10), pady = (7, 10))
+favorites_button = tb.Button(control_frame, text = "Favorite Runs", bootstyle = "primary", width = 15, command = favorites_switch)
+favorites_button.grid(row = 0, column = 2, padx = (5, 7), pady = (7, 10))
 
 
 
@@ -452,11 +452,11 @@ unit_label6.grid(row = 11, column = 1, sticky = "w", padx = (0, 70))
 
 # Create an edit button
 clear_button = tb.Button(auto_frame, text = "Clear All", bootstyle = "secondary", width = 20, command = clear_all)
-clear_button.grid(row = 12, column = 0, padx = 10, pady = (10, 15))
+clear_button.grid(row = 12, column = 0, padx = (25, 10), pady = 10)
 
 # Create a save button
 lock_unlock_button = tb.Button(auto_frame, text = "Lock Parameters", bootstyle = "success", width = 20, command = auto_lock_unlock)
-lock_unlock_button.grid(row = 12, column = 1, padx = 10, pady = (10, 15), sticky = "w")
+lock_unlock_button.grid(row = 12, column = 1, padx = (10, 25), pady = 10, sticky = "w")
 
 
 ###

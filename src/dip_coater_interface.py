@@ -383,15 +383,15 @@ control_frame.grid(row = 0, column = 0, padx = 5, pady = (5, 0))
 
 # Create a manual mode button
 auto_button = tb.Button(control_frame, text = "Automated Control", bootstyle = "primary, outline", width = 14, command = auto_switch)
-auto_button.grid(row = 0, column = 0, padx = (10, 5), pady = (7, 10))
+auto_button.grid(row = 0, column = 0, padx = (10, 7), pady = (7, 10))
 
 # Create a manual mode button
 manual_button = tb.Button(control_frame, text = "Manual Control", bootstyle = "primary", width = 14, command = manual_switch)
-manual_button.grid(row = 0, column = 1, padx = 5, pady = (7, 10))
+manual_button.grid(row = 0, column = 1, padx = 7, pady = (7, 10))
 
 # Create a manual mode button
 favorites_button = tb.Button(control_frame, text = "Favorite Runs", bootstyle = "primary", width = 14, command = favorites_switch)
-favorites_button.grid(row = 0, column = 2, padx = (5, 10), pady = (7, 10))
+favorites_button.grid(row = 0, column = 2, padx = (7, 10), pady = (7, 10))
 
 
 
@@ -403,7 +403,7 @@ auto_frame = tb.Labelframe(root, text = "Automated Control Mode", bootstyle = "p
 auto_frame.grid(row = 1, column = 0, padx = 5, pady = 5)
 
 # Create the first entry box and its labels
-label1 = tb.Label(auto_frame, text = "Enter the substrate length in centimeters:", font = ("Helvetica", 14), bootstyle = "dark")
+label1 = tb.Label(auto_frame, text = "Enter the substrate length in centimeters:", font = ("Helvetica", 12), bootstyle = "dark")
 label1.grid(row = 0, column = 0, columnspan = 2, padx = 10, pady = (15, 5), sticky = "w")
 entry1 = tb.Entry(auto_frame, font = ("Helvetica", 12), bootstyle = "secondary", width = 10)
 entry1.grid(row = 1, column = 0, padx = (0, 5), pady = 10, sticky = "e")
@@ -411,7 +411,7 @@ unit_label1 = tb.Label(auto_frame, text = "cm", font = ("Helvetica", 12), bootst
 unit_label1.grid(row = 1, column = 1, sticky = "w", padx = (0, 70))
 
 # Create the second entry box and its labels
-label2 = tb.Label(auto_frame, text = "Enter the solution height in centimeters:", font = ("Helvetica", 14), bootstyle = "dark")
+label2 = tb.Label(auto_frame, text = "Enter the solution height in centimeters:", font = ("Helvetica", 12), bootstyle = "dark")
 label2.grid(row = 2, column = 0, columnspan = 2, padx = 10, pady = (10, 5), sticky = "w")
 entry2 = tb.Entry(auto_frame, font = ("Helvetica", 12), bootstyle = "secondary", width = 10)
 entry2.grid(row = 3, column = 0, padx = (0, 5), pady = 10, sticky = "e")
@@ -419,7 +419,7 @@ unit_label2 = tb.Label(auto_frame, text = "cm", font = ("Helvetica", 12), bootst
 unit_label2.grid(row = 3, column = 1, sticky = "w", padx = (0, 70))
 
 # Create the third entry box and its labels
-label3 = tb.Label(auto_frame, text = "Enter the dipping depth in centimeters:", font = ("Helvetica", 14), bootstyle = "dark")
+label3 = tb.Label(auto_frame, text = "Enter the dipping depth in centimeters:", font = ("Helvetica", 12), bootstyle = "dark")
 label3.grid(row = 4, column = 0, columnspan = 2, padx = 10, pady = (10, 5), sticky = "w")
 entry3 = tb.Entry(auto_frame, font = ("Helvetica", 12), bootstyle = "secondary", width = 10)
 entry3.grid(row = 5, column = 0, padx = (0, 5), pady = 10, sticky = "e")
@@ -427,7 +427,7 @@ unit_label3 = tb.Label(auto_frame, text = "cm", font = ("Helvetica", 12), bootst
 unit_label3.grid(row = 5, column = 1, sticky = "w", padx = (0, 70))
 
 # Create the fourth entry box and its labels
-label4 = tb.Label(auto_frame, text = "Enter the withdrawal speed in centimeters per second:\n (speeds range from x to y)", font = ("Helvetica", 14), bootstyle = "dark")
+label4 = tb.Label(auto_frame, text = "Enter the withdrawal speed in centimeters per second:\n (speeds range from x to y)", font = ("Helvetica", 12), bootstyle = "dark")
 label4.grid(row = 6, column = 0, columnspan = 2, padx = 10, pady = (10, 5), sticky = "w")
 entry4 = tb.Entry(auto_frame, font = ("Helvetica", 12), bootstyle = "secondary", width = 10)
 entry4.grid(row = 7, column = 0, padx = (0, 5), pady = 10, sticky = "e")
@@ -435,7 +435,7 @@ unit_label4 = tb.Label(auto_frame, text = "cm/s", font = ("Helvetica", 12), boot
 unit_label4.grid(row = 7, column = 1, sticky = "w", padx = (0, 70))
 
 # Create the fifth entry box and its labels
-label5 = tb.Label(auto_frame, text = "Enter the substrate submersion time in seconds:", font = ("Helvetica", 14), bootstyle = "dark")
+label5 = tb.Label(auto_frame, text = "Enter the substrate submersion time in seconds:", font = ("Helvetica", 12), bootstyle = "dark")
 label5.grid(row = 8, column = 0, columnspan = 2, padx = 10, pady = (10, 5), sticky = "w")
 entry5 = tb.Entry(auto_frame, font = ("Helvetica", 12), bootstyle = "secondary", width = 10)
 entry5.grid(row = 9, column = 0, padx = (0, 5), pady = 10, sticky = "e")
@@ -443,7 +443,7 @@ unit_label5 = tb.Label(auto_frame, text = "s", font = ("Helvetica", 12), bootsty
 unit_label5.grid(row = 9, column = 1, sticky = "w", padx = (0, 70))
 
 # Create the sixth entry box and its labels
-label6 = tb.Label(auto_frame, text = "Enter the number of dips:", font = ("Helvetica", 14), bootstyle = "dark")
+label6 = tb.Label(auto_frame, text = "Enter the number of dips:", font = ("Helvetica", 12), bootstyle = "dark")
 label6.grid(row = 10, column = 0, columnspan = 2, padx = 10, pady = (10, 5), sticky = "w")
 entry6 = tb.Entry(auto_frame, font = ("Helvetica", 12), bootstyle = "secondary", width = 10)
 entry6.grid(row = 11, column = 0, padx = (0, 5), pady = 10, sticky = "e")
@@ -466,7 +466,7 @@ lock_unlock_button.grid(row = 12, column = 1, padx = 10, pady = (10, 15), sticky
 manual_frame = tb.Labelframe(root, text = "Manual Control Mode", bootstyle = "primary")
 
 # Create the first entry box and its labels
-label7 = tb.Label(manual_frame, text = "Enter the upward speed in centimeters per second:\n (speeds range from x to y)", font = ("Helvetica", 14), bootstyle = "dark")
+label7 = tb.Label(manual_frame, text = "Enter the upward speed in centimeters per second:\n (speeds range from x to y)", font = ("Helvetica", 12), bootstyle = "dark")
 label7.grid(row = 0, column = 0, columnspan = 2, padx = (15, 35), pady = (20, 5), sticky = "w")
 entry7 = tb.Entry(manual_frame, font = ("Helvetica", 12), bootstyle = "secondary", width = 10)
 entry7.grid(row = 1, column = 0, padx = (0, 5), pady = 10, sticky = "e")
@@ -482,7 +482,7 @@ up_button = tb.Button(manual_frame, text = "START UP", bootstyle = "info", state
 up_button.grid(row = 3, column = 0, columnspan = 2, padx = 25, pady = (10, 15), ipady = 40, sticky = "ew")
 
 # Create the second entry box and its labels
-label8 = tb.Label(manual_frame, text = "Enter the downward speed in centimeters per second:\n (speeds range from x to y)", font = ("Helvetica", 14), bootstyle = "dark")
+label8 = tb.Label(manual_frame, text = "Enter the downward speed in centimeters per second:\n (speeds range from x to y)", font = ("Helvetica", 12), bootstyle = "dark")
 label8.grid(row = 4, column = 0, columnspan = 2, padx = (15, 15), pady = (9, 5), sticky = "w")
 entry8 = tb.Entry(manual_frame, font = ("Helvetica", 12), bootstyle = "secondary", width = 10)
 entry8.grid(row = 5, column = 0, padx = (0, 5), pady = 10, sticky = "e")
@@ -525,7 +525,7 @@ run_frame = tb.Labelframe(root, text = "Run Dip Coater", bootstyle = "primary")
 run_frame.grid(row = 2, column = 0, padx = 10, pady = (0, 5))
 
 run_button = tb.Button(run_frame, text = "RUN", bootstyle = "info", width = 43, state = "disabled")
-run_button.grid(row = 0, column = 0, padx = 46, pady = (10, 15), ipady = 10)
+run_button.grid(row = 0, column = 0, padx = 45, pady = (10, 15), ipady = 10)
 
 
 ###

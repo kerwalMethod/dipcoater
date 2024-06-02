@@ -479,7 +479,7 @@ lock_unlock_button1.grid(row = 2, column = 0, columnspan = 2, padx = 15, pady = 
 
 # Create the up button
 up_button = tb.Button(manual_frame, text = "START UP", bootstyle = "info", width = 43, state = "disabled", command = up)
-up_button.grid(row = 3, column = 0, columnspan = 2, padx = 47, pady = (10, 15), ipady = 40, sticky = "ew")
+up_button.grid(row = 3, column = 0, columnspan = 2, padx = 45, pady = (10, 15), ipady = 40, sticky = "ew")
 
 # Create the second entry box and its labels
 label8 = tb.Label(manual_frame, text = "Enter the downward speed in centimeters per second:\n (speeds range from x to y)", font = ("Helvetica", 12), bootstyle = "dark")
@@ -495,7 +495,7 @@ lock_unlock_button2.grid(row = 6, column = 0, columnspan = 2, padx = 15, pady = 
 
 # Create the down button
 down_button = tb.Button(manual_frame, text = "START DOWN", bootstyle = "info", width = 43, state = "disabled", command = down)
-down_button.grid(row = 7, column = 0, columnspan = 2, padx = 47, pady = (10, 15), ipady = 40, sticky = "ew")
+down_button.grid(row = 7, column = 0, columnspan = 2, padx = 45, pady = (10, 15), ipady = 40, sticky = "ew")
 
 
 ###

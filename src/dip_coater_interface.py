@@ -483,7 +483,7 @@ up_button.grid(row = 3, column = 0, columnspan = 2, padx = 35, pady = (10, 15), 
 
 # Create the second entry box and its labels
 label8 = tb.Label(manual_frame, text = "Enter the downward speed in centimeters per second:\n (speeds range from x to y)", font = ("Helvetica", 12), bootstyle = "dark")
-label8.grid(row = 4, column = 0, columnspan = 2, padx = 15, pady = (8, 5), sticky = "w")
+label8.grid(row = 4, column = 0, columnspan = 2, padx = 15, pady = (10, 5), sticky = "w")
 entry8 = tb.Entry(manual_frame, font = ("Helvetica", 12), bootstyle = "secondary", width = 10)
 entry8.grid(row = 5, column = 0, padx = (0, 5), pady = 10, sticky = "e")
 unit_label8 = tb.Label(manual_frame, text = "cm/s", font = ("Helvetica", 12), bootstyle = "dark")
@@ -505,16 +505,16 @@ down_button.grid(row = 7, column = 0, columnspan = 2, padx = 35, pady = (10, 15)
 history_frame = tb.Labelframe(root, text = "Favorite Runs", bootstyle = "primary")
 
 # Create a scrolled frame
-run_list = ScrolledFrame(history_frame, bootstyle = "light", width = 400, height = 510)
+run_list = ScrolledFrame(history_frame, bootstyle = "light", width = 410, height = 510)
 run_list.grid(row = 1, column = 0, columnspan = 2, padx = 25, pady = 15)
 
 # Create an edit button
 delete_button = tb.Button(history_frame, text = "Delete", bootstyle = "danger", width = 20, command = delete_run, state = "disabled")
-delete_button.grid(row = 0, column = 0, padx = 15, pady = (17, 5))
+delete_button.grid(row = 0, column = 0, padx = 15, pady = (17, 7))
 
 # Create a delete button
 lock_unlock_button3 = tb.Button(history_frame, text = "Lock Parameters", bootstyle = "success", width = 17, command = favorite_lock_unlock, state = "disabled")
-lock_unlock_button3.grid(row = 0, column = 1, padx = (10, 15), pady = (17, 5), sticky = "w")
+lock_unlock_button3.grid(row = 0, column = 1, padx = (10, 15), pady = (17, 7), sticky = "w")
 
 
 ###

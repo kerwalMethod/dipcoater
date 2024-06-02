@@ -382,15 +382,15 @@ control_frame = tb.Labelframe(root, text = "Control Modes", bootstyle = "seconda
 control_frame.grid(row = 0, column = 0, padx = 5, pady = (5, 0))
 
 # Create a manual mode button
-auto_button = tb.Button(control_frame, text = "Automated Control", bootstyle = "primary, outline", width = 15, command = auto_switch)
+auto_button = tb.Button(control_frame, text = "Automated Control", bootstyle = "primary, outline", width = 14, command = auto_switch)
 auto_button.grid(row = 0, column = 0, padx = (10, 5), pady = (7, 10))
 
 # Create a manual mode button
-manual_button = tb.Button(control_frame, text = "Manual Control", bootstyle = "primary", width = 15, command = manual_switch)
+manual_button = tb.Button(control_frame, text = "Manual Control", bootstyle = "primary", width = 14, command = manual_switch)
 manual_button.grid(row = 0, column = 1, padx = 5, pady = (7, 10))
 
 # Create a manual mode button
-favorites_button = tb.Button(control_frame, text = "Favorite Runs", bootstyle = "primary", width = 15, command = favorites_switch)
+favorites_button = tb.Button(control_frame, text = "Favorite Runs", bootstyle = "primary", width = 14, command = favorites_switch)
 favorites_button.grid(row = 0, column = 2, padx = (5, 10), pady = (7, 10))
 
 
@@ -524,7 +524,7 @@ lock_unlock_button3.grid(row = 0, column = 1, padx = (10, 15), pady = (20, 5), s
 run_frame = tb.Labelframe(root, text = "Run Dip Coater", bootstyle = "primary")
 run_frame.grid(row = 2, column = 0, padx = 10, pady = (0, 5))
 
-run_button = tb.Button(run_frame, text = "RUN", bootstyle = "info", width = 45, state = "disabled")
+run_button = tb.Button(run_frame, text = "RUN", bootstyle = "info", width = 43, state = "disabled")
 run_button.grid(row = 0, column = 0, padx = 46, pady = (10, 15), ipady = 10)
 
 

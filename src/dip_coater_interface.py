@@ -386,7 +386,7 @@ def favorite_lock_unlock():
 
 # Create the system sleep frame
 sleep_frame = tb.Labelframe(root, text = "System", bootstyle = "primary")
-sleep_frame.grid(row = 0, column = 0, padx = (5,0), pady = (5, 0))
+sleep_frame.grid(row = 0, column = 0, padx = (5, 0), pady = (5, 0))
 
 shutdown_button = tb.Button(sleep_frame, text = "Shutdown", bootstyle = "secondary", command = shutdown)
 shutdown_button.pack(padx = 12, pady = (7, 10))
@@ -397,7 +397,7 @@ shutdown_button.pack(padx = 12, pady = (7, 10))
 
 # Create the control modes frame
 control_frame = tb.Labelframe(root, text = "Control Modes", bootstyle = "primary")
-control_frame.grid(row = 0, column = 1, padx = 5, pady = (5, 0))
+control_frame.grid(row = 0, column = 1, padx = (3, 5), pady = (5, 0))
 
 # Create a manual mode button
 auto_button = tb.Button(control_frame, text = "Auto", bootstyle = "primary, outline", width = 9, command = auto_switch)

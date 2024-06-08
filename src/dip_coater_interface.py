@@ -389,7 +389,7 @@ sleep_frame = tb.Labelframe(root, text = "System", bootstyle = "primary")
 sleep_frame.grid(row = 0, column = 0, padx = (5,0), pady = (5, 0))
 
 shutdown_button = tb.Button(sleep_frame, text = "Shutdown", bootstyle = "secondary", command = shutdown)
-shutdown_button.pack(padx = 13, pady = (7, 10))
+shutdown_button.pack(padx = 12, pady = (7, 10))
 
 
 ###
@@ -401,7 +401,7 @@ control_frame.grid(row = 0, column = 1, padx = 5, pady = (5, 0))
 
 # Create a manual mode button
 auto_button = tb.Button(control_frame, text = "Auto", bootstyle = "primary, outline", width = 9, command = auto_switch)
-auto_button.grid(row = 0, column = 0, padx = (13, 6), pady = (7, 10))
+auto_button.grid(row = 0, column = 0, padx = (12, 6), pady = (7, 10))
 
 # Create a manual mode button
 manual_button = tb.Button(control_frame, text = "Manual", bootstyle = "primary", width = 9, command = manual_switch)
@@ -409,7 +409,7 @@ manual_button.grid(row = 0, column = 1, padx = 6, pady = (7, 10))
 
 # Create a manual mode button
 favorites_button = tb.Button(control_frame, text = "Favorites", bootstyle = "primary", width = 9, command = favorites_switch)
-favorites_button.grid(row = 0, column = 2, padx = (6, 13), pady = (7, 10))
+favorites_button.grid(row = 0, column = 2, padx = (6, 12), pady = (7, 10))
 
 
 

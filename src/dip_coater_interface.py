@@ -1,9 +1,11 @@
 from tkinter import *
+from tkinter.messagebox import showerror
 from ttkbootstrap.constants import *
 import ttkbootstrap as tb
 from ttkbootstrap.scrolled import ScrolledFrame
-from tkinter.messagebox import showerror
+from ttkbootstrap.dialogs import Messagebox
 import sqlite3
+from subprocess import call
 
 root = tb.Window(themename = "pulse")
 root.title("Dip Coater Gui")
@@ -32,10 +34,14 @@ c.execute("""CREATE TABLE favoriteruns (
 ###
 
 
-# Create a function to shutdown the system
+# Create a function that displays a confirmation message box for shutting down the system
 def shutdown():
-    return
+    mb = Messagebox.yesno("Are you sure you want to shutdown the system?", "System Shutdown")
 
+    if mb == "Yes":
+        call("sudo nohup shutdown -h now", shell = True)
+    else:
+        pass
 
 ###
 

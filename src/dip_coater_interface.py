@@ -386,7 +386,7 @@ def favorite_lock_unlock():
 
 # Create the system sleep frame
 sleep_frame = tb.Labelframe(root, text = "System", bootstyle = "primary")
-sleep_frame.grid(row = 0, column = 0, padx = 5, pady = (5, 0))
+sleep_frame.grid(row = 0, column = 0, padx = (5,0), pady = (5, 0))
 
 shutdown_button = tb.Button(sleep_frame, text = "Shutdown", bootstyle = "secondary", command = shutdown)
 shutdown_button.pack(padx = 13, pady = (7, 10))

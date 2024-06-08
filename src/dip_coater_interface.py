@@ -143,6 +143,7 @@ def auto_lock_unlock():
             auto_button.config(state = "disabled")
             manual_button.config(state = "disabled")
             favorites_button.config(state = "disabled")
+            shutdown_button.config(state = "disabled")
             clear_button.config(text = "Save as Favorite", bootstyle = "success", command = favorite_run)
 
             conn = sqlite3.connect("favoriteruns.db")
@@ -171,6 +172,7 @@ def auto_lock_unlock():
             auto_button.config(state = "enabled")
             manual_button.config(state = "enabled")
             favorites_button.config(state = "enabled")
+            shutdown_button.config(state = "enabled")
             clear_button.config(text = "Clear All", bootstyle = "secondary", command = clear_all, state = "enabled")
             for x in (entry1, entry2, entry3, entry4, entry5, entry6):
                 x.config(state = "enabled")
@@ -273,6 +275,7 @@ def up():
         auto_button.config(state = "disabled")
         manual_button.config(state = "disabled")
         favorites_button.config(state = "disabled")
+        shutdown_button.config(state = "disabled")
         state5 += 1
 
     elif state5 == 1:
@@ -284,6 +287,7 @@ def up():
         auto_button.config(state = "enabled")
         manual_button.config(state = "enabled")
         favorites_button.config(state = "enabled")
+        shutdown_button.config(state = "enabled")
         state5 -= 1
 
 # Create a function for the down button
@@ -298,6 +302,7 @@ def down():
         auto_button.config(state = "disabled")
         manual_button.config(state = "disabled")
         favorites_button.config(state = "disabled")
+        shutdown_button.config(state = "disabled")
         state6 += 1
 
     elif state6 == 1:
@@ -309,6 +314,7 @@ def down():
         auto_button.config(state = "enabled")
         manual_button.config(state = "enabled")
         favorites_button.config(state = "enabled")
+        shutdown_button.config(state = "enabled")
         state6 -= 1
 
 
@@ -364,6 +370,7 @@ def favorite_lock_unlock():
         auto_button.config(state = "disabled")
         manual_button.config(state = "disabled")
         favorites_button.config(state = "disabled")
+        shutdown_button.config(state = "disabled")
         delete_button.config(state = "disabled")
         lock_unlock_button3.config(text = "Unlock Parameters", bootstyle = "warning")
 
@@ -377,6 +384,7 @@ def favorite_lock_unlock():
         auto_button.config(state = "enabled")
         manual_button.config(state = "enabled")
         favorites_button.config(state = "enabled")
+        shutdown_button.config(state = "enabled")
         delete_button.config(state = "enabled")
         lock_unlock_button3.config(text = "Lock Parameters", bootstyle = "success")
 

@@ -12,4 +12,7 @@ GPIO.setup(EN_pin, GPIO.OUT)
 GPIO.output(EN_pin, GPIO.LOW)
 mymotortest.motor_go(False, "1/16", 6400, 0.0000625, False, 0.05)
 
+GPIO.output(EN_pin, GPIO.LOW)
+mymotortest.motor_go(True, "1/16", 6400, 0.0000625, False, 0.05)
+
 GPIO.cleanup()

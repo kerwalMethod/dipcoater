@@ -6,7 +6,7 @@ direction = 22
 step = 23
 EN_pin = 24
 
-mymotortest = RPiMotorLib.A4988Nema(direction, step, (21, 21, 21), "DRV8825")
+mymotortest = RpiMotorLib.A4988Nema(direction, step, (21, 21, 21), "DRV8825")
 GPIO.setup(EN_pin, GPIO.OUT)
 
 GPIO.output(EN_pin, GPIO.LOW)

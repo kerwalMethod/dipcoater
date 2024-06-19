@@ -1,5 +1,5 @@
 import RPi.GPIO as GPIO
-from rpimotorlib import RPiMotorLib
+import RPiMotorLib
 import time
 
 direction = 22

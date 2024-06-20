@@ -10,12 +10,6 @@ enable_pin = 24
 # Create a boolean variable for stopping the motor
 stop_motor = False
 
-# Set how you are referring to GPIO pins (BCM = Broadcom SOC Channel)
-GPIO.setmode(GPIO.BCM)
-
-# Disable GPIO warnings
-GPIO.setwarnings(False)
-
 
 # Create a function to stop the motor
 def motor_stop():
@@ -29,6 +23,12 @@ def auto_run(direction, steps, stepdelay, initialdelay):
 
     # Set the boolean variable to false so the motor can run
     stop_motor = False
+
+    # Set how you are referring to GPIO pins (BCM = Broadcom SOC Channel)
+    GPIO.setmode(GPIO.BCM)
+
+    # Disable GPIO warnings
+    GPIO.setwarnings(False)
 
     # Setup the enable GPIO pin
     GPIO.setup(enable_pin, GPIO.OUT)

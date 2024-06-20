@@ -35,7 +35,7 @@ def auto_run(run_parameters):
 
     # Convert the user input to actionable run parameters
     steps = int(((23.0 - (run_parameters[0] + run_parameters[1])) + run_parameters[2]) / (0.003175 / 16))
-    stepdelay = round_up((1 / (run_parameters[3] * 2 / (0.003175 / 16))), 8)
+    stepdelay = round_up((1 / (run_parameters[3] * 2 / (0.003175 / 16))), 8) / 2
     waittime = run_parameters[4]
     repetitions = run_parameters[5]
     initialdelay = 0.05

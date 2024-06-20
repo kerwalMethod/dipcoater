@@ -574,8 +574,8 @@ lock_unlock_button3.grid(row = 0, column = 1, padx = (10, 15), pady = (17, 7), s
 run_frame = tb.Labelframe(root, text = "Run Dip Coater", bootstyle = "primary")
 run_frame.grid(row = 2, column = 0, columnspan = 2, padx = 10, pady = (0, 5))
 
-run_button = tb.Button(run_frame, text = "RUN", bootstyle = "info", width = 43, state = "disabled")
-run_button.grid(row = 0, column = 0, padx = 45, pady = (10, 15), ipady = 10, command = run)
+run_button = tb.Button(run_frame, text = "RUN", bootstyle = "info", width = 43, state = "disabled", command = run)
+run_button.grid(row = 0, column = 0, padx = 45, pady = (10, 15), ipady = 10)
 
 
 ###

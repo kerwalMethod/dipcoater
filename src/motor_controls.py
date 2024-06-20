@@ -24,7 +24,7 @@ def motor_stop():
 def auto_run(direction, steps, stepdelay, initialdelay):
 
     file = open("step_count.txt", "r")
-    stepcount = file.read()
+    stepcount = int(file.read())
     file.close()
 
     # Set the boolean variable to false so the motor can run
@@ -67,7 +67,7 @@ def auto_run(direction, steps, stepdelay, initialdelay):
 
                 stepcount += 1
                 file = open("step_count.txt", "w")
-                file.write(stepcount)
+                file.write(str(stepcount))
                 file.close()
 
 
@@ -76,7 +76,7 @@ def auto_run(direction, steps, stepdelay, initialdelay):
     except Exception as motor_error:
         print(sys.exc_info()[0])
         print(motor_error)
-        print("RpiMotorLib  : Unexpected error:")
+        print("Unexpected error")
 
     # Cleanup
     finally:

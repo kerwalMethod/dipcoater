@@ -1,6 +1,7 @@
 import sys
 import time
 import RPi.GPIO as GPIO
+import math
 
 # Assign GPIO pins
 direction_pin = 22
@@ -9,6 +10,15 @@ enable_pin = 24
 
 # Create a boolean variable for stopping the motor
 stop_motor = False
+
+# Create a variable to track steps
+steps = 0
+
+
+# Create a function to round up
+def round_up(number, decimals):
+    multiplier = 10 ** decimals
+    return math.ceil(number * multiplier) / multiplier
 
 
 # Create a function to stop the motor
@@ -21,7 +31,14 @@ def motor_stop():
 
 
 # Create a function for automated runs
-def auto_run(steps, stepdelay, initialdelay, waittime):
+def auto_run(run_parameters):
+
+    # Convert the user input to actionable run parameters
+    steps = int(((23.0 - (run_parameters[0] + run_parameters[1])) + run_parameters[2]) / (0.003175 / 16))
+    stepdelay = round_up((1 / (run_parameters[3] * 2 / (0.003175 / 16))), 8)
+    waittime = run_parameters[4]
+    repetitions = run_parameters[5]
+    initialdelay = 0.05
 
     # Set the boolean variable to false so the motor can run
     stop_motor = False
@@ -43,45 +60,51 @@ def auto_run(steps, stepdelay, initialdelay, waittime):
     # Run the motor
     try:
 
-        # Have the motor wait before starting
-        time.sleep(initialdelay)
+        # Loop through the number of dips
+        for i in range(repetitions):
 
-        # Rotate counterclockwise
-        GPIO.output(direction_pin, False)
+            # Have the motor wait before starting
+            time.sleep(initialdelay)
 
-        # Loop through the steps going counterclockwise
-        for i in range(steps):
+            # Rotate counterclockwise
+            GPIO.output(direction_pin, False)
 
-            # Stop the motor if the boolean variable is changed to true
-            if stop_motor:
-                break
+            # Loop through the steps going counterclockwise
+            for i in range(steps):
 
-            # Otherwise run
-            else:
-                GPIO.output(step_pin, True)
-                time.sleep(stepdelay)
-                GPIO.output(step_pin, False)
-                time.sleep(stepdelay)
+                # Stop the motor if the boolean variable is changed to true
+                if stop_motor:
+                    break
 
-        # Wait between directions
-        time.sleep(waittime)
+                # Otherwise run
+                else:
+                    GPIO.output(step_pin, True)
+                    time.sleep(stepdelay)
+                    GPIO.output(step_pin, False)
+                    time.sleep(stepdelay)
 
-        # Rotate clockwise
-        GPIO.output(direction_pin, True)
+            # Wait between directions
+            time.sleep(waittime)
 
-        # Loop through the steps going clockwise
-        for i in range(steps):
+            # Have the motor wait before starting
+            time.sleep(initialdelay)
 
-            # Stop the motor if the boolean variable is changed to true
-            if stop_motor:
-                break
+            # Rotate clockwise
+            GPIO.output(direction_pin, True)
 
-            # Otherwise run
-            else:
-                GPIO.output(step_pin, True)
-                time.sleep(stepdelay)
-                GPIO.output(step_pin, False)
-                time.sleep(stepdelay)
+            # Loop through the steps going clockwise
+            for i in range(steps):
+
+                # Stop the motor if the boolean variable is changed to true
+                if stop_motor:
+                    break
+
+                # Otherwise run
+                else:
+                    GPIO.output(step_pin, True)
+                    time.sleep(stepdelay)
+                    GPIO.output(step_pin, False)
+                    time.sleep(stepdelay)
         
     # Display an error
     except Exception as motor_error:

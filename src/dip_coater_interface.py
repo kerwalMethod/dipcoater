@@ -6,6 +6,7 @@ from ttkbootstrap.scrolled import ScrolledFrame
 from ttkbootstrap.dialogs import Messagebox
 import sqlite3
 from subprocess import call
+import motor_controls
 
 root = tb.Window(themename = "pulse")
 root.title("Dip Coater Gui")
@@ -397,6 +398,24 @@ def favorite_lock_unlock():
 ###
 
 
+# Create a function to automatically run the dip coater
+def run():
+    sleep_frame.config(state = "disabled")
+    control_frame.config(state = "disabled")
+    auto_frame.config(state = "disabled")
+    run_frame.config(state = "disabled")
+
+    motor_controls.auto_run(parameters)
+
+    sleep_frame.config(state = "enabled")
+    control_frame.config(state = "enabled")
+    auto_frame.config(state = "enabled")
+    run_frame.config(state = "enabled")
+
+
+###
+
+
 # Create the system sleep frame
 sleep_frame = tb.Labelframe(root, text = "System", bootstyle = "primary")
 sleep_frame.grid(row = 0, column = 0, padx = (5, 0), pady = (5, 0))
@@ -556,7 +575,7 @@ run_frame = tb.Labelframe(root, text = "Run Dip Coater", bootstyle = "primary")
 run_frame.grid(row = 2, column = 0, columnspan = 2, padx = 10, pady = (0, 5))
 
 run_button = tb.Button(run_frame, text = "RUN", bootstyle = "info", width = 43, state = "disabled")
-run_button.grid(row = 0, column = 0, padx = 45, pady = (10, 15), ipady = 10)
+run_button.grid(row = 0, column = 0, padx = 45, pady = (10, 15), ipady = 10, command = run)
 
 
 ###

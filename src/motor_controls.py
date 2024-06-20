@@ -23,10 +23,6 @@ def motor_stop():
 # Create a function for automated runs
 def auto_run(direction, steps, stepdelay, initialdelay):
 
-    file = open("step_count.txt", "r")
-    stepcount = int(file.read())
-    file.close()
-
     # Set the boolean variable to false so the motor can run
     stop_motor = False
 
@@ -64,13 +60,6 @@ def auto_run(direction, steps, stepdelay, initialdelay):
                 time.sleep(stepdelay)
                 GPIO.output(step_pin, False)
                 time.sleep(stepdelay)
-
-                stepcount += 1
-                file = open("step_count.txt", "w")
-                file.write(str(stepcount))
-                file.close()
-
-
 
     # Display an error
     except Exception as motor_error:

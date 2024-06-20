@@ -10,12 +10,6 @@ enable_pin = 24
 # Create a boolean variable for stopping the motor
 stop_motor = False
 
-# Set how you are referring to GPIO pins (BCM = Broadcom SOC Channel)
-GPIO.setmode(GPIO.BCM)
-
-# Disable GPIO warnings
-GPIO.setwarnings(False)
-
 
 # Create a function to stop the motor
 def motor_stop():
@@ -23,12 +17,20 @@ def motor_stop():
     # Set the boolean variable to true to the motor will stop
     stop_motor = True
 
+    time.sleep(1)
+
 
 # Create a function for automated runs
 def auto_run(direction, steps, stepdelay, initialdelay):
 
     # Set the boolean variable to false so the motor can run
     stop_motor = False
+
+    # Set how you are referring to GPIO pins (BCM = Broadcom SOC Channel)
+    GPIO.setmode(GPIO.BCM)
+
+    # Disable GPIO warnings
+    GPIO.setwarnings(False)
 
     # Setup the enable GPIO pin
     GPIO.setup(enable_pin, GPIO.OUT)
@@ -63,10 +65,10 @@ def auto_run(direction, steps, stepdelay, initialdelay):
     except Exception as motor_error:
         print(sys.exc_info()[0])
         print(motor_error)
-        print("RpiMotorLib  : Unexpected error:")
+        print("Unexpected error")
 
     # Cleanup
     finally:
-        GPIO.output(self.step_pin, False)
-        GPIO.output(self.direction_pin, False)
+        GPIO.output(step_pin, False)
+        GPIO.output(direction_pin, False)
         GPIO.cleanup()

@@ -400,17 +400,15 @@ def favorite_lock_unlock():
 
 # Create a function to automatically run the dip coater
 def run():
-    sleep_frame.config(state = "disabled")
-    control_frame.config(state = "disabled")
-    auto_frame.config(state = "disabled")
-    run_frame.config(state = "disabled")
+    run_button.config(state = "disabled")
+    clear_button.config(state = "disabled")
+    lock_unlock_button.config(state = "disabled")
 
     motor_controls.auto_run(parameters)
 
-    sleep_frame.config(state = "enabled")
-    control_frame.config(state = "enabled")
-    auto_frame.config(state = "enabled")
-    run_frame.config(state = "enabled")
+    un_button.config(state = "enabled")
+    clear_button.config(state = "enabled")
+    lock_unlock_button.config(state = "enabled")
 
 
 ###

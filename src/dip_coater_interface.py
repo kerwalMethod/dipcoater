@@ -406,7 +406,7 @@ def run():
 
     motor_controls.auto_run(parameters)
 
-    un_button.config(state = "enabled")
+    run_button.config(state = "enabled")
     clear_button.config(state = "enabled")
     lock_unlock_button.config(state = "enabled")
 

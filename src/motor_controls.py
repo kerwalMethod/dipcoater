@@ -38,7 +38,7 @@ def auto_run(run_parameters):
     stepdelay = round_up((1 / (run_parameters[3] * 2 / (0.003175 / 4))), 8) / 2
     waittime = run_parameters[4]
     repetitions = run_parameters[5]
-    initialdelay = 0.05
+    initialdelay = 0.5
 
     # Set the boolean variable to false so the motor can run
     stop_motor = False

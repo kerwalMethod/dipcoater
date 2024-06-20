@@ -67,6 +67,6 @@ def auto_run(direction, steps, stepdelay, initialdelay):
 
     # Cleanup
     finally:
-        GPIO.output(self.step_pin, False)
-        GPIO.output(self.direction_pin, False)
+        GPIO.output(step_pin, False)
+        GPIO.output(direction_pin, False)
         GPIO.cleanup()

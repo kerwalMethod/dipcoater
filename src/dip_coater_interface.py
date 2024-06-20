@@ -6,6 +6,7 @@ from ttkbootstrap.scrolled import ScrolledFrame
 from ttkbootstrap.dialogs import Messagebox
 import sqlite3
 from subprocess import call
+import motor_controls
 
 root = tb.Window(themename = "pulse")
 root.title("Dip Coater Gui")
@@ -397,6 +398,22 @@ def favorite_lock_unlock():
 ###
 
 
+# Create a function to automatically run the dip coater
+def run():
+    run_button.config(state = "disabled")
+    clear_button.config(state = "disabled")
+    lock_unlock_button.config(state = "disabled")
+
+    motor_controls.auto_run(parameters)
+
+    run_button.config(state = "enabled")
+    clear_button.config(state = "enabled")
+    lock_unlock_button.config(state = "enabled")
+
+
+###
+
+
 # Create the system sleep frame
 sleep_frame = tb.Labelframe(root, text = "System", bootstyle = "primary")
 sleep_frame.grid(row = 0, column = 0, padx = (5, 0), pady = (5, 0))
@@ -458,11 +475,11 @@ unit_label3 = tb.Label(auto_frame, text = "cm", font = ("Helvetica", 12), bootst
 unit_label3.grid(row = 5, column = 1, sticky = "w", padx = (0, 70))
 
 # Create the fourth entry box and its labels
-label4 = tb.Label(auto_frame, text = "Enter the withdrawal speed in centimeters per second:\n (speeds range from x to y)", font = ("Helvetica", 12), bootstyle = "dark")
+label4 = tb.Label(auto_frame, text = "Enter the withdrawal speed in millimeters per second:\n (speeds range from 1.0 mm/s to 20.0 mm/s)", font = ("Helvetica", 12), bootstyle = "dark")
 label4.grid(row = 6, column = 0, columnspan = 2, padx = 15, pady = (10, 5), sticky = "w")
 entry4 = tb.Entry(auto_frame, font = ("Helvetica", 12), bootstyle = "secondary", width = 10)
 entry4.grid(row = 7, column = 0, padx = (0, 5), pady = 10, sticky = "e")
-unit_label4 = tb.Label(auto_frame, text = "cm/s", font = ("Helvetica", 12), bootstyle = "dark")
+unit_label4 = tb.Label(auto_frame, text = "mm/s", font = ("Helvetica", 12), bootstyle = "dark")
 unit_label4.grid(row = 7, column = 1, sticky = "w", padx = (0, 70))
 
 # Create the fifth entry box and its labels
@@ -555,7 +572,7 @@ lock_unlock_button3.grid(row = 0, column = 1, padx = (10, 15), pady = (17, 7), s
 run_frame = tb.Labelframe(root, text = "Run Dip Coater", bootstyle = "primary")
 run_frame.grid(row = 2, column = 0, columnspan = 2, padx = 10, pady = (0, 5))
 
-run_button = tb.Button(run_frame, text = "RUN", bootstyle = "info", width = 43, state = "disabled")
+run_button = tb.Button(run_frame, text = "RUN", bootstyle = "info", width = 43, state = "disabled", command = run)
 run_button.grid(row = 0, column = 0, padx = 45, pady = (10, 15), ipady = 10)
 
 

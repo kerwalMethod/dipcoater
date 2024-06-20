@@ -6,7 +6,6 @@ from ttkbootstrap.scrolled import ScrolledFrame
 from ttkbootstrap.dialogs import Messagebox
 import sqlite3
 from subprocess import call
-import motor_controls
 
 root = tb.Window(themename = "pulse")
 root.title("Dip Coater Gui")
@@ -400,15 +399,7 @@ def favorite_lock_unlock():
 
 # Create a function to automatically run the dip coater
 def run():
-    run_button.config(state = "disabled")
-    clear_button.config(state = "disabled")
-    lock_unlock_button.config(state = "disabled")
-
-    motor_controls.auto_run(parameters)
-
-    run_button.config(state = "enabled")
-    clear_button.config(state = "enabled")
-    lock_unlock_button.config(state = "enabled")
+    return
 
 
 ###
@@ -451,27 +442,27 @@ auto_frame = tb.Labelframe(root, text = "Auto Control Mode", bootstyle = "primar
 auto_frame.grid(row = 1, column = 0, columnspan = 2, padx = 5, pady = 5)
 
 # Create the first entry box and its labels
-label1 = tb.Label(auto_frame, text = "Enter the substrate length in centimeters:", font = ("Helvetica", 12), bootstyle = "dark")
+label1 = tb.Label(auto_frame, text = "Enter the substrate length in millimeters:", font = ("Helvetica", 12), bootstyle = "dark")
 label1.grid(row = 0, column = 0, columnspan = 2, padx = 15, pady = (10, 5), sticky = "w")
 entry1 = tb.Entry(auto_frame, font = ("Helvetica", 12), bootstyle = "secondary", width = 10)
 entry1.grid(row = 1, column = 0, padx = (0, 5), pady = 10, sticky = "e")
-unit_label1 = tb.Label(auto_frame, text = "cm", font = ("Helvetica", 12), bootstyle = "dark")
+unit_label1 = tb.Label(auto_frame, text = "mm", font = ("Helvetica", 12), bootstyle = "dark")
 unit_label1.grid(row = 1, column = 1, sticky = "w", padx = (0, 70))
 
 # Create the second entry box and its labels
-label2 = tb.Label(auto_frame, text = "Enter the solution height in centimeters:", font = ("Helvetica", 12), bootstyle = "dark")
+label2 = tb.Label(auto_frame, text = "Enter the solution height in millimeters:", font = ("Helvetica", 12), bootstyle = "dark")
 label2.grid(row = 2, column = 0, columnspan = 2, padx = 15, pady = (10, 5), sticky = "w")
 entry2 = tb.Entry(auto_frame, font = ("Helvetica", 12), bootstyle = "secondary", width = 10)
 entry2.grid(row = 3, column = 0, padx = (0, 5), pady = 10, sticky = "e")
-unit_label2 = tb.Label(auto_frame, text = "cm", font = ("Helvetica", 12), bootstyle = "dark")
+unit_label2 = tb.Label(auto_frame, text = "mm", font = ("Helvetica", 12), bootstyle = "dark")
 unit_label2.grid(row = 3, column = 1, sticky = "w", padx = (0, 70))
 
 # Create the third entry box and its labels
-label3 = tb.Label(auto_frame, text = "Enter the dipping depth in centimeters:", font = ("Helvetica", 12), bootstyle = "dark")
+label3 = tb.Label(auto_frame, text = "Enter the dipping depth in millimeters:", font = ("Helvetica", 12), bootstyle = "dark")
 label3.grid(row = 4, column = 0, columnspan = 2, padx = 15, pady = (10, 5), sticky = "w")
 entry3 = tb.Entry(auto_frame, font = ("Helvetica", 12), bootstyle = "secondary", width = 10)
 entry3.grid(row = 5, column = 0, padx = (0, 5), pady = 10, sticky = "e")
-unit_label3 = tb.Label(auto_frame, text = "cm", font = ("Helvetica", 12), bootstyle = "dark")
+unit_label3 = tb.Label(auto_frame, text = "mm", font = ("Helvetica", 12), bootstyle = "dark")
 unit_label3.grid(row = 5, column = 1, sticky = "w", padx = (0, 70))
 
 # Create the fourth entry box and its labels
@@ -514,11 +505,11 @@ lock_unlock_button.grid(row = 12, column = 1, padx = (15, 30), pady = (10, 15), 
 manual_frame = tb.Labelframe(root, text = "Manual Control Mode", bootstyle = "primary")
 
 # Create the first entry box and its labels
-label7 = tb.Label(manual_frame, text = "Enter the upward speed in centimeters per second:\n (speeds range from x to y)", font = ("Helvetica", 12), bootstyle = "dark")
+label7 = tb.Label(manual_frame, text = "Enter the upward speed in millimeters per second:\n (speeds range from x to y)", font = ("Helvetica", 12), bootstyle = "dark")
 label7.grid(row = 0, column = 0, columnspan = 2, padx = 15, pady = (13, 5), sticky = "w")
 entry7 = tb.Entry(manual_frame, font = ("Helvetica", 12), bootstyle = "secondary", width = 10)
 entry7.grid(row = 1, column = 0, padx = (0, 5), pady = 10, sticky = "e")
-unit_label7 = tb.Label(manual_frame, text = "cm/s", font = ("Helvetica", 12), bootstyle = "dark")
+unit_label7 = tb.Label(manual_frame, text = "mm/s", font = ("Helvetica", 12), bootstyle = "dark")
 unit_label7.grid(row = 1, column = 1, sticky = "w", padx = (0, 60))
 
 # Create the first lock/unlock button
@@ -530,11 +521,11 @@ up_button = tb.Button(manual_frame, text = "START UP", bootstyle = "info", width
 up_button.grid(row = 3, column = 0, columnspan = 2, padx = 45, pady = (10, 15), ipady = 40, sticky = "ew")
 
 # Create the second entry box and its labels
-label8 = tb.Label(manual_frame, text = "Enter the downward speed in centimeters per second:\n (speeds range from x to y)", font = ("Helvetica", 12), bootstyle = "dark")
+label8 = tb.Label(manual_frame, text = "Enter the downward speed in millimeters per second:\n (speeds range from x to y)", font = ("Helvetica", 12), bootstyle = "dark")
 label8.grid(row = 4, column = 0, columnspan = 2, padx = 15, pady = (10, 5), sticky = "w")
 entry8 = tb.Entry(manual_frame, font = ("Helvetica", 12), bootstyle = "secondary", width = 10)
 entry8.grid(row = 5, column = 0, padx = (0, 5), pady = 10, sticky = "e")
-unit_label8 = tb.Label(manual_frame, text = "cm/s", font = ("Helvetica", 12), bootstyle = "dark")
+unit_label8 = tb.Label(manual_frame, text = "mm/s", font = ("Helvetica", 12), bootstyle = "dark")
 unit_label8.grid(row = 5, column = 1, sticky = "w", padx = (0, 60))
 
 # Create the second lock/unlock button

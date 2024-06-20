@@ -67,7 +67,7 @@ def auto_run(run_parameters):
             time.sleep(initialdelay)
 
             # Rotate counterclockwise
-            GPIO.output(direction_pin, False)
+            GPIO.output(direction_pin, True)
 
             # Loop through the steps going counterclockwise
             for i in range(steps):
@@ -90,7 +90,7 @@ def auto_run(run_parameters):
             time.sleep(initialdelay)
 
             # Rotate clockwise
-            GPIO.output(direction_pin, True)
+            GPIO.output(direction_pin, False)
 
             # Loop through the steps going clockwise
             for i in range(steps):

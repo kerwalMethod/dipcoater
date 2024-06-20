@@ -42,6 +42,15 @@ def shutdown():
     else:
         pass
 
+# Create a function to exit the dip coater software
+def exit():
+    mb = Messagebox.yesno("Are you sure you want to exit the dip coater software?", "Exit Program")
+
+    if mb == "Yes":
+        root.destroy()
+    else:
+        pass
+
 ###
 
 
@@ -406,11 +415,16 @@ def run():
 
 
 # Create the system sleep frame
-sleep_frame = tb.Labelframe(root, text = "System", bootstyle = "primary")
-sleep_frame.grid(row = 0, column = 0, padx = (5, 0), pady = (5, 0))
+system_frame = tb.Labelframe(root, text = "System", bootstyle = "primary")
+system_frame.grid(row = 0, column = 0, padx = (5, 0), pady = (5, 0))
 
-shutdown_button = tb.Button(sleep_frame, text = "Shutdown", bootstyle = "secondary", command = shutdown)
-shutdown_button.pack(padx = 11, pady = (7, 10))
+shutdown_button = tb.Button(system_frame, text = "Shutdown", bootstyle = "secondary", command = shutdown)
+shutdown_button.grid(row = 0, column = 0, padx = (11, 6), pady = (7, 10))
+
+system_button = tb.Button(system_frame, text = "Exit", bootstyle = "secondary", command = exit)
+system_button.grid(row = 0, column = 1, padx = (6, 11), pady = (7, 10))
+
+
 
 
 ###

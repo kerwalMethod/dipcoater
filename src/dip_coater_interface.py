@@ -475,11 +475,11 @@ unit_label3 = tb.Label(auto_frame, text = "cm", font = ("Helvetica", 12), bootst
 unit_label3.grid(row = 5, column = 1, sticky = "w", padx = (0, 70))
 
 # Create the fourth entry box and its labels
-label4 = tb.Label(auto_frame, text = "Enter the withdrawal speed in centimeters per second:\n (speeds range from x to y)", font = ("Helvetica", 12), bootstyle = "dark")
+label4 = tb.Label(auto_frame, text = "Enter the withdrawal speed in millimeters per second:\n (speeds range from 1.0 mm/s to 20.0 mm/s)", font = ("Helvetica", 12), bootstyle = "dark")
 label4.grid(row = 6, column = 0, columnspan = 2, padx = 15, pady = (10, 5), sticky = "w")
 entry4 = tb.Entry(auto_frame, font = ("Helvetica", 12), bootstyle = "secondary", width = 10)
 entry4.grid(row = 7, column = 0, padx = (0, 5), pady = 10, sticky = "e")
-unit_label4 = tb.Label(auto_frame, text = "cm/s", font = ("Helvetica", 12), bootstyle = "dark")
+unit_label4 = tb.Label(auto_frame, text = "mm/s", font = ("Helvetica", 12), bootstyle = "dark")
 unit_label4.grid(row = 7, column = 1, sticky = "w", padx = (0, 70))
 
 # Create the fifth entry box and its labels

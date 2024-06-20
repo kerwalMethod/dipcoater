@@ -34,8 +34,8 @@ def motor_stop():
 def auto_run(run_parameters):
 
     # Convert the user input to actionable run parameters
-    steps = int(((23.0 - (run_parameters[0] + run_parameters[1])) + run_parameters[2]) / (0.003175))
-    stepdelay = round_up((1 / (run_parameters[3] * 2 / (0.003175))), 8)
+    steps = int(((23.0 - (run_parameters[0] + run_parameters[1])) + run_parameters[2]) / (0.03175))
+    stepdelay = round_up((1 / (run_parameters[3] * 2 / (0.03175))), 8)
     waittime = run_parameters[4]
     repetitions = run_parameters[5]
     initialdelay = 0.5

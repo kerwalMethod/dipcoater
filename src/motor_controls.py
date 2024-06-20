@@ -21,7 +21,7 @@ def motor_stop():
 
 
 # Create a function for automated runs
-def auto_run(direction, steps, stepdelay, initialdelay):
+def auto_run(steps, stepdelay, initialdelay, waittime):
 
     # Set the boolean variable to false so the motor can run
     stop_motor = False
@@ -39,7 +39,6 @@ def auto_run(direction, steps, stepdelay, initialdelay):
     # Setup the direction and step GPIO pins
     GPIO.setup(direction_pin, GPIO.OUT)
     GPIO.setup(step_pin, GPIO.OUT)
-    GPIO.output(direction_pin, direction)
 
     # Run the motor
     try:
@@ -47,7 +46,10 @@ def auto_run(direction, steps, stepdelay, initialdelay):
         # Have the motor wait before starting
         time.sleep(initialdelay)
 
-        # Loop through the steps
+        # Rotate counterclockwise
+        GPIO.output(direction_pin, False)
+
+        # Loop through the steps going counterclockwise
         for i in range(steps):
 
             # Stop the motor if the boolean variable is changed to true
@@ -61,6 +63,26 @@ def auto_run(direction, steps, stepdelay, initialdelay):
                 GPIO.output(step_pin, False)
                 time.sleep(stepdelay)
 
+        # Wait between directions
+        time.sleep(waittime)
+
+        # Rotate clockwise
+        GPIO.output(direction_pin, True)
+
+        # Loop through the steps going clockwise
+        for i in range(steps):
+
+            # Stop the motor if the boolean variable is changed to true
+            if stop_motor:
+                break
+
+            # Otherwise run
+            else:
+                GPIO.output(step_pin, True)
+                time.sleep(stepdelay)
+                GPIO.output(step_pin, False)
+                time.sleep(stepdelay)
+        
     # Display an error
     except Exception as motor_error:
         print(sys.exc_info()[0])

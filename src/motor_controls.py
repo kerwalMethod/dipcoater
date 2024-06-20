@@ -12,7 +12,7 @@ enable_pin = 24
 stop_motor = False
 
 # Create a variable to track steps
-steps = 0
+step_count = 0
 
 
 # Create a function to round up

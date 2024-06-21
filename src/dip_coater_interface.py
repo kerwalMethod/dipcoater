@@ -56,24 +56,24 @@ def exit_program():
     # Set up the popup window
     authentication_popup = tb.Toplevel()
     authentication_popup.title("Authentication to Exit")
-    authentication_popup.attributes("-fullscreen", True)
+    authentication_popup.geometry("300x200+90+300")
     authentication_popup.resizable(False, False)
 
     # Create a label to prompt the user
     prompt_label = tb.Label(authentication_popup, text = "Enter the password to exit the program.", bootstyle = "dark")
-    prompt_label.grid(row = 0, column = 0, columnspan = 4, padx = 43, pady = (25, 15))
+    prompt_label.grid(row = 0, column = 0, columnspan = 4, padx = 18, pady = (25, 15))
 
     # Create an entry box for the password
     password_entry = tb.Entry(authentication_popup, textvariable = "password", bootstyle = "secondary", show = "*")
-    password_entry.grid(row = 1, column = 0, columnspan = 4, padx = 43, pady = (0, 15), sticky = "EW")
+    password_entry.grid(row = 1, column = 0, columnspan = 4, padx = 18, pady = (0, 15), sticky = "EW")
 
     # Create a cancel button
     cancel_button = tb.Button(authentication_popup, text = "Cancel", bootstyle = "secondary", width = 9, command = lambda: authentication_popup.destroy())
-    cancel_button.grid(row = 2, column = 2, padx = (43, 0), pady = (0, 15), sticky = "E")
+    cancel_button.grid(row = 2, column = 2, padx = (18, 0), pady = (0, 15), sticky = "E")
 
     # Create a submit button
     submit_button = tb.Button(authentication_popup, text = "Enter", bootstyle = "primary", width = 9, command = check_password)
-    submit_button.grid(row = 2, column = 3, padx = (0, 43), pady = (0, 15), sticky = "E")
+    submit_button.grid(row = 2, column = 3, padx = (0, 18), pady = (0, 15), sticky = "E")
 
     # Set the focus to the entry box
     password_entry.focus_set()
@@ -180,6 +180,7 @@ def auto_lock_unlock():
             manual_button.config(state = "disabled")
             favorites_button.config(state = "disabled")
             shutdown_button.config(state = "disabled")
+            exit_button.config(state = "disabled")
             clear_button.config(text = "Save as Favorite", bootstyle = "success", command = favorite_run)
 
             conn = sqlite3.connect("favoriteruns.db")
@@ -209,6 +210,7 @@ def auto_lock_unlock():
             manual_button.config(state = "enabled")
             favorites_button.config(state = "enabled")
             shutdown_button.config(state = "enabled")
+            exit_button.config(state = "enabled")
             clear_button.config(text = "Clear All", bootstyle = "secondary", command = clear_all, state = "enabled")
             for x in (entry1, entry2, entry3, entry4, entry5, entry6):
                 x.config(state = "enabled")
@@ -312,6 +314,7 @@ def up():
         manual_button.config(state = "disabled")
         favorites_button.config(state = "disabled")
         shutdown_button.config(state = "disabled")
+        exit_button.config(state = "disabled")
         state5 += 1
 
     elif state5 == 1:
@@ -324,6 +327,7 @@ def up():
         manual_button.config(state = "enabled")
         favorites_button.config(state = "enabled")
         shutdown_button.config(state = "enabled")
+        exit_button.config(state = "enabled")
         state5 -= 1
 
 # Create a function for the down button
@@ -339,6 +343,7 @@ def down():
         manual_button.config(state = "disabled")
         favorites_button.config(state = "disabled")
         shutdown_button.config(state = "disabled")
+        exit_button.config(state = "disabled")
         state6 += 1
 
     elif state6 == 1:
@@ -351,6 +356,7 @@ def down():
         manual_button.config(state = "enabled")
         favorites_button.config(state = "enabled")
         shutdown_button.config(state = "enabled")
+        exit_button.config(state = "enabled")
         state6 -= 1
 
 
@@ -407,6 +413,7 @@ def favorite_lock_unlock():
         manual_button.config(state = "disabled")
         favorites_button.config(state = "disabled")
         shutdown_button.config(state = "disabled")
+        exit_button.config(state = "disabled")
         delete_button.config(state = "disabled")
         lock_unlock_button3.config(text = "Unlock Parameters", bootstyle = "warning")
 
@@ -421,6 +428,7 @@ def favorite_lock_unlock():
         manual_button.config(state = "enabled")
         favorites_button.config(state = "enabled")
         shutdown_button.config(state = "enabled")
+        exit_button.config(state = "enabled")
         delete_button.config(state = "enabled")
         lock_unlock_button3.config(text = "Lock Parameters", bootstyle = "success")
 
@@ -449,8 +457,8 @@ system_frame.grid(row = 0, column = 0, padx = (5, 0), pady = (5, 0))
 shutdown_button = tb.Button(system_frame, text = "Shutdown", bootstyle = "secondary", command = shutdown)
 shutdown_button.grid(row = 0, column = 0, padx = (9, 5), pady = (7, 10))
 
-system_button = tb.Button(system_frame, text = "Exit", bootstyle = "secondary", command = exit_program)
-system_button.grid(row = 0, column = 1, padx = (5, 9), pady = (7, 10))
+exit_button = tb.Button(system_frame, text = "Exit", bootstyle = "secondary", command = exit_program)
+exit_button.grid(row = 0, column = 1, padx = (5, 9), pady = (7, 10))
 
 
 

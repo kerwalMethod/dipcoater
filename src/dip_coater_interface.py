@@ -51,7 +51,7 @@ def exit_program():
             root.destroy()
         else:
             feedback_label = tb.Label(authentication_popup, text = "That's not the correct password.", bootstyle = "danger")
-            feedback_label.grid(row = 3, column = 0, columnspan = 2, pady = 15)
+            feedback_label.grid(row = 3, column = 0, columnspan = 2, pady = (0, 15))
 
     authentication_popup = tb.Toplevel()
     authentication_popup.title("Authentication to Exit")
@@ -60,7 +60,7 @@ def exit_program():
 
     # Create a label to prompt the user
     prompt_label = tb.Label(authentication_popup, text = "Enter the password to exit the program.", bootstyle = "dark")
-    prompt_label.grid(row = 0, column = 0, columnspan = 2, padx = 20, pady = (40, 15))
+    prompt_label.grid(row = 0, column = 0, columnspan = 2, padx = 20, pady = (20, 15))
 
     # Create an entry box for the password
     password_entry = tb.Entry(authentication_popup, textvariable = "password", bootstyle = "secondary", show = "*")
@@ -370,7 +370,7 @@ def display_runs():
     option.set(0)
 
     for run in runs:
-        choice = tb.Radiobutton(run_list, text = str(run[0]) + " cm, " + str(run[1]) + " cm, " + str(run[2]) + " cm, " + str(run[3]) + " m/s, " + str(run[4]) + " s, " + str(run[5]) + " dips",
+        choice = tb.Radiobutton(run_list, text = str(run[0]) + " mm, " + str(run[1]) + " mm, " + str(run[2]) + " mm, " + str(run[3]) + " mm/s, " + str(run[4]) + " s, " + str(run[5]) + " dips",
                                 variable = option, value = run[6], command = enable_stuff)
         choice.pack(anchor = "w", pady = 10)
     
@@ -503,7 +503,7 @@ unit_label3 = tb.Label(auto_frame, text = "mm", font = ("Helvetica", 12), bootst
 unit_label3.grid(row = 5, column = 1, sticky = "w", padx = (0, 70))
 
 # Create the fourth entry box and its labels
-label4 = tb.Label(auto_frame, text = "Enter the withdrawal speed in millimeters per second:\n (speeds range from 1.0 mm/s to 20.0 mm/s)", font = ("Helvetica", 12), bootstyle = "dark")
+label4 = tb.Label(auto_frame, text = "Enter the withdrawal speed in millimeters per second:\n (speeds range from 0.1 mm/s to 50.0 mm/s)", font = ("Helvetica", 12), bootstyle = "dark")
 label4.grid(row = 6, column = 0, columnspan = 2, padx = 15, pady = (10, 5), sticky = "w")
 entry4 = tb.Entry(auto_frame, font = ("Helvetica", 12), bootstyle = "secondary", width = 10)
 entry4.grid(row = 7, column = 0, padx = (0, 5), pady = 10, sticky = "e")
@@ -542,7 +542,7 @@ lock_unlock_button.grid(row = 12, column = 1, padx = (15, 30), pady = (10, 15), 
 manual_frame = tb.Labelframe(root, text = "Manual Control Mode", bootstyle = "primary")
 
 # Create the first entry box and its labels
-label7 = tb.Label(manual_frame, text = "Enter the upward speed in millimeters per second:\n (speeds range from x to y)", font = ("Helvetica", 12), bootstyle = "dark")
+label7 = tb.Label(manual_frame, text = "Enter the upward speed in millimeters per second:\n (speeds range from 0.1 mm/s to 50.0 mm/s)", font = ("Helvetica", 12), bootstyle = "dark")
 label7.grid(row = 0, column = 0, columnspan = 2, padx = 15, pady = (13, 5), sticky = "w")
 entry7 = tb.Entry(manual_frame, font = ("Helvetica", 12), bootstyle = "secondary", width = 10)
 entry7.grid(row = 1, column = 0, padx = (0, 5), pady = 10, sticky = "e")
@@ -558,7 +558,7 @@ up_button = tb.Button(manual_frame, text = "START UP", bootstyle = "info", width
 up_button.grid(row = 3, column = 0, columnspan = 2, padx = 45, pady = (10, 15), ipady = 40, sticky = "ew")
 
 # Create the second entry box and its labels
-label8 = tb.Label(manual_frame, text = "Enter the downward speed in millimeters per second:\n (speeds range from x to y)", font = ("Helvetica", 12), bootstyle = "dark")
+label8 = tb.Label(manual_frame, text = "Enter the downward speed in millimeters per second:\n (speeds range from 0.1 mm/s to 50.0 mm/s)", font = ("Helvetica", 12), bootstyle = "dark")
 label8.grid(row = 4, column = 0, columnspan = 2, padx = 15, pady = (10, 5), sticky = "w")
 entry8 = tb.Entry(manual_frame, font = ("Helvetica", 12), bootstyle = "secondary", width = 10)
 entry8.grid(row = 5, column = 0, padx = (0, 5), pady = 10, sticky = "e")

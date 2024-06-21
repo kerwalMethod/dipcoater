@@ -439,10 +439,10 @@ system_frame = tb.Labelframe(root, text = "System", bootstyle = "primary")
 system_frame.grid(row = 0, column = 0, padx = (5, 0), pady = (5, 0))
 
 shutdown_button = tb.Button(system_frame, text = "Shutdown", bootstyle = "secondary", command = shutdown)
-shutdown_button.grid(row = 0, column = 0, padx = (11, 6), pady = (7, 10))
+shutdown_button.grid(row = 0, column = 0, padx = (11, 5), pady = (7, 10))
 
 system_button = tb.Button(system_frame, text = "Exit", bootstyle = "secondary", command = exit_program)
-system_button.grid(row = 0, column = 1, padx = (6, 11), pady = (7, 10))
+system_button.grid(row = 0, column = 1, padx = (5, 11), pady = (7, 10))
 
 
 
@@ -455,15 +455,15 @@ control_frame.grid(row = 0, column = 1, padx = (3, 5), pady = (5, 0))
 
 # Create a manual mode button
 auto_button = tb.Button(control_frame, text = "Auto", bootstyle = "primary, outline", width = 7, command = auto_switch)
-auto_button.grid(row = 0, column = 0, padx = (11, 6), pady = (7, 10))
+auto_button.grid(row = 0, column = 0, padx = (11, 5), pady = (7, 10))
 
 # Create a manual mode button
 manual_button = tb.Button(control_frame, text = "Manual", bootstyle = "primary", width = 7, command = manual_switch)
-manual_button.grid(row = 0, column = 1, padx = 6, pady = (7, 10))
+manual_button.grid(row = 0, column = 1, padx = 5, pady = (7, 10))
 
 # Create a manual mode button
-favorites_button = tb.Button(control_frame, text = "Favorites", bootstyle = "primary", width = 7, command = favorites_switch)
-favorites_button.grid(row = 0, column = 2, padx = (6, 11), pady = (7, 10))
+favorites_button = tb.Button(control_frame, text = "Favorites", bootstyle = "primary", width = 8, command = favorites_switch)
+favorites_button.grid(row = 0, column = 2, padx = (5, 11), pady = (7, 10))
 
 
 

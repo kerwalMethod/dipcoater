@@ -56,8 +56,8 @@ def exit_program():
     # Set up parameters to center the popup window
     window_width = 300
     window_height = 200
-    screen_width = authentication_popup.winfo_screenwidth()
-    screen_height = authentication_popup.winfo_screenheight()
+    screen_width = root.winfo_screenwidth()
+    screen_height = root.winfo_screenheight()
     x = (screen_width / 2) - (window_width / 2)
     y = (screen_height / 2) - (window_height / 2)
 

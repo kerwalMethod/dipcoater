@@ -50,25 +50,33 @@ def exit_program():
         if password_entry.get() == "176371092":
             root.destroy()
         else:
-            feedback_label = Label(authentication_popup, text = "That's not the correct password.")
-            feedback_label.grid(row = 2, column = 0, columnspan = 2, pady = 15)
+            feedback_label = tb.Label(authentication_popup, text = "That's not the correct password.", bootstyle = "danger")
+            feedback_label.grid(row = 3, column = 0, columnspan = 4, pady = (0, 15))
 
+    # Set up the popup window
     authentication_popup = tb.Toplevel()
     authentication_popup.title("Authentication to Exit")
     authentication_popup.geometry("300x200")
     authentication_popup.resizable(False, False)
 
+    # Create a label to prompt the user
+    prompt_label = tb.Label(authentication_popup, text = "Enter the password to exit the program.", bootstyle = "dark")
+    prompt_label.grid(row = 0, column = 0, columnspan = 4, padx = 18, pady = (25, 15))
+
     # Create an entry box for the password
     password_entry = tb.Entry(authentication_popup, textvariable = "password", bootstyle = "secondary", show = "*")
-    password_entry.grid(row = 0, column = 0, columnspan = 2, padx = 30, pady = 15, sticky = "NSWE")
+    password_entry.grid(row = 1, column = 0, columnspan = 4, padx = 18, pady = (0, 15), sticky = "EW")
 
     # Create a cancel button
-    cancel_button = tb.Button(authentication_popup, text = "Cancel", bootstyle = "secondary", command = lambda: authentication_popup.destroy())
-    cancel_button.grid(row = 1, column = 0, padx = 30, pady = (0, 15))
+    cancel_button = tb.Button(authentication_popup, text = "Cancel", bootstyle = "secondary", width = 9, command = lambda: authentication_popup.destroy())
+    cancel_button.grid(row = 2, column = 2, padx = (18, 0), pady = (0, 15), sticky = "E")
 
     # Create a submit button
-    submit_button = tb.Button(authentication_popup, text = "Enter", bootstyle = "primary", command = check_password)
-    submit_button.grid(row = 1, column = 1, padx = 30, pady = (0, 15))
+    submit_button = tb.Button(authentication_popup, text = "Enter", bootstyle = "primary", width = 9, command = check_password)
+    submit_button.grid(row = 2, column = 3, padx = (0, 18), pady = (0, 15), sticky = "E")
+
+    # Set the focus to the entry box
+    password_entry.focus_set()
 
 
 ###
@@ -172,6 +180,7 @@ def auto_lock_unlock():
             manual_button.config(state = "disabled")
             favorites_button.config(state = "disabled")
             shutdown_button.config(state = "disabled")
+            exit_button.config(state = "disabled")
             clear_button.config(text = "Save as Favorite", bootstyle = "success", command = favorite_run)
 
             conn = sqlite3.connect("favoriteruns.db")
@@ -201,6 +210,7 @@ def auto_lock_unlock():
             manual_button.config(state = "enabled")
             favorites_button.config(state = "enabled")
             shutdown_button.config(state = "enabled")
+            exit_button.config(state = "enabled")
             clear_button.config(text = "Clear All", bootstyle = "secondary", command = clear_all, state = "enabled")
             for x in (entry1, entry2, entry3, entry4, entry5, entry6):
                 x.config(state = "enabled")
@@ -304,6 +314,7 @@ def up():
         manual_button.config(state = "disabled")
         favorites_button.config(state = "disabled")
         shutdown_button.config(state = "disabled")
+        exit_button.config(state = "disabled")
         state5 += 1
 
     elif state5 == 1:
@@ -316,6 +327,7 @@ def up():
         manual_button.config(state = "enabled")
         favorites_button.config(state = "enabled")
         shutdown_button.config(state = "enabled")
+        exit_button.config(state = "enabled")
         state5 -= 1
 
 # Create a function for the down button
@@ -331,6 +343,7 @@ def down():
         manual_button.config(state = "disabled")
         favorites_button.config(state = "disabled")
         shutdown_button.config(state = "disabled")
+        exit_button.config(state = "disabled")
         state6 += 1
 
     elif state6 == 1:
@@ -343,6 +356,7 @@ def down():
         manual_button.config(state = "enabled")
         favorites_button.config(state = "enabled")
         shutdown_button.config(state = "enabled")
+        exit_button.config(state = "enabled")
         state6 -= 1
 
 
@@ -366,7 +380,7 @@ def display_runs():
     option.set(0)
 
     for run in runs:
-        choice = tb.Radiobutton(run_list, text = str(run[0]) + " cm, " + str(run[1]) + " cm, " + str(run[2]) + " cm, " + str(run[3]) + " m/s, " + str(run[4]) + " s, " + str(run[5]) + " dips",
+        choice = tb.Radiobutton(run_list, text = str(run[0]) + " mm, " + str(run[1]) + " mm, " + str(run[2]) + " mm, " + str(run[3]) + " mm/s, " + str(run[4]) + " s, " + str(run[5]) + " dips",
                                 variable = option, value = run[6], command = enable_stuff)
         choice.pack(anchor = "w", pady = 10)
     
@@ -399,6 +413,7 @@ def favorite_lock_unlock():
         manual_button.config(state = "disabled")
         favorites_button.config(state = "disabled")
         shutdown_button.config(state = "disabled")
+        exit_button.config(state = "disabled")
         delete_button.config(state = "disabled")
         lock_unlock_button3.config(text = "Unlock Parameters", bootstyle = "warning")
 
@@ -413,6 +428,7 @@ def favorite_lock_unlock():
         manual_button.config(state = "enabled")
         favorites_button.config(state = "enabled")
         shutdown_button.config(state = "enabled")
+        exit_button.config(state = "enabled")
         delete_button.config(state = "enabled")
         lock_unlock_button3.config(text = "Lock Parameters", bootstyle = "success")
 
@@ -439,10 +455,10 @@ system_frame = tb.Labelframe(root, text = "System", bootstyle = "primary")
 system_frame.grid(row = 0, column = 0, padx = (5, 0), pady = (5, 0))
 
 shutdown_button = tb.Button(system_frame, text = "Shutdown", bootstyle = "secondary", command = shutdown)
-shutdown_button.grid(row = 0, column = 0, padx = (11, 6), pady = (7, 10))
+shutdown_button.grid(row = 0, column = 0, padx = (9, 5), pady = (7, 10))
 
-system_button = tb.Button(system_frame, text = "Exit", bootstyle = "secondary", command = exit_program)
-system_button.grid(row = 0, column = 1, padx = (6, 11), pady = (7, 10))
+exit_button = tb.Button(system_frame, text = "Exit", bootstyle = "secondary", command = exit_program)
+exit_button.grid(row = 0, column = 1, padx = (5, 9), pady = (7, 10))
 
 
 
@@ -454,16 +470,16 @@ control_frame = tb.Labelframe(root, text = "Control Modes", bootstyle = "primary
 control_frame.grid(row = 0, column = 1, padx = (3, 5), pady = (5, 0))
 
 # Create a manual mode button
-auto_button = tb.Button(control_frame, text = "Auto", bootstyle = "primary, outline", width = 7, command = auto_switch)
-auto_button.grid(row = 0, column = 0, padx = (11, 6), pady = (7, 10))
+auto_button = tb.Button(control_frame, text = "Auto", bootstyle = "primary, outline", width = 6, command = auto_switch)
+auto_button.grid(row = 0, column = 0, padx = (9, 5), pady = (7, 10))
 
 # Create a manual mode button
 manual_button = tb.Button(control_frame, text = "Manual", bootstyle = "primary", width = 7, command = manual_switch)
-manual_button.grid(row = 0, column = 1, padx = 6, pady = (7, 10))
+manual_button.grid(row = 0, column = 1, padx = 5, pady = (7, 10))
 
 # Create a manual mode button
-favorites_button = tb.Button(control_frame, text = "Favorites", bootstyle = "primary", width = 7, command = favorites_switch)
-favorites_button.grid(row = 0, column = 2, padx = (6, 11), pady = (7, 10))
+favorites_button = tb.Button(control_frame, text = "Favorites", bootstyle = "primary", width = 8, command = favorites_switch)
+favorites_button.grid(row = 0, column = 2, padx = (5, 9), pady = (7, 10))
 
 
 
@@ -499,7 +515,7 @@ unit_label3 = tb.Label(auto_frame, text = "mm", font = ("Helvetica", 12), bootst
 unit_label3.grid(row = 5, column = 1, sticky = "w", padx = (0, 70))
 
 # Create the fourth entry box and its labels
-label4 = tb.Label(auto_frame, text = "Enter the withdrawal speed in millimeters per second:\n (speeds range from 1.0 mm/s to 20.0 mm/s)", font = ("Helvetica", 12), bootstyle = "dark")
+label4 = tb.Label(auto_frame, text = "Enter the withdrawal speed in millimeters per second:\n (speeds range from 0.1 mm/s to 50.0 mm/s)", font = ("Helvetica", 12), bootstyle = "dark")
 label4.grid(row = 6, column = 0, columnspan = 2, padx = 15, pady = (10, 5), sticky = "w")
 entry4 = tb.Entry(auto_frame, font = ("Helvetica", 12), bootstyle = "secondary", width = 10)
 entry4.grid(row = 7, column = 0, padx = (0, 5), pady = 10, sticky = "e")
@@ -538,7 +554,7 @@ lock_unlock_button.grid(row = 12, column = 1, padx = (15, 30), pady = (10, 15), 
 manual_frame = tb.Labelframe(root, text = "Manual Control Mode", bootstyle = "primary")
 
 # Create the first entry box and its labels
-label7 = tb.Label(manual_frame, text = "Enter the upward speed in millimeters per second:\n (speeds range from x to y)", font = ("Helvetica", 12), bootstyle = "dark")
+label7 = tb.Label(manual_frame, text = "Enter the upward speed in millimeters per second:\n (speeds range from 0.1 mm/s to 50.0 mm/s)", font = ("Helvetica", 12), bootstyle = "dark")
 label7.grid(row = 0, column = 0, columnspan = 2, padx = 15, pady = (13, 5), sticky = "w")
 entry7 = tb.Entry(manual_frame, font = ("Helvetica", 12), bootstyle = "secondary", width = 10)
 entry7.grid(row = 1, column = 0, padx = (0, 5), pady = 10, sticky = "e")
@@ -554,7 +570,7 @@ up_button = tb.Button(manual_frame, text = "START UP", bootstyle = "info", width
 up_button.grid(row = 3, column = 0, columnspan = 2, padx = 45, pady = (10, 15), ipady = 40, sticky = "ew")
 
 # Create the second entry box and its labels
-label8 = tb.Label(manual_frame, text = "Enter the downward speed in millimeters per second:\n (speeds range from x to y)", font = ("Helvetica", 12), bootstyle = "dark")
+label8 = tb.Label(manual_frame, text = "Enter the downward speed in millimeters per second:\n (speeds range from 0.1 mm/s to 50.0 mm/s)", font = ("Helvetica", 12), bootstyle = "dark")
 label8.grid(row = 4, column = 0, columnspan = 2, padx = 15, pady = (10, 5), sticky = "w")
 entry8 = tb.Entry(manual_frame, font = ("Helvetica", 12), bootstyle = "secondary", width = 10)
 entry8.grid(row = 5, column = 0, padx = (0, 5), pady = 10, sticky = "e")

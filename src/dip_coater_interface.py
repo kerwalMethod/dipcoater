@@ -60,18 +60,18 @@ def exit_program():
 
     # Create a label to prompt the user
     prompt_label = tb.Label(authentication_popup, text = "Enter the password to exit the program.", bootstyle = "dark")
-    prompt_label.grid(row = 0, column = 0, columnspan = 2, padx = 20, pady = (20, 15))
+    prompt_label.grid(row = 0, column = 0, columnspan = 2, padx = 20, pady = (25, 15))
 
     # Create an entry box for the password
     password_entry = tb.Entry(authentication_popup, textvariable = "password", bootstyle = "secondary", show = "*")
     password_entry.grid(row = 1, column = 0, columnspan = 2, padx = 20, pady = (0, 15), sticky = "EW")
 
     # Create a cancel button
-    cancel_button = tb.Button(authentication_popup, text = "Cancel", bootstyle = "secondary", command = lambda: authentication_popup.destroy())
+    cancel_button = tb.Button(authentication_popup, text = "Cancel", bootstyle = "secondary", width = 12, command = lambda: authentication_popup.destroy())
     cancel_button.grid(row = 2, column = 0, padx = (20, 10), pady = (0, 15), sticky = "E")
 
     # Create a submit button
-    submit_button = tb.Button(authentication_popup, text = "Enter", bootstyle = "primary", command = check_password)
+    submit_button = tb.Button(authentication_popup, text = "Enter", bootstyle = "primary", width = 12, command = check_password)
     submit_button.grid(row = 2, column = 1, padx = (10, 20), pady = (0, 15), sticky = "E")
 
 

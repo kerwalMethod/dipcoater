@@ -40,6 +40,7 @@ def shutdown():
 
     if mb == "Yes":
         call("sudo nohup shutdown -h now", shell = True)
+
     else:
         pass
 
@@ -48,8 +49,10 @@ def exit_program():
 
     # Create a function to check the password
     def check_password():
+
         if password_entry.get() == "176371092":
             root.destroy()
+
         else:
             feedback_label = tb.Label(authentication_popup, text = "That's not the correct password.", bootstyle = "danger")
             feedback_label.grid(row = 3, column = 0, columnspan = 4, pady = (0, 15))
@@ -444,20 +447,28 @@ def favorite_lock_unlock():
 
 
 # Create a function to automatically run the dip coater
-def run():
-    clear_button.config(state = "disabled")
-    lock_unlock_button.config(state = "disabled")
+def run():    
+    
+    if current_mode == 0:
+        clear_button.config(state = "disabled")
+        lock_unlock_button.config(state = "disabled")
+    
+    elif current_mode == 2:
+        lock_unlock_button3.config(state = "disabled")
+
     run_button.config(text = "Cancel", bootstyle = "warning", command = cancel)
-
-    time.sleep(5)
-
-    clear_button.config(state = "enabled")
-    lock_unlock_button.config(state = "enabled")
-    run_button.config(text = "RUN", bootstyle = "info", command = run)
 
 # Create a function to cancel an automatic run
 def cancel():
-    return
+    
+    if current_mode == 0:
+        clear_button.config(state = "enabled")
+        lock_unlock_button.config(state = "enabled")
+    
+    elif current_mode == 2:
+        lock_unlock_button3.config(state = "enabled")
+
+    run_button.config(text = "RUN", bootstyle = "info", command = run)
 
 
 ###
@@ -472,7 +483,6 @@ shutdown_button.grid(row = 0, column = 0, padx = (9, 5), pady = (7, 10))
 
 exit_button = tb.Button(system_frame, text = "Exit", bootstyle = "secondary", command = exit_program)
 exit_button.grid(row = 0, column = 1, padx = (5, 9), pady = (7, 10))
-
 
 
 ###
@@ -493,7 +503,6 @@ manual_button.grid(row = 0, column = 1, padx = 5, pady = (7, 10))
 # Create a manual mode button
 favorites_button = tb.Button(control_frame, text = "Favorites", bootstyle = "primary", width = 8, command = favorites_switch)
 favorites_button.grid(row = 0, column = 2, padx = (5, 9), pady = (7, 10))
-
 
 
 ###

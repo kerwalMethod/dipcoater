@@ -55,7 +55,7 @@ def exit_program():
 
     authentication_popup = tb.Toplevel()
     authentication_popup.title("Authentication to Exit")
-    authentication_popup.geometry("300x300")
+    authentication_popup.geometry("300x200")
     authentication_popup.resizable(False, False)
 
     # Create an entry box for the password

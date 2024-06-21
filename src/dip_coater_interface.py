@@ -171,11 +171,10 @@ def auto_lock_unlock():
     global parameters
     global state1
     
-    try:
-        parameters.clear()
-        parameters.extend([float(entry1.get()), float(entry2.get()), float(entry3.get()), float(entry4.get()), float(entry5.get()), int(entry6.get())])
-
-        if state1 == 0:
+    if state1 == 0:
+        
+        try:
+            parameters.extend([float(entry1.get()), float(entry2.get()), float(entry3.get()), float(entry4.get()), float(entry5.get()), int(entry6.get())])
             auto_button.config(state = "disabled")
             manual_button.config(state = "disabled")
             favorites_button.config(state = "disabled")
@@ -205,21 +204,22 @@ def auto_lock_unlock():
             run_button.config(state = "enabled")
             state1 += 1
 
-        elif state1 == 1:
-            auto_button.config(state = "enabled")
-            manual_button.config(state = "enabled")
-            favorites_button.config(state = "enabled")
-            shutdown_button.config(state = "enabled")
-            exit_button.config(state = "enabled")
-            clear_button.config(text = "Clear All", bootstyle = "secondary", command = clear_all, state = "enabled")
-            for x in (entry1, entry2, entry3, entry4, entry5, entry6):
-                x.config(state = "enabled")
-            lock_unlock_button.config(text = "Lock Parameters", bootstyle = "success")
-            run_button.config(state = "disabled")
-            state1 -= 1
-    
-    except:
-        showerror(message = "One of the values you entered isn't a number or doesn't make sense given the situation!")
+        except:
+            showerror(message = "One of the values you entered isn't a number or doesn't make sense given the situation!")
+
+    elif state1 == 1:
+        parameters.clear()
+        auto_button.config(state = "enabled")
+        manual_button.config(state = "enabled")
+        favorites_button.config(state = "enabled")
+        shutdown_button.config(state = "enabled")
+        exit_button.config(state = "enabled")
+        clear_button.config(text = "Clear All", bootstyle = "secondary", command = clear_all, state = "enabled")
+        for x in (entry1, entry2, entry3, entry4, entry5, entry6):
+            x.config(state = "enabled")
+        lock_unlock_button.config(text = "Lock Parameters", bootstyle = "success")
+        run_button.config(state = "disabled")
+        state1 -= 1
 
 # Create a function to clear the automated control frame entry boxes
 def clear_all():

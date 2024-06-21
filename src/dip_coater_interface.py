@@ -53,7 +53,7 @@ def exit_program():
             feedback_label = Label(authentication_popup, text = "That's not the correct password.")
             feedback_label.grid(row = 2, column = 0, columnspan = 2, pady = 15)
 
-    authentication_popup = Toplevel()
+    authentication_popup = tb.Toplevel()
     authentication_popup.title("Authentication to Exit")
     authentication_popup.geometry("300x300")
     authentication_popup.resizable(False, False)
@@ -69,8 +69,6 @@ def exit_program():
     # Create a submit button
     submit_button = tb.Button(authentication_popup, text = "Enter", bootstyle = "primary", command = check_password)
     submit_button.grid(row = 1, column = 1, padx = 30, pady = (0, 15))
-
-    authentication_popup.mainloop()
 
 
 ###

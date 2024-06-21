@@ -56,24 +56,24 @@ def exit_program():
     # Set up the popup window
     authentication_popup = tb.Toplevel()
     authentication_popup.title("Authentication to Exit")
-    authentication_popup.geometry("400x200")
+    authentication_popup.geometry("350x200+65+300")
     authentication_popup.resizable(False, False)
 
     # Create a label to prompt the user
     prompt_label = tb.Label(authentication_popup, text = "Enter the password to exit the program.", bootstyle = "dark")
-    prompt_label.grid(row = 0, column = 0, columnspan = 4, padx = 68, pady = (25, 15))
+    prompt_label.grid(row = 0, column = 0, columnspan = 4, padx = 43, pady = (25, 15))
 
     # Create an entry box for the password
     password_entry = tb.Entry(authentication_popup, textvariable = "password", bootstyle = "secondary", show = "*")
-    password_entry.grid(row = 1, column = 0, columnspan = 4, padx = 68, pady = (0, 15), sticky = "EW")
+    password_entry.grid(row = 1, column = 0, columnspan = 4, padx = 43, pady = (0, 15), sticky = "EW")
 
     # Create a cancel button
     cancel_button = tb.Button(authentication_popup, text = "Cancel", bootstyle = "secondary", width = 9, command = lambda: authentication_popup.destroy())
-    cancel_button.grid(row = 2, column = 2, padx = (68, 5), pady = (0, 15), sticky = "E")
+    cancel_button.grid(row = 2, column = 2, padx = (43, 0), pady = (0, 15), sticky = "E")
 
     # Create a submit button
     submit_button = tb.Button(authentication_popup, text = "Enter", bootstyle = "primary", width = 9, command = check_password)
-    submit_button.grid(row = 2, column = 3, padx = (5, 68), pady = (0, 15), sticky = "E")
+    submit_button.grid(row = 2, column = 3, padx = (0, 43), pady = (0, 15), sticky = "E")
 
     # Set the focus to the entry box
     password_entry.focus_set()

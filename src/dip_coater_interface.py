@@ -54,7 +54,8 @@ def exit_program():
             feedback_label.grid(row = 2, column = 0, columnspan = 2, pady = 15)
 
     authentication_popup = Toplevel()
-    authentication_popup.attributes("-fullscreen", True)
+    authentication_popup.title("Authentication to Exit")
+    authentication_popup.geometry("300x300")
     authentication_popup.resizable(False, False)
 
     # Create an entry box for the password

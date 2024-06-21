@@ -6,6 +6,7 @@ from ttkbootstrap.scrolled import ScrolledFrame
 from ttkbootstrap.dialogs import Messagebox
 import sqlite3
 from subprocess import call
+import time
 
 root = tb.Window(themename = "pulse")
 root.title("Dip Coater Gui")
@@ -444,6 +445,18 @@ def favorite_lock_unlock():
 
 # Create a function to automatically run the dip coater
 def run():
+    clear_button.config(state = "disabled")
+    lock_unlock_button.config(state = "disabled")
+    run_button.config(text = "Cancel", bootstyle = "warning", command = cancel)
+
+    time.sleep(5)
+
+    clear_button.config(state = "enabled")
+    lock_unlock_button.config(state = "enabled")
+    run_button.config(text = "RUN", bootstyle = "info", command = run)
+
+# Create a function to cancel an automatic run
+def cancel():
     return
 
 

@@ -54,7 +54,7 @@ def exit_program():
             feedback_label.grid(row = 2, column = 0, columnspan = 2, pady = 15)
 
     authentication_popup = Toplevel()
-    authentication_popup.geometry("200x200")
+    authentication_popup.attributes("-fullscreen", True)
 
     # Create an entry box for the password
     password_entry = tb.Entry(authentication_popup, textvariable = "password", bootstyle = "secondary", show = "*")
@@ -454,15 +454,15 @@ control_frame = tb.Labelframe(root, text = "Control Modes", bootstyle = "primary
 control_frame.grid(row = 0, column = 1, padx = (3, 5), pady = (5, 0))
 
 # Create a manual mode button
-auto_button = tb.Button(control_frame, text = "Auto", bootstyle = "primary, outline", width = 9, command = auto_switch)
+auto_button = tb.Button(control_frame, text = "Auto", bootstyle = "primary, outline", width = 8, command = auto_switch)
 auto_button.grid(row = 0, column = 0, padx = (11, 6), pady = (7, 10))
 
 # Create a manual mode button
-manual_button = tb.Button(control_frame, text = "Manual", bootstyle = "primary", width = 9, command = manual_switch)
+manual_button = tb.Button(control_frame, text = "Manual", bootstyle = "primary", width = 8, command = manual_switch)
 manual_button.grid(row = 0, column = 1, padx = 6, pady = (7, 10))
 
 # Create a manual mode button
-favorites_button = tb.Button(control_frame, text = "Favorites", bootstyle = "primary", width = 9, command = favorites_switch)
+favorites_button = tb.Button(control_frame, text = "Favorites", bootstyle = "primary", width = 8, command = favorites_switch)
 favorites_button.grid(row = 0, column = 2, padx = (6, 11), pady = (7, 10))
 
 

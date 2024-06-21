@@ -47,14 +47,16 @@ def exit_program():
 
     # Create a function to check the password
     def check_password():
-        if password_entry.get() == "ingenious100":
+        if password_entry.get() == "176371092":
             root.destroy()
         else:
             feedback_label = Label(authentication_popup, text = "That's not the correct password.")
             feedback_label.grid(row = 2, column = 0, columnspan = 2, pady = 15)
 
-    authentication_popup = Toplevel()
-    authentication_popup.geometry("200x200")
+    authentication_popup = tb.Toplevel()
+    authentication_popup.title("Authentication to Exit")
+    authentication_popup.geometry("300x300")
+    authentication_popup.resizable(False, False)
 
     # Create an entry box for the password
     password_entry = tb.Entry(authentication_popup, textvariable = "password", bootstyle = "secondary", show = "*")
@@ -67,8 +69,6 @@ def exit_program():
     # Create a submit button
     submit_button = tb.Button(authentication_popup, text = "Enter", bootstyle = "primary", command = check_password)
     submit_button.grid(row = 1, column = 1, padx = 30, pady = (0, 15))
-
-    authentication_popup.mainloop()
 
 
 ###
@@ -454,15 +454,15 @@ control_frame = tb.Labelframe(root, text = "Control Modes", bootstyle = "primary
 control_frame.grid(row = 0, column = 1, padx = (3, 5), pady = (5, 0))
 
 # Create a manual mode button
-auto_button = tb.Button(control_frame, text = "Auto", bootstyle = "primary, outline", width = 9, command = auto_switch)
+auto_button = tb.Button(control_frame, text = "Auto", bootstyle = "primary, outline", width = 7, command = auto_switch)
 auto_button.grid(row = 0, column = 0, padx = (11, 6), pady = (7, 10))
 
 # Create a manual mode button
-manual_button = tb.Button(control_frame, text = "Manual", bootstyle = "primary", width = 9, command = manual_switch)
+manual_button = tb.Button(control_frame, text = "Manual", bootstyle = "primary", width = 7, command = manual_switch)
 manual_button.grid(row = 0, column = 1, padx = 6, pady = (7, 10))
 
 # Create a manual mode button
-favorites_button = tb.Button(control_frame, text = "Favorites", bootstyle = "primary", width = 9, command = favorites_switch)
+favorites_button = tb.Button(control_frame, text = "Favorites", bootstyle = "primary", width = 7, command = favorites_switch)
 favorites_button.grid(row = 0, column = 2, padx = (6, 11), pady = (7, 10))
 
 

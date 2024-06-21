@@ -43,13 +43,33 @@ def shutdown():
         pass
 
 # Create a function to exit the dip coater software
-def exit():
-    mb = Messagebox.yesno("Are you sure you want to exit the dip coater software?", "Exit Program")
+def exit_program():
 
-    if mb == "Yes":
-        root.destroy()
-    else:
-        pass
+    # Create a function to check the password
+    def check_password():
+        if password_entry.get() == "ingenious100":
+            root.destroy()
+        else:
+            feedback_label = Label(authentication_popup, text = "That's not the correct password.")
+            feedback_label.grid(row = 2, column = 0, columnspan = 2, pady = 15)
+
+    authentication_popup = Toplevel()
+    authentication_popup.geometry("200x200")
+
+    # Create an entry box for the password
+    password_entry = tb.Entry(authentication_popup, textvariable = "password", bootstyle = "secondary", show = "*")
+    password_entry.grid(row = 0, column = 0, columnspan = 2, padx = 30, pady = 15, sticky = "NSWE")
+
+    # Create a cancel button
+    cancel_button = tb.Button(authentication_popup, text = "Cancel", bootstyle = "secondary", command = lambda: authentication_popup.destroy())
+    cancel_button.grid(row = 1, column = 0, padx = 30, pady = (0, 15))
+
+    # Create a submit button
+    submit_button = tb.Button(authentication_popup, text = "Enter", bootstyle = "primary", command = check_password)
+    submit_button.grid(row = 1, column = 1, padx = 30, pady = (0, 15))
+
+    authentication_popup.mainloop()
+
 
 ###
 
@@ -421,9 +441,8 @@ system_frame.grid(row = 0, column = 0, padx = (5, 0), pady = (5, 0))
 shutdown_button = tb.Button(system_frame, text = "Shutdown", bootstyle = "secondary", command = shutdown)
 shutdown_button.grid(row = 0, column = 0, padx = (11, 6), pady = (7, 10))
 
-system_button = tb.Button(system_frame, text = "Exit", bootstyle = "secondary", command = exit)
+system_button = tb.Button(system_frame, text = "Exit", bootstyle = "secondary", command = exit_program)
 system_button.grid(row = 0, column = 1, padx = (6, 11), pady = (7, 10))
-
 
 
 

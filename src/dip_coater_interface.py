@@ -458,7 +458,7 @@ control_frame = tb.Labelframe(root, text = "Control Modes", bootstyle = "primary
 control_frame.grid(row = 0, column = 1, padx = (3, 5), pady = (5, 0))
 
 # Create a manual mode button
-auto_button = tb.Button(control_frame, text = "Auto", bootstyle = "primary, outline", width = 7, command = auto_switch)
+auto_button = tb.Button(control_frame, text = "Auto", bootstyle = "primary, outline", width = 6, command = auto_switch)
 auto_button.grid(row = 0, column = 0, padx = (9, 5), pady = (7, 10))
 
 # Create a manual mode button

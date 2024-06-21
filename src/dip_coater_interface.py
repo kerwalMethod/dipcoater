@@ -53,35 +53,30 @@ def exit_program():
             feedback_label = tb.Label(authentication_popup, text = "That's not the correct password.", bootstyle = "danger")
             feedback_label.grid(row = 3, column = 0, columnspan = 4, pady = (0, 15))
 
-    # Set up parameters to center the popup window
-    window_width = 300
-    window_height = 200
-    screen_width = root.winfo_screenwidth()
-    screen_height = root.winfo_screenheight()
-    x = (screen_width / 2) - (window_width / 2)
-    y = (screen_height / 2) - (window_height / 2)
-
     # Set up the popup window
     authentication_popup = tb.Toplevel()
     authentication_popup.title("Authentication to Exit")
-    authentication_popup.geometry(f'{window_width}x{window_height}+{50}+{300}')
+    authentication_popup.geometry("300x200")
     authentication_popup.resizable(False, False)
 
     # Create a label to prompt the user
     prompt_label = tb.Label(authentication_popup, text = "Enter the password to exit the program.", bootstyle = "dark")
-    prompt_label.grid(row = 0, column = 0, columnspan = 4, padx = 17, pady = (25, 15))
+    prompt_label.grid(row = 0, column = 0, columnspan = 4, padx = 18, pady = (25, 15))
 
     # Create an entry box for the password
     password_entry = tb.Entry(authentication_popup, textvariable = "password", bootstyle = "secondary", show = "*")
-    password_entry.grid(row = 1, column = 0, columnspan = 4, padx = 17, pady = (0, 15), sticky = "EW")
+    password_entry.grid(row = 1, column = 0, columnspan = 4, padx = 18, pady = (0, 15), sticky = "EW")
 
     # Create a cancel button
     cancel_button = tb.Button(authentication_popup, text = "Cancel", bootstyle = "secondary", width = 9, command = lambda: authentication_popup.destroy())
-    cancel_button.grid(row = 2, column = 2, padx = (17, 10), pady = (0, 15), sticky = "E")
+    cancel_button.grid(row = 2, column = 2, padx = (18, 5), pady = (0, 15), sticky = "E")
 
     # Create a submit button
     submit_button = tb.Button(authentication_popup, text = "Enter", bootstyle = "primary", width = 9, command = check_password)
-    submit_button.grid(row = 2, column = 3, padx = (10, 17), pady = (0, 15), sticky = "E")
+    submit_button.grid(row = 2, column = 3, padx = (10, 5), pady = (0, 15), sticky = "E")
+
+    # Set the focus to the entry box
+    password_entry.focus_set()
 
 
 ###

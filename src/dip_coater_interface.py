@@ -56,7 +56,7 @@ def exit_program():
     # Set up the popup window
     authentication_popup = tb.Toplevel()
     authentication_popup.title("Authentication to Exit")
-    authentication_popup.geometry("350x200+65+300")
+    authentication_popup.attributes("-fullscreen", True)
     authentication_popup.resizable(False, False)
 
     # Create a label to prompt the user

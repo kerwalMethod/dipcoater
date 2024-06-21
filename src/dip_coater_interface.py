@@ -53,9 +53,18 @@ def exit_program():
             feedback_label = tb.Label(authentication_popup, text = "That's not the correct password.", bootstyle = "danger")
             feedback_label.grid(row = 3, column = 0, columnspan = 2, pady = (0, 15))
 
+    # Set up parameters to center the popup window
+    window_width = 300
+    window_height = 200
+    screen_width = root.winfo_screenwidth()
+    screen_height = root.winfo_screenheight()
+    x = (screen_width / 2) - (window_width / 2)
+    y = (screen_height / 2) - (window_height / 2)
+
+    # Set up the popup window
     authentication_popup = tb.Toplevel()
     authentication_popup.title("Authentication to Exit")
-    authentication_popup.geometry("300x200")
+    authentication_popup.geometry(f'{window_width}x{window_height}+{int(x)}+{int(y)}')
     authentication_popup.resizable(False, False)
 
     # Create a label to prompt the user
@@ -67,11 +76,11 @@ def exit_program():
     password_entry.grid(row = 1, column = 0, columnspan = 2, padx = 20, pady = (0, 15), sticky = "EW")
 
     # Create a cancel button
-    cancel_button = tb.Button(authentication_popup, text = "Cancel", bootstyle = "secondary", width = 12, command = lambda: authentication_popup.destroy())
+    cancel_button = tb.Button(authentication_popup, text = "Cancel", bootstyle = "secondary", width = 8, command = lambda: authentication_popup.destroy())
     cancel_button.grid(row = 2, column = 0, padx = (20, 10), pady = (0, 15), sticky = "E")
 
     # Create a submit button
-    submit_button = tb.Button(authentication_popup, text = "Enter", bootstyle = "primary", width = 12, command = check_password)
+    submit_button = tb.Button(authentication_popup, text = "Enter", bootstyle = "primary", width = 8, command = check_password)
     submit_button.grid(row = 2, column = 1, padx = (10, 20), pady = (0, 15), sticky = "E")
 
 

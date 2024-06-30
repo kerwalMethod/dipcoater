@@ -514,7 +514,7 @@ dips_units.grid(row = 9, column = 2, sticky = "w", padx = (0, 15))
 
 # Create an edit button
 clear_button = tb.Button(new_run_frame, text = "Clear All", bootstyle = "secondary", width = 20, command = clear_all)
-clear_button.grid(row = 10, column = 0, padx = 15, pady = (10, 15))
+clear_button.grid(row = 10, column = 0, padx = (15, 0), pady = (10, 15))
 
 # Create a save button
 lock_unlock_button = tb.Button(new_run_frame, text = "Lock Parameters", bootstyle = "success", width = 20, command = new_run_lock_unlock)

@@ -518,7 +518,7 @@ clear_button.grid(row = 10, column = 0, padx = (15, 0), pady = (10, 15))
 
 # Create a save button
 lock_unlock_button = tb.Button(new_run_frame, text = "Lock Parameters", bootstyle = "success", width = 20, command = new_run_lock_unlock)
-lock_unlock_button.grid(row = 10, column = 1, columnspan = 2, padx = 15, pady = (10, 15), sticky = "w")
+lock_unlock_button.grid(row = 10, column = 1, columnspan = 2, padx = (0, 15), pady = (10, 15), sticky = "w")
 
 
 ###

@@ -412,10 +412,10 @@ def cancel():
 system_frame = tb.Labelframe(root, text = "System", bootstyle = "primary")
 system_frame.grid(row = 0, column = 0, padx = (5, 0), pady = (5, 0))
 
-shutdown_button = tb.Button(system_frame, text = "Shutdown", bootstyle = "secondary", width = 10, command = shutdown)
+shutdown_button = tb.Button(system_frame, text = "Shutdown", bootstyle = "secondary", width = 9, command = shutdown)
 shutdown_button.grid(row = 0, column = 0, padx = (9, 5), pady = (7, 10))
 
-exit_button = tb.Button(system_frame, text = "Exit", bootstyle = "secondary", width = 10, command = exit_program)
+exit_button = tb.Button(system_frame, text = "Exit", bootstyle = "secondary", width = 19, command = exit_program)
 exit_button.grid(row = 0, column = 1, padx = (5, 9), pady = (7, 10))
 
 
@@ -427,11 +427,11 @@ control_frame = tb.Labelframe(root, text = "Control Modes", bootstyle = "primary
 control_frame.grid(row = 0, column = 1, padx = (3, 5), pady = (5, 0))
 
 # Create an new run mode button
-new_run_button = tb.Button(control_frame, text = "New Run", bootstyle = "primary, outline", width = 12, command = new_run_switch)
+new_run_button = tb.Button(control_frame, text = "New Run", bootstyle = "primary, outline", width = 11, command = new_run_switch)
 new_run_button.grid(row = 0, column = 0, padx = (9, 5), pady = (7, 10))
 
 # Create a saved runs mode button
-saved_runs_button = tb.Button(control_frame, text = "Saved Runs", bootstyle = "primary", width = 12, command = saved_runs_switch)
+saved_runs_button = tb.Button(control_frame, text = "Saved Runs", bootstyle = "primary", width = 11, command = saved_runs_switch)
 saved_runs_button.grid(row = 0, column = 2, padx = (5, 9), pady = (7, 10))
 
 

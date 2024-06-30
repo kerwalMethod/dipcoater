@@ -412,10 +412,10 @@ def cancel():
 system_frame = tb.Labelframe(root, text = "System", bootstyle = "primary")
 system_frame.grid(row = 0, column = 0, padx = (5, 0), pady = (5, 0))
 
-shutdown_button = tb.Button(system_frame, text = "Shutdown", bootstyle = "secondary", command = shutdown)
+shutdown_button = tb.Button(system_frame, text = "Shutdown", bootstyle = "secondary", width = 10, command = shutdown)
 shutdown_button.grid(row = 0, column = 0, padx = (9, 5), pady = (7, 10))
 
-exit_button = tb.Button(system_frame, text = "Exit", bootstyle = "secondary", command = exit_program)
+exit_button = tb.Button(system_frame, text = "Exit", bootstyle = "secondary", width = 10, command = exit_program)
 exit_button.grid(row = 0, column = 1, padx = (5, 9), pady = (7, 10))
 
 
@@ -427,11 +427,11 @@ control_frame = tb.Labelframe(root, text = "Control Modes", bootstyle = "primary
 control_frame.grid(row = 0, column = 1, padx = (3, 5), pady = (5, 0))
 
 # Create an new run mode button
-new_run_button = tb.Button(control_frame, text = "New Run", bootstyle = "primary, outline", width = 10, command = new_run_switch)
+new_run_button = tb.Button(control_frame, text = "New Run", bootstyle = "primary, outline", width = 12, command = new_run_switch)
 new_run_button.grid(row = 0, column = 0, padx = (9, 5), pady = (7, 10))
 
 # Create a saved runs mode button
-saved_runs_button = tb.Button(control_frame, text = "Saved Runs", bootstyle = "primary", width = 10, command = saved_runs_switch)
+saved_runs_button = tb.Button(control_frame, text = "Saved Runs", bootstyle = "primary", width = 12, command = saved_runs_switch)
 saved_runs_button.grid(row = 0, column = 2, padx = (5, 9), pady = (7, 10))
 
 
@@ -514,7 +514,7 @@ dips_units.grid(row = 9, column = 3, sticky = "w", padx = (0, 15), pady = (17, 5
 
 # Create an edit button
 clear_button = tb.Button(new_run_frame, text = "Clear All", bootstyle = "secondary", width = 20, command = clear_all)
-clear_button.grid(row = 10, column = 0, padx = (30, 10), pady = 15)
+clear_button.grid(row = 10, column = 0, padx = (30, 20), pady = 15)
 
 # Create a save button
 lock_unlock_button = tb.Button(new_run_frame, text = "Lock Parameters", bootstyle = "success", width = 20, command = new_run_lock_unlock)

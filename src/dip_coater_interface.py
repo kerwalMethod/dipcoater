@@ -415,7 +415,7 @@ system_frame.grid(row = 0, column = 0, padx = (5, 0), pady = (5, 0))
 shutdown_button = tb.Button(system_frame, text = "Shutdown", bootstyle = "secondary", width = 9, command = shutdown)
 shutdown_button.grid(row = 0, column = 0, padx = (9, 5), pady = (7, 10))
 
-exit_button = tb.Button(system_frame, text = "Exit", bootstyle = "secondary", width = 7, command = exit_program)
+exit_button = tb.Button(system_frame, text = "Exit", bootstyle = "secondary", width = 6, command = exit_program)
 exit_button.grid(row = 0, column = 1, padx = (5, 9), pady = (7, 10))
 
 

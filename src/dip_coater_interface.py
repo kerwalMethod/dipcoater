@@ -261,7 +261,12 @@ def new_run_lock_unlock():
 
 # Create a function to clear the new run frame entry boxes
 def clear_all():
-    for x in (substrate_entry, solution_entry, depth_entry, immersion_entry, withdrawal_entry, submersion_entry, dips_entry):
+    depth_var.set(0)
+    toggler("d")
+    immersion_var.set(0)
+    toggler("i")
+
+    for x in (substrate_entry, solution_entry, withdrawal_entry, submersion_entry, dips_entry):
         x.delete(0, END)
 
 # Create a function to save a run

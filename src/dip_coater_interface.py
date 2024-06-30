@@ -477,7 +477,7 @@ depth_toggle.grid(row = 4, column = 0, columnspan = 3, padx = 15, pady = (7, 8),
 
 # Create the immersion speed entry box and labels
 immersion_label = tb.Label(new_run_frame, text = "Immersion speed (" + str(min_speed) + " - " + str(max_speed) + " mm/s):", font = ("Helvetica", 12), bootstyle = "dark")
-immersion_label.grid(row = 5, column = 0, columnspan = 2, padx = (15, 5), pady = (16, 5), sticky = "w")
+immersion_label.grid(row = 5, column = 0, columnspan = 2, padx = (15, 5), pady = (15, 5), sticky = "w")
 immersion_entry = tb.Entry(new_run_frame, font = ("Helvetica", 12), bootstyle = "secondary", width = 10)
 immersion_entry.grid(row = 5, column = 2, padx = (0, 5), pady = (16, 5), sticky = "e")
 immersion_units = tb.Label(new_run_frame, text = "mm/s", font = ("Helvetica", 12), bootstyle = "dark")
@@ -490,7 +490,7 @@ immersion_toggle.grid(row = 6, column = 0, columnspan = 3, padx = 15, pady = (7,
 
 # Create the withdrawal speed entry box and its labels
 withdrawal_label = tb.Label(new_run_frame, text = "Withdrawal speed (" + str(min_speed) + " - " + str(max_speed) + " mm/s):", font = ("Helvetica", 12), bootstyle = "dark")
-withdrawal_label.grid(row = 7, column = 0, columnspan = 2, padx = (15, 5), pady = (16, 5), sticky = "w")
+withdrawal_label.grid(row = 7, column = 0, columnspan = 2, padx = (15, 5), pady = (15, 5), sticky = "w")
 withdrawal_entry = tb.Entry(new_run_frame, font = ("Helvetica", 12), bootstyle = "secondary", width = 10)
 withdrawal_entry.grid(row = 7, column = 2, padx = (0, 5), pady = (16, 5), sticky = "e")
 withdrawal_units = tb.Label(new_run_frame, text = "mm/s", font = ("Helvetica", 12), bootstyle = "dark")
@@ -518,7 +518,7 @@ clear_button.grid(row = 10, column = 0, padx = (15, 0), pady = (15, 15))
 
 # Create a save button
 lock_unlock_button = tb.Button(new_run_frame, text = "Lock Parameters", bootstyle = "success", width = 20, command = new_run_lock_unlock)
-lock_unlock_button.grid(row = 10, column = 1, columnspan = 3, padx = (15, 0), pady = (15, 15), sticky = "w")
+lock_unlock_button.grid(row = 10, column = 1, columnspan = 3, padx = 15, pady = (15, 15), sticky = "w")
 
 
 ###

@@ -443,8 +443,8 @@ new_run_frame = tb.Labelframe(root, text = "New Run", bootstyle = "primary")
 new_run_frame.grid(row = 1, column = 0, columnspan = 2, padx = 5, pady = 5)
 
 # Create the descriptor for substrate length, solution height, and dip depth
-measurements_descriptor = tb.Label(new_run_frame, text = "Enter all physical dimensions in millimeters, all speeds in \nmillimeters per second, and all times in seconds. Note that the \nmaximum dipping depth depends on the first two parameters \nand is always less than the substrate length by at least 13 mm.", font = ("Helvetica", 12), bootstyle = "dark")
-measurements_descriptor.grid(row = 0, column = 0, columnspan = 4, padx = (15, 0), pady = (10, 5), sticky = "w")
+measurements_descriptor = tb.Label(new_run_frame, text = "Enter all physical dimensions in millimeters, all speeds in \nmillimeters per second, and all times in seconds. Note that \nthe maximum dipping depth depends on the first two \nparameters and is always less than the substrate length \nby at least 13 mm.", font = ("Helvetica", 12), bootstyle = "dark")
+measurements_descriptor.grid(row = 0, column = 0, columnspan = 4, padx = 15, pady = (10, 5), sticky = "w")
 
 # Create the substrate length entry box and its labels
 substrate_label = tb.Label(new_run_frame, text = "Substrate length (" + str(min_len) + " - " + str(max_len) + " mm):", font = ("Helvetica", 12), bootstyle = "dark")

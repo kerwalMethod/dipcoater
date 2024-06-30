@@ -125,16 +125,9 @@ def saved_runs_switch():
 ###
 
 
-# Define the maximums for run parameters
-min_len = 40
-max_len = 140
-min_sol = 40
-max_sol = 140
-min_speed = 0.1
-max_speed = 35
-max_time = 120
-min_dip = 1
-max_dip = 10
+# Create a function to bind entry boxes to the next entry box
+def go_to_next_entry(x):
+    x.focus_set()
 
 # Create a function for the two toggles
 def toggler(x):
@@ -169,6 +162,17 @@ def toggler(x):
         elif immersion_var.get() == 0:
             immersion_entry.config(state = "enabled")
             immersion_entry.delete(0, END)
+
+# Define the maximums for run parameters
+min_len = 40
+max_len = 140
+min_sol = 40
+max_sol = 140
+min_speed = 0.1
+max_speed = 35
+max_time = 120
+min_dip = 1
+max_dip = 10
 
 # Create a list for run parameters
 parameters = []
@@ -456,6 +460,7 @@ substrate_label = tb.Label(new_run_frame, text = "Substrate length (" + str(min_
 substrate_label.grid(row = 1, column = 0, columnspan = 2, padx = (15, 5), pady = (17, 5), sticky = "w")
 substrate_entry = tb.Entry(new_run_frame, font = ("Helvetica", 12), bootstyle = "secondary", width = 10)
 substrate_entry.grid(row = 1, column = 2, padx = (0, 5), pady = (17, 5), sticky = "e")
+substrate_entry.bind('<Return>', go_to_next_entry(solution_entry))
 substrate_units = tb.Label(new_run_frame, text = "mm", font = ("Helvetica", 12), bootstyle = "dark")
 substrate_units.grid(row = 1, column = 3, sticky = "w", padx = (0, 15), pady = (17, 5))
 
@@ -464,6 +469,7 @@ solution_label = tb.Label(new_run_frame, text = "Solution height (" + str(min_so
 solution_label.grid(row = 2, column = 0, columnspan = 2, padx = (15, 5), pady = (17, 5), sticky = "w")
 solution_entry = tb.Entry(new_run_frame, font = ("Helvetica", 12), bootstyle = "secondary", width = 10)
 solution_entry.grid(row = 2, column = 2, padx = (0, 5), pady = (17, 5), sticky = "e")
+solution_entry.bind('<Return>', go_to_next_entry(depth_entry))
 solution_units = tb.Label(new_run_frame, text = "mm", font = ("Helvetica", 12), bootstyle = "dark")
 solution_units.grid(row = 2, column = 3, sticky = "w", padx = (0, 15), pady = (17, 5))
 
@@ -472,6 +478,7 @@ depth_label = tb.Label(new_run_frame, text = "Substrate dipping depth:", font = 
 depth_label.grid(row = 3, column = 0, padx = (15, 5), pady = (17, 5), sticky = "w")
 depth_entry = tb.Entry(new_run_frame, font = ("Helvetica", 12), bootstyle = "secondary", width = 10)
 depth_entry.grid(row = 3, column = 2, padx = (0, 5), pady = (15, 5), sticky = "e")
+depth_entry.bind('<Return>', go_to_next_entry(immersion_entry))
 depth_units = tb.Label(new_run_frame, text = "mm", font = ("Helvetica", 12), bootstyle = "dark")
 depth_units.grid(row = 3, column = 3, sticky = "w", padx = (0, 15), pady = (17, 5))
 
@@ -485,6 +492,7 @@ immersion_label = tb.Label(new_run_frame, text = "Immersion speed (" + str(min_s
 immersion_label.grid(row = 5, column = 0, columnspan = 2, padx = (15, 5), pady = (15, 5), sticky = "w")
 immersion_entry = tb.Entry(new_run_frame, font = ("Helvetica", 12), bootstyle = "secondary", width = 10)
 immersion_entry.grid(row = 5, column = 2, padx = (0, 5), pady = (16, 5), sticky = "e")
+immersion_entry.bind('<Return>', go_to_next_entry(withdrawal_entry))
 immersion_units = tb.Label(new_run_frame, text = "mm/s", font = ("Helvetica", 12), bootstyle = "dark")
 immersion_units.grid(row = 5, column = 3, sticky = "w", padx = (0, 15), pady = (16, 5))
 
@@ -498,6 +506,7 @@ withdrawal_label = tb.Label(new_run_frame, text = "Withdrawal speed (" + str(min
 withdrawal_label.grid(row = 7, column = 0, columnspan = 2, padx = (15, 5), pady = (15, 5), sticky = "w")
 withdrawal_entry = tb.Entry(new_run_frame, font = ("Helvetica", 12), bootstyle = "secondary", width = 10)
 withdrawal_entry.grid(row = 7, column = 2, padx = (0, 5), pady = (16, 5), sticky = "e")
+withdrawal_entry.bind('<Return>', go_to_next_entry(sumbersion_entry))
 withdrawal_units = tb.Label(new_run_frame, text = "mm/s", font = ("Helvetica", 12), bootstyle = "dark")
 withdrawal_units.grid(row = 7, column = 3, sticky = "w", padx = (0, 15), pady = (16, 5))
 
@@ -506,6 +515,7 @@ submersion_label = tb.Label(new_run_frame, text = "Submersion time (max. " + str
 submersion_label.grid(row = 8, column = 0, columnspan = 2, padx = (15, 5), pady = (17, 5), sticky = "w")
 submersion_entry = tb.Entry(new_run_frame, font = ("Helvetica", 12), bootstyle = "secondary", width = 10)
 submersion_entry.grid(row = 8, column = 2, padx = (0, 5), pady = (17, 5), sticky = "e")
+submersion_entry.bind('<Return>', go_to_next_entry(dips_entry))
 submersion_units = tb.Label(new_run_frame, text = "s", font = ("Helvetica", 12), bootstyle = "dark")
 submersion_units.grid(row = 8, column = 3, sticky = "w", padx = (0, 15), pady = (17, 5))
 
@@ -514,6 +524,7 @@ dips_label = tb.Label(new_run_frame, text = "Number of dips (" + str(min_dip) + 
 dips_label.grid(row = 9, column = 0, padx = (15, 5), pady = (17, 5), sticky = "w")
 dips_entry = tb.Entry(new_run_frame, font = ("Helvetica", 12), bootstyle = "secondary", width = 10)
 dips_entry.grid(row = 9, column = 2, padx = (0, 5), pady = (17, 5), sticky = "e")
+dips_entry.bind('<Return>', go_to_next_entry(substrate_entry))
 dips_units = tb.Label(new_run_frame, text = "dips", font = ("Helvetica", 12), bootstyle = "dark")
 dips_units.grid(row = 9, column = 3, sticky = "w", padx = (0, 15), pady = (17, 5))
 

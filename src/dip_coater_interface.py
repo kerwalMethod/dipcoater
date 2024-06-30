@@ -463,7 +463,7 @@ solution_units = tb.Label(new_run_frame, text = "mm", font = ("Helvetica", 12), 
 solution_units.grid(row = 2, column = 2, sticky = "w", padx = (0, 15))
 
 # Create the dipping depth entry box and its labels
-depth_label = tb.Label(new_run_frame, text = "Dipping depth:", font = ("Helvetica", 12), bootstyle = "dark")
+depth_label = tb.Label(new_run_frame, text = "Substrate dipping depth:", font = ("Helvetica", 12), bootstyle = "dark")
 depth_label.grid(row = 3, column = 0, padx = (15, 0), pady = (10, 5), sticky = "w")
 depth_entry = tb.Entry(new_run_frame, font = ("Helvetica", 12), bootstyle = "secondary", width = 10)
 depth_entry.grid(row = 3, column = 1, padx = (0, 5), pady = 10, sticky = "e")
@@ -514,11 +514,11 @@ dips_units.grid(row = 9, column = 2, sticky = "w", padx = (0, 15))
 
 # Create an edit button
 clear_button = tb.Button(new_run_frame, text = "Clear All", bootstyle = "secondary", width = 20, command = clear_all)
-clear_button.grid(row = 10, column = 0, padx = (20, 15), pady = (10, 15))
+clear_button.grid(row = 10, column = 0, padx = 15, pady = (10, 15))
 
 # Create a save button
 lock_unlock_button = tb.Button(new_run_frame, text = "Lock Parameters", bootstyle = "success", width = 20, command = new_run_lock_unlock)
-lock_unlock_button.grid(row = 10, column = 1, columnspan = 2, padx = (15, 20), pady = (10, 15), sticky = "w")
+lock_unlock_button.grid(row = 10, column = 1, columnspan = 2, padx = 15, pady = (10, 15), sticky = "w")
 
 
 ###

@@ -444,7 +444,7 @@ new_run_frame.grid(row = 1, column = 0, columnspan = 2, padx = 5, pady = 5)
 
 # Create the descriptor for substrate length, solution height, and dip depth
 measurements_descriptor = tb.Label(new_run_frame, text = "Enter all physical dimensions in millimeters, all speeds in \nmillimeters per second, and all times in seconds. Note that \nthe maximum dipping depth depends on the first two \nparameters and is always less than the substrate length \nby at least 13 mm.", font = ("Helvetica", 12), bootstyle = "dark")
-measurements_descriptor.grid(row = 0, column = 0, columnspan = 4, padx = 15, pady = (10, 5), sticky = "w")
+measurements_descriptor.grid(row = 0, column = 0, columnspan = 4, padx = 15, pady = (10, 1), sticky = "w")
 
 # Create the substrate length entry box and its labels
 substrate_label = tb.Label(new_run_frame, text = "Substrate length (" + str(min_len) + " - " + str(max_len) + " mm):", font = ("Helvetica", 12), bootstyle = "dark")
@@ -518,7 +518,7 @@ clear_button.grid(row = 10, column = 0, padx = (15, 0), pady = (15, 15))
 
 # Create a save button
 lock_unlock_button = tb.Button(new_run_frame, text = "Lock Parameters", bootstyle = "success", width = 20, command = new_run_lock_unlock)
-lock_unlock_button.grid(row = 10, column = 1, columnspan = 3, padx = 15, pady = (15, 15), sticky = "w")
+lock_unlock_button.grid(row = 10, column = 1, columnspan = 3, padx = (15, 20), pady = (15, 15), sticky = "w")
 
 
 ###

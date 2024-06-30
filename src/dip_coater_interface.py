@@ -424,7 +424,7 @@ exit_button.grid(row = 0, column = 1, padx = (5, 9), pady = (7, 10))
 
 # Create the control modes frame
 control_frame = tb.Labelframe(root, text = "Control Modes", bootstyle = "primary")
-control_frame.grid(row = 0, column = 1, padx = (3, 5), pady = (5, 0))
+control_frame.grid(row = 0, column = 1, padx = (2, 5), pady = (5, 0))
 
 # Create an new run mode button
 new_run_button = tb.Button(control_frame, text = "New Run", bootstyle = "primary, outline", width = 11, command = new_run_switch)
@@ -514,7 +514,7 @@ dips_units.grid(row = 9, column = 3, sticky = "w", padx = (0, 15), pady = (17, 5
 
 # Create an edit button
 clear_button = tb.Button(new_run_frame, text = "Clear All", bootstyle = "secondary", width = 20, command = clear_all)
-clear_button.grid(row = 10, column = 0, padx = (30, 16), pady = 15)
+clear_button.grid(row = 10, column = 0, padx = (30, 15), pady = 15)
 
 # Create a save button
 lock_unlock_button = tb.Button(new_run_frame, text = "Lock Parameters", bootstyle = "success", width = 20, command = new_run_lock_unlock)

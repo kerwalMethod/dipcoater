@@ -495,7 +495,7 @@ depth_units.grid(row = 3, column = 3, sticky = "w", padx = (0, 15), pady = (17, 
 
 # Create a toggle to autofill the maximum dipping depth
 depth_var = IntVar()
-depth_toggle = tb.Checkbutton(new_run_frame, text = "Check box for automatic maximum dipping depth.", bootstyle = "info, square-toggle", variable = depth_var, onvalue = 1, offvalue = 0, command = lambda: toggler("d"))
+depth_toggle = tb.Checkbutton(new_run_frame, text = "Toggle for automatic maximum dipping depth.", bootstyle = "info, square-toggle", variable = depth_var, onvalue = 1, offvalue = 0, command = lambda: toggler("d"))
 depth_toggle.grid(row = 4, column = 0, columnspan = 3, padx = 15, pady = (7, 8), sticky = "w")
 
 # Create the immersion speed entry box and labels
@@ -508,7 +508,7 @@ immersion_units.grid(row = 5, column = 3, sticky = "w", padx = (0, 15), pady = (
 
 # Create a toggle to autofill a standard immersion speed
 immersion_var = IntVar()
-immersion_toggle = tb.Checkbutton(new_run_frame, text = "Check box for standard immersion speed.", bootstyle = "info, square-toggle", variable = immersion_var, onvalue = 1, offvalue = 0, command = lambda: toggler("i"))
+immersion_toggle = tb.Checkbutton(new_run_frame, text = "Toggle for standard immersion speed.", bootstyle = "info, square-toggle", variable = immersion_var, onvalue = 1, offvalue = 0, command = lambda: toggler("i"))
 immersion_toggle.grid(row = 6, column = 0, columnspan = 3, padx = 15, pady = (7, 8), sticky = "w")
 
 # Create the withdrawal speed entry box and its labels

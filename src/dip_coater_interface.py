@@ -6,25 +6,26 @@ from ttkbootstrap.scrolled import ScrolledFrame
 from ttkbootstrap.dialogs import Messagebox
 import sqlite3
 from subprocess import call
-import time
+import math
 
 root = tb.Window(themename = "pulse")
 root.title("Dip Coater Gui")
 root.attributes("-fullscreen", True)
 root.resizable(False, False)
 
-# Connect to the favorite runs database
-conn = sqlite3.connect("favoriteruns.db")
+# Connect to the saved runs database
+conn = sqlite3.connect("savedruns.db")
 
 # Create a cursor
 c = conn.cursor()
 
 # Create a table
 '''
-c.execute("""CREATE TABLE favoriteruns (
+c.execute("""CREATE TABLE savedruns (
     substrate_length float,
     solution_height float,
     dip_depth float,
+    immersion_speed float,
     withdrawal_speed float,
     submersion_time float,
     dips_number integer
@@ -124,87 +125,166 @@ def saved_runs_switch():
 ###
 
 
+# Define the maximums for run parameters
+min_len = 40
+max_len = 140
+min_sol = 40
+max_sol = 140
+min_speed = 0.1
+max_speed = 35
+max_time = 120
+min_dip = 1
+max_dip = 10
+
+# Create a function for the two toggles
+def toggler(x):
+
+    if x == "d":
+        if depth_var.get() == 1:
+            
+            try:
+                depth_entry.delete(0, END)
+                depth_entry.insert(0, (float(solution_entry.get()) - 13) - math.remainder((float(solution_entry.get()) - 13), (float(substrate_entry.get()) - 13)))
+                substrate_entry.config(state = "disabled")
+                solution_entry.config(state = "disabled")
+                depth_entry.config(state = "disabled")
+            except:
+                depth_entry.insert(0, "")
+                substrate_entry.config(state = "disabled")
+                solution_entry.config(state = "disabled")
+                depth_entry.config(state = "disabled")
+
+        elif depth_var.get() == 0:
+            substrate_entry.config(state = "enabled")
+            solution_entry.config(state = "enabled")
+            depth_entry.config(state = "enabled")
+            depth_entry.delete(0, END)
+
+    elif x == "i":
+        if immersion_var.get() == 1:
+            immersion_entry.delete(0, END)
+            immersion_entry.insert(0, 20)
+            immersion_entry.config(state = "disabled")
+
+        elif immersion_var.get() == 0:
+            immersion_entry.config(state = "enabled")
+            immersion_entry.delete(0, END)
+
 # Create a list for run parameters
 parameters = []
 
 # Create a state variable
 state1 = 0
 
+# Create a variable to track the save button
+saved = False
+
 # Create a function to lock and unlock new run frame entry boxes
 def new_run_lock_unlock():
     global parameters
     global state1
-    
-    if state1 == 0:
-        
-        try:
-            parameters.extend([float(entry1.get()), float(entry2.get()), float(entry3.get()), float(entry4.get()), float(entry5.get()), int(entry6.get())])
-            new_run_button.config(state = "disabled")
-            saved_runs_button.config(state = "disabled")
-            shutdown_button.config(state = "disabled")
-            exit_button.config(state = "disabled")
-            clear_button.config(text = "Save Run", bootstyle = "success", command = save_run)
+    global saved
 
-            conn = sqlite3.connect("favoriteruns.db")
-            c = conn.cursor()
-            c.execute("SELECT 1 FROM favoriteruns WHERE substrate_length = '" + str(entry1.get()) + "' AND solution_height = '" + str(entry2.get()) + "' AND dip_depth = '" + str(entry3.get()) + 
-                        "' AND withdrawal_speed = '" + str(entry4.get()) + "' AND submersion_time = '" + str(entry5.get()) + "' AND dips_number = '" + str(entry6.get()) + "'")
+    try:
 
-            existing_runs = c.fetchone()
+        if (float(substrate_entry.get()) < min_len or float(substrate_entry.get()) > max_len or float(solution_entry.get()) < min_sol or float(solution_entry.get()) > max_sol 
+            or float(depth_entry.get()) > (float(solution_entry.get()) - 13) - math.remainder((float(solution_entry.get()) - 13), (float(substrate_entry.get()) - 13)) 
+            or float(immersion_entry.get()) < min_speed or float(immersion_entry.get()) > max_speed or float(withdrawal_entry.get()) < min_speed or float(withdrawal_entry.get()) > max_speed 
+            or float(submersion_entry.get()) > max_time or int(dips_entry.get()) < min_dip or int(dips_entry.get()) > max_dip):
 
-            if existing_runs is None:
-                clear_button.config(state = "enabled")
+            showerror(message = "One of the values you entered lies outside the allowable range!")
 
-            else:
-                clear_button.config(state = "disabled")
+        else:
 
-            conn.commit()
-            conn.close()
+            if state1 == 0:
+                    parameters.extend([float(substrate_entry.get()), float(solution_entry.get()), float(depth_entry.get()), float(immersion_entry.get()), float(withdrawal_entry.get()), float(submersion_entry.get()), int(dips_entry.get())])
+                    new_run_button.config(state = "disabled")
+                    saved_runs_button.config(state = "disabled")
+                    shutdown_button.config(state = "disabled")
+                    exit_button.config(state = "disabled")
+                    depth_toggle.config(state = "disabled")
+                    immersion_toggle.config(state = "disabled")
+                    clear_button.config(text = "Save Run", bootstyle = "success", command = save_run)
 
-            for x in (entry1, entry2, entry3, entry4, entry5, entry6):
-                x.config(state = "disabled")
-            lock_unlock_button.config(text = "Unlock Parameters", bootstyle = "warning")
-            run_button.config(state = "enabled")
-            state1 += 1
+                    conn = sqlite3.connect("savedruns.db")
+                    c = conn.cursor()
+                    c.execute("SELECT 1 FROM savedruns WHERE substrate_length = '" + str(substrate_entry.get()) + "' AND solution_height = '" + str(solution_entry.get()) + "' AND dip_depth = '" + str(depth_entry.get()) + "' AND immersion_speed = '" + str(immersion_entry.get()) + 
+                                "' AND withdrawal_speed = '" + str(withdrawal_entry.get()) + "' AND submersion_time = '" + str(submersion_entry.get()) + "' AND dips_number = '" + str(dips_entry.get()) + "'")
 
-        except:
-            showerror(message = "One of the values you entered isn't a number or doesn't make sense given the situation!")
+                    existing_runs = c.fetchone()
 
-    elif state1 == 1:
-        parameters.clear()
-        new_run_button.config(state = "enabled")
-        saved_runs_button.config(state = "enabled")
-        shutdown_button.config(state = "enabled")
-        exit_button.config(state = "enabled")
-        clear_button.config(text = "Clear All", bootstyle = "secondary", command = clear_all, state = "enabled")
-        for x in (entry1, entry2, entry3, entry4, entry5, entry6):
-            x.config(state = "enabled")
-        lock_unlock_button.config(text = "Lock Parameters", bootstyle = "success")
-        run_button.config(state = "disabled")
-        state1 -= 1
+                    if existing_runs is None:
+                        clear_button.config(state = "enabled")
+
+                    else:
+                        clear_button.config(state = "disabled")
+                        saved = True
+
+                    conn.commit()
+                    conn.close()
+
+                    for x in (substrate_entry, solution_entry, depth_entry, immersion_entry, withdrawal_entry, submersion_entry, dips_entry):
+                        x.config(state = "disabled")
+
+                    lock_unlock_button.config(text = "Unlock Parameters", bootstyle = "warning")
+                    run_button.config(state = "enabled")
+                    state1 += 1
+
+            elif state1 == 1:
+                parameters.clear()
+                saved = False
+                new_run_button.config(state = "enabled")
+                saved_runs_button.config(state = "enabled")
+                shutdown_button.config(state = "enabled")
+                exit_button.config(state = "enabled")
+                depth_toggle.config(state = "enabled")
+                immersion_toggle.config(state = "enabled")
+                clear_button.config(text = "Clear All", bootstyle = "secondary", command = clear_all, state = "enabled")
+
+                if depth_var.get() == 0:
+                    substrate_entry.config(state = "enabled")
+                    solution_entry.config(state = "enabled")
+                    depth_entry.config(state = "enabled")
+                
+                if immersion_var.get() == 0:
+                    immersion_entry.config(state = "enabled")
+
+                withdrawal_entry.config(state = "enabled")
+                submersion_entry.config(state = "enabled")
+                dips_entry.config(state = "enabled")
+                lock_unlock_button.config(text = "Lock Parameters", bootstyle = "success")
+                run_button.config(state = "disabled")
+                state1 -= 1
+
+    except:
+        showerror(message = "One of the values you entered isn't a number or doesn't make sense given the situation!")
 
 # Create a function to clear the new run frame entry boxes
 def clear_all():
-    for x in (entry1, entry2, entry3, entry4, entry5, entry6):
+    for x in (substrate_entry, solution_entry, depth_entry, immersion_entry, withdrawal_entry, submersion_entry, dips_entry):
         x.delete(0, END)
 
 # Create a function to save a run
 def save_run():
-    conn = sqlite3.connect("favoriteruns.db")
+    global saved
+
+    conn = sqlite3.connect("savedruns.db")
     c = conn.cursor()
-    c.execute("INSERT INTO favoriteruns VALUES (:substrate_length, :solution_height, :dip_depth, :withdrawal_speed, :submersion_time, :dips_number)",
+    c.execute("INSERT INTO savedruns VALUES (:substrate_length, :solution_height, :dip_depth, :immersion_speed, :withdrawal_speed, :submersion_time, :dips_number)",
             {
                 "substrate_length": parameters[0],
                 "solution_height": parameters[1],
                 "dip_depth": parameters[2],
-                "withdrawal_speed": parameters[3],
-                "submersion_time": parameters[4],
-                "dips_number": parameters[5]
+                "immersion_speed": parameters[3],
+                "withdrawal_speed": parameters[4],
+                "submersion_time": parameters[5],
+                "dips_number": parameters[6]
             }
         )
     conn.commit()
     conn.close()
-    clear_button.config(state = "disabled")          
+    clear_button.config(state = "disabled")
+    saved = True          
 
 
 ###
@@ -214,9 +294,9 @@ def save_run():
 def display_runs():
     delete_button.config(state = "disabled")
     lock_unlock_button3.config(state = "disabled")
-    conn = sqlite3.connect("favoriteruns.db")
+    conn = sqlite3.connect("savedruns.db")
     c = conn.cursor()
-    c.execute("SELECT *, oid FROM favoriteruns")
+    c.execute("SELECT *, oid FROM savedruns")
     runs = c.fetchall()
 
     for widget in run_list.winfo_children():
@@ -227,8 +307,8 @@ def display_runs():
     option.set(0)
 
     for run in runs:
-        choice = tb.Radiobutton(run_list, text = str(run[0]) + " mm, " + str(run[1]) + " mm, " + str(run[2]) + " mm, " + str(run[3]) + " mm/s, " + str(run[4]) + " s, " + str(run[5]) + " dips",
-                                variable = option, value = run[6], command = enable_stuff)
+        choice = tb.Radiobutton(run_list, text = "Run " + str(run[7]) + ": \nsubstrate length: " + str(run[0]) + " mm, solution height: " + str(run[1]) + " mm, \ndipping depth: " + str(run[2]) + " mm, immersion speed: " + str(run[3]) + " mm/s, \nwithdrawal speed: " + str(run[4]) + " mm/s, submersion time: " + str(run[5]) + " s, \nnumber of dips: " + str(run[6]) + " dips",
+                                variable = option, value = run[7], command = enable_stuff)
         choice.pack(anchor = "w", pady = 10)
     
     conn.commit()
@@ -241,9 +321,9 @@ def enable_stuff():
 
 # Create a delete function
 def delete_run():
-    conn = sqlite3.connect("favoriteruns.db")
+    conn = sqlite3.connect("savedruns.db")
     c = conn.cursor()
-    c.execute("DELETE from favoriteruns WHERE oid = " + str(option.get()))
+    c.execute("DELETE from savedruns WHERE oid = " + str(option.get()))
     conn.commit()
     conn.close()
     display_runs()
@@ -256,6 +336,15 @@ def saved_runs_lock_unlock():
     global state4
 
     if state4 == 0:
+        conn = sqlite3.connect("savedruns.db")
+        c = conn.cursor()
+        c.execute("SELECT 1 FROM savedruns WHERE oid = " + str(option.get()))
+        runs = c.fetchone()
+        for run in runs:
+            parameters.extend([run[0], run[1], run[2], run[3], run[4], run[5], run[6]])
+        conn.commit()
+        conn.close()
+
         new_run_button.config(state = "disabled")
         saved_runs_button.config(state = "disabled")
         shutdown_button.config(state = "disabled")
@@ -270,6 +359,7 @@ def saved_runs_lock_unlock():
         state4 += 1
     
     elif state4 == 1:
+        parameters.clear()
         new_run_button.config(state = "enabled")
         saved_runs_button.config(state = "enabled")
         shutdown_button.config(state = "enabled")
@@ -294,19 +384,22 @@ def run():
         clear_button.config(state = "disabled")
         lock_unlock_button.config(state = "disabled")
     
-    elif current_mode == 2:
+    elif current_mode == 1:
         lock_unlock_button3.config(state = "disabled")
 
     run_button.config(text = "Cancel", bootstyle = "warning", command = cancel)
+
+    print(parameters)
 
 # Create a function to cancel a run
 def cancel():
     
     if current_mode == 0:
-        clear_button.config(state = "enabled")
+        if not saved:
+            clear_button.config(state = "enabled")
         lock_unlock_button.config(state = "enabled")
     
-    elif current_mode == 2:
+    elif current_mode == 1:
         lock_unlock_button3.config(state = "enabled")
 
     run_button.config(text = "RUN", bootstyle = "info", command = run)
@@ -349,61 +442,83 @@ saved_runs_button.grid(row = 0, column = 2, padx = (5, 9), pady = (7, 10))
 new_run_frame = tb.Labelframe(root, text = "New Run", bootstyle = "primary")
 new_run_frame.grid(row = 1, column = 0, columnspan = 2, padx = 5, pady = 5)
 
-# Create the first entry box and its labels
-label1 = tb.Label(new_run_frame, text = "Enter the substrate length in millimeters:", font = ("Helvetica", 12), bootstyle = "dark")
-label1.grid(row = 0, column = 0, columnspan = 2, padx = 15, pady = (10, 5), sticky = "w")
-entry1 = tb.Entry(new_run_frame, font = ("Helvetica", 12), bootstyle = "secondary", width = 10)
-entry1.grid(row = 1, column = 0, padx = (0, 5), pady = 10, sticky = "e")
-unit_label1 = tb.Label(new_run_frame, text = "mm", font = ("Helvetica", 12), bootstyle = "dark")
-unit_label1.grid(row = 1, column = 1, sticky = "w", padx = (0, 70))
+# Create the descriptor for substrate length, solution height, and dip depth
+measurements_descriptor = tb.Label(new_run_frame, text = "Enter all physical dimensions in millimeters, all speeds in millimeters \nper second, and all times in seconds.", font = ("Helvetica", 14), bootstyle = "dark")
+measurements_descriptor.grid(row = 0, column = 0, columnspan = 3, padx = 15, pady = (10,5), sticky = "w")
 
-# Create the second entry box and its labels
-label2 = tb.Label(new_run_frame, text = "Enter the solution height in millimeters:", font = ("Helvetica", 12), bootstyle = "dark")
-label2.grid(row = 2, column = 0, columnspan = 2, padx = 15, pady = (10, 5), sticky = "w")
-entry2 = tb.Entry(new_run_frame, font = ("Helvetica", 12), bootstyle = "secondary", width = 10)
-entry2.grid(row = 3, column = 0, padx = (0, 5), pady = 10, sticky = "e")
-unit_label2 = tb.Label(new_run_frame, text = "mm", font = ("Helvetica", 12), bootstyle = "dark")
-unit_label2.grid(row = 3, column = 1, sticky = "w", padx = (0, 70))
+# Create the substrate length entry box and its labels
+substrate_label = tb.Label(new_run_frame, text = "Substrate length (" + str(min_len) + " mm - " + str(max_len) + " mm):", font = ("Helvetica", 12), bootstyle = "dark")
+substrate_label.grid(row = 1, column = 0, padx = (15, 0), pady = (10, 5), sticky = "w")
+substrate_entry = tb.Entry(new_run_frame, font = ("Helvetica", 12), bootstyle = "secondary", width = 10)
+substrate_entry.grid(row = 1, column = 1, padx = (0, 5), pady = 10, sticky = "e")
+substrate_units = tb.Label(new_run_frame, text = "mm", font = ("Helvetica", 12), bootstyle = "dark")
+substrate_units.grid(row = 1, column = 2, sticky = "w", padx = (0, 15))
 
-# Create the third entry box and its labels
-label3 = tb.Label(new_run_frame, text = "Enter the dipping depth in millimeters:", font = ("Helvetica", 12), bootstyle = "dark")
-label3.grid(row = 4, column = 0, columnspan = 2, padx = 15, pady = (10, 5), sticky = "w")
-entry3 = tb.Entry(new_run_frame, font = ("Helvetica", 12), bootstyle = "secondary", width = 10)
-entry3.grid(row = 5, column = 0, padx = (0, 5), pady = 10, sticky = "e")
-unit_label3 = tb.Label(new_run_frame, text = "mm", font = ("Helvetica", 12), bootstyle = "dark")
-unit_label3.grid(row = 5, column = 1, sticky = "w", padx = (0, 70))
+# Create the solution height entry box and its labels
+solution_label = tb.Label(new_run_frame, text = "Solution height (" + str(min_sol) + " mm - " + str(max_sol) + " mm):", font = ("Helvetica", 12), bootstyle = "dark")
+solution_label.grid(row = 2, column = 0, padx = (15, 0), pady = (10, 5), sticky = "w")
+solution_entry = tb.Entry(new_run_frame, font = ("Helvetica", 12), bootstyle = "secondary", width = 10)
+solution_entry.grid(row = 2, column = 1, padx = (0, 5), pady = 10, sticky = "e")
+solution_units = tb.Label(new_run_frame, text = "mm", font = ("Helvetica", 12), bootstyle = "dark")
+solution_units.grid(row = 2, column = 2, sticky = "w", padx = (0, 15))
 
-# Create the fourth entry box and its labels
-label4 = tb.Label(new_run_frame, text = "Enter the withdrawal speed in millimeters per second:\n (speeds range from 0.1 mm/s to 50.0 mm/s)", font = ("Helvetica", 12), bootstyle = "dark")
-label4.grid(row = 6, column = 0, columnspan = 2, padx = 15, pady = (10, 5), sticky = "w")
-entry4 = tb.Entry(new_run_frame, font = ("Helvetica", 12), bootstyle = "secondary", width = 10)
-entry4.grid(row = 7, column = 0, padx = (0, 5), pady = 10, sticky = "e")
-unit_label4 = tb.Label(new_run_frame, text = "mm/s", font = ("Helvetica", 12), bootstyle = "dark")
-unit_label4.grid(row = 7, column = 1, sticky = "w", padx = (0, 70))
+# Create the dipping depth entry box and its labels
+depth_label = tb.Label(new_run_frame, text = "Dipping depth (max. = (sol. ht. - 13) - \nremainder((sol. ht. - 13)/(sub. len. - 13)) mm):", font = ("Helvetica", 12), bootstyle = "dark")
+depth_label.grid(row = 3, column = 0, padx = (15, 0), pady = (10, 5), sticky = "w")
+depth_entry = tb.Entry(new_run_frame, font = ("Helvetica", 12), bootstyle = "secondary", width = 10)
+depth_entry.grid(row = 3, column = 1, padx = (0, 5), pady = 10, sticky = "e")
+depth_units = tb.Label(new_run_frame, text = "mm", font = ("Helvetica", 12), bootstyle = "dark")
+depth_units.grid(row = 3, column = 2, sticky = "w", padx = (0, 15))
 
-# Create the fifth entry box and its labels
-label5 = tb.Label(new_run_frame, text = "Enter the substrate submersion time in seconds:", font = ("Helvetica", 12), bootstyle = "dark")
-label5.grid(row = 8, column = 0, columnspan = 2, padx = 15, pady = (10, 5), sticky = "w")
-entry5 = tb.Entry(new_run_frame, font = ("Helvetica", 12), bootstyle = "secondary", width = 10)
-entry5.grid(row = 9, column = 0, padx = (0, 5), pady = 10, sticky = "e")
-unit_label5 = tb.Label(new_run_frame, text = "s", font = ("Helvetica", 12), bootstyle = "dark")
-unit_label5.grid(row = 9, column = 1, sticky = "w", padx = (0, 70))
+# Create a toggle to autofill the maximum dipping depth
+depth_var = IntVar()
+depth_toggle = tb.Checkbutton(new_run_frame, text = "Check box for automatic maximum dipping depth.", bootstyle = "info", variable = depth_var, onvalue = 1, offvalue = 0, command = lambda: toggler("d"))
+depth_toggle.grid(row = 4, column = 0, columnspan = 2, padx = 15, pady = (10, 5), sticky = "w")
 
-# Create the sixth entry box and its labels
-label6 = tb.Label(new_run_frame, text = "Enter the number of dips:", font = ("Helvetica", 12), bootstyle = "dark")
-label6.grid(row = 10, column = 0, columnspan = 2, padx = 15, pady = (10, 5), sticky = "w")
-entry6 = tb.Entry(new_run_frame, font = ("Helvetica", 12), bootstyle = "secondary", width = 10)
-entry6.grid(row = 11, column = 0, padx = (0, 5), pady = 10, sticky = "e")
-unit_label6 = tb.Label(new_run_frame, text = "dips", font = ("Helvetica", 12), bootstyle = "dark")
-unit_label6.grid(row = 11, column = 1, sticky = "w", padx = (0, 70))
+# Create the immersion speed entry box and labels
+immersion_label = tb.Label(new_run_frame, text = "Immersion speed (" + str(min_speed) + " mm/s - " + str(max_speed) + " mm/s):", font = ("Helvetica", 12), bootstyle = "dark")
+immersion_label.grid(row = 5, column = 0, padx = (15, 0), pady = (10, 5), sticky = "w")
+immersion_entry = tb.Entry(new_run_frame, font = ("Helvetica", 12), bootstyle = "secondary", width = 10)
+immersion_entry.grid(row = 5, column = 1, padx = (0, 5), pady = 10, sticky = "e")
+immersion_units = tb.Label(new_run_frame, text = "mm/s", font = ("Helvetica", 12), bootstyle = "dark")
+immersion_units.grid(row = 5, column = 2, sticky = "w", padx = (0, 15))
+
+# Create a toggle to autofill a standard immersion speed
+immersion_var = IntVar()
+immersion_toggle = tb.Checkbutton(new_run_frame, text = "Check box for standard immersion speed.", bootstyle = "info", variable = immersion_var, onvalue = 1, offvalue = 0, command = lambda: toggler("i"))
+immersion_toggle.grid(row = 6, column = 0, columnspan = 2, padx = 15, pady = (10, 5), sticky = "w")
+
+# Create the withdrawal speed entry box and its labels
+withdrawal_label = tb.Label(new_run_frame, text = "Withdrawal speed (" + str(min_speed) + " mm/s - " + str(max_speed) + " mm/s):", font = ("Helvetica", 12), bootstyle = "dark")
+withdrawal_label.grid(row = 7, column = 0, padx = (15, 0), pady = (10, 5), sticky = "w")
+withdrawal_entry = tb.Entry(new_run_frame, font = ("Helvetica", 12), bootstyle = "secondary", width = 10)
+withdrawal_entry.grid(row = 7, column = 1, padx = (0, 5), pady = 10, sticky = "e")
+withdrawal_units = tb.Label(new_run_frame, text = "mm/s", font = ("Helvetica", 12), bootstyle = "dark")
+withdrawal_units.grid(row = 7, column = 2, sticky = "w", padx = (0, 15))
+
+# Create the submersion time entry box and its labels
+submersion_label = tb.Label(new_run_frame, text = "Submersion time (max. " + str(max_time) + " s):", font = ("Helvetica", 12), bootstyle = "dark")
+submersion_label.grid(row = 8, column = 0, padx = (15, 0), pady = (10, 5), sticky = "w")
+submersion_entry = tb.Entry(new_run_frame, font = ("Helvetica", 12), bootstyle = "secondary", width = 10)
+submersion_entry.grid(row = 8, column = 1, padx = (0, 5), pady = 10, sticky = "e")
+submersion_units = tb.Label(new_run_frame, text = "s", font = ("Helvetica", 12), bootstyle = "dark")
+submersion_units.grid(row = 8, column = 2, sticky = "w", padx = (0, 15))
+
+# Create the dips number entry box and its labels
+dips_label = tb.Label(new_run_frame, text = "Number of dips (" + str(min_dip) + " - " + str(max_dip) + "):", font = ("Helvetica", 12), bootstyle = "dark")
+dips_label.grid(row = 9, column = 0, padx = (15, 0), pady = (10, 5), sticky = "w")
+dips_entry = tb.Entry(new_run_frame, font = ("Helvetica", 12), bootstyle = "secondary", width = 10)
+dips_entry.grid(row = 9, column = 1, padx = (0, 5), pady = 10, sticky = "e")
+dips_units = tb.Label(new_run_frame, text = "dips", font = ("Helvetica", 12), bootstyle = "dark")
+dips_units.grid(row = 9, column = 2, sticky = "w", padx = (0, 15))
 
 # Create an edit button
 clear_button = tb.Button(new_run_frame, text = "Clear All", bootstyle = "secondary", width = 20, command = clear_all)
-clear_button.grid(row = 12, column = 0, padx = (30, 15), pady = (10, 15))
+clear_button.grid(row = 10, column = 0, padx = (30, 15), pady = (10, 15))
 
 # Create a save button
 lock_unlock_button = tb.Button(new_run_frame, text = "Lock Parameters", bootstyle = "success", width = 20, command = new_run_lock_unlock)
-lock_unlock_button.grid(row = 12, column = 1, padx = (15, 30), pady = (10, 15), sticky = "w")
+lock_unlock_button.grid(row = 10, column = 1, columnspan = 2, padx = (15, 30), pady = (10, 15), sticky = "w")
 
 
 ###

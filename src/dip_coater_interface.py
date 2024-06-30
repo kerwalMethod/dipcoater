@@ -443,7 +443,7 @@ new_run_frame = tb.Labelframe(root, text = "New Run", bootstyle = "primary")
 new_run_frame.grid(row = 1, column = 0, columnspan = 2, padx = 5, pady = 5)
 
 # Create the descriptor for substrate length, solution height, and dip depth
-measurements_descriptor = tb.Label(new_run_frame, text = "Enter all physical dimensions in millimeters, all speeds in millimeters \nper second, and all times in seconds.", font = ("Helvetica", 14), bootstyle = "dark")
+measurements_descriptor = tb.Label(new_run_frame, text = "Enter all physical dimensions in millimeters, all speeds in millimeters \nper second, and all times in seconds. Note that the maximum \ndipping depth depends on the first two parameters \nand is always less than the substrate length", font = ("Helvetica", 12), bootstyle = "dark")
 measurements_descriptor.grid(row = 0, column = 0, columnspan = 3, padx = 15, pady = (10,5), sticky = "w")
 
 # Create the substrate length entry box and its labels
@@ -463,7 +463,7 @@ solution_units = tb.Label(new_run_frame, text = "mm", font = ("Helvetica", 12), 
 solution_units.grid(row = 2, column = 2, sticky = "w", padx = (0, 15))
 
 # Create the dipping depth entry box and its labels
-depth_label = tb.Label(new_run_frame, text = "Dipping depth (max. = (sol. ht. - 13) - \nremainder((sol. ht. - 13)/(sub. len. - 13)) mm):", font = ("Helvetica", 12), bootstyle = "dark")
+depth_label = tb.Label(new_run_frame, text = "Dipping depth:", font = ("Helvetica", 12), bootstyle = "dark")
 depth_label.grid(row = 3, column = 0, padx = (15, 0), pady = (10, 5), sticky = "w")
 depth_entry = tb.Entry(new_run_frame, font = ("Helvetica", 12), bootstyle = "secondary", width = 10)
 depth_entry.grid(row = 3, column = 1, padx = (0, 5), pady = 10, sticky = "e")

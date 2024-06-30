@@ -416,7 +416,7 @@ shutdown_button = tb.Button(system_frame, text = "Shutdown", bootstyle = "second
 shutdown_button.grid(row = 0, column = 0, padx = (9, 5), pady = (7, 10))
 
 exit_button = tb.Button(system_frame, text = "Exit", bootstyle = "secondary", width = 6, command = exit_program)
-exit_button.grid(row = 0, column = 1, padx = (5, 9), pady = (7, 10))
+exit_button.grid(row = 0, column = 1, padx = (4, 9), pady = (7, 10))
 
 
 ###
@@ -432,7 +432,7 @@ new_run_button.grid(row = 0, column = 0, padx = (9, 5), pady = (7, 10))
 
 # Create a saved runs mode button
 saved_runs_button = tb.Button(control_frame, text = "Saved Runs", bootstyle = "primary", width = 11, command = saved_runs_switch)
-saved_runs_button.grid(row = 0, column = 2, padx = (5, 9), pady = (7, 10))
+saved_runs_button.grid(row = 0, column = 2, padx = (4, 9), pady = (7, 10))
 
 
 ###

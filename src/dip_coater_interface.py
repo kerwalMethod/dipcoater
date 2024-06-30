@@ -424,7 +424,7 @@ exit_button.grid(row = 0, column = 1, padx = (3, 9), pady = (7, 10))
 
 # Create the control modes frame
 control_frame = tb.Labelframe(root, text = "Control Modes", bootstyle = "primary")
-control_frame.grid(row = 0, column = 1, padx = (1, 5), pady = (5, 0))
+control_frame.grid(row = 0, column = 1, padx = (2, 5), pady = (5, 0))
 
 # Create an new run mode button
 new_run_button = tb.Button(control_frame, text = "New Run", bootstyle = "primary, outline", width = 11, command = new_run_switch)

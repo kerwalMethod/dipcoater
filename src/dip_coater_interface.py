@@ -125,16 +125,23 @@ def saved_runs_switch():
 ###
 
 
-# Define the maximums for run parameters
-min_len = 40
-max_len = 140
-min_sol = 40
-max_sol = 140
-min_speed = 0.1
-max_speed = 35
-max_time = 120
-min_dip = 1
-max_dip = 10
+# Create a function to switch to the next entry box
+def go_to_next_entry(x):
+    
+    if x == 1:
+        substrate_entry.focus_set()
+    elif x == 2:
+        solution_entry.focus_set()
+    elif x == 3:
+        depth_entry.focus_set()
+    elif x == 4:
+        immersion_entry.focus_set()
+    elif x == 5:
+        withdrawal_entry.focus_set()
+    elif x == 6:
+        submersion_entry.focus_set()
+    elif x == 7:
+        dips_entry.focus_set()
 
 # Create a function for the two toggles
 def toggler(x):
@@ -169,6 +176,17 @@ def toggler(x):
         elif immersion_var.get() == 0:
             immersion_entry.config(state = "enabled")
             immersion_entry.delete(0, END)
+
+# Define the maximums for run parameters
+min_len = 40
+max_len = 140
+min_sol = 40
+max_sol = 140
+min_speed = 0.1
+max_speed = 35
+max_time = 120
+min_dip = 1
+max_dip = 10
 
 # Create a list for run parameters
 parameters = []
@@ -477,7 +495,7 @@ depth_units.grid(row = 3, column = 3, sticky = "w", padx = (0, 15), pady = (17, 
 
 # Create a toggle to autofill the maximum dipping depth
 depth_var = IntVar()
-depth_toggle = tb.Checkbutton(new_run_frame, text = "Check box for automatic maximum dipping depth.", bootstyle = "info", variable = depth_var, onvalue = 1, offvalue = 0, command = lambda: toggler("d"))
+depth_toggle = tb.Checkbutton(new_run_frame, text = "Toggle for automatic maximum dipping depth.", bootstyle = "info, square-toggle", variable = depth_var, onvalue = 1, offvalue = 0, command = lambda: toggler("d"))
 depth_toggle.grid(row = 4, column = 0, columnspan = 3, padx = 15, pady = (7, 8), sticky = "w")
 
 # Create the immersion speed entry box and labels
@@ -490,7 +508,7 @@ immersion_units.grid(row = 5, column = 3, sticky = "w", padx = (0, 15), pady = (
 
 # Create a toggle to autofill a standard immersion speed
 immersion_var = IntVar()
-immersion_toggle = tb.Checkbutton(new_run_frame, text = "Check box for standard immersion speed.", bootstyle = "info", variable = immersion_var, onvalue = 1, offvalue = 0, command = lambda: toggler("i"))
+immersion_toggle = tb.Checkbutton(new_run_frame, text = "Toggle for standard immersion speed.", bootstyle = "info, square-toggle", variable = immersion_var, onvalue = 1, offvalue = 0, command = lambda: toggler("i"))
 immersion_toggle.grid(row = 6, column = 0, columnspan = 3, padx = 15, pady = (7, 8), sticky = "w")
 
 # Create the withdrawal speed entry box and its labels
@@ -524,6 +542,15 @@ clear_button.grid(row = 10, column = 0, padx = (30, 15), pady = 15)
 # Create a save button
 lock_unlock_button = tb.Button(new_run_frame, text = "Lock Parameters", bootstyle = "success", width = 20, command = new_run_lock_unlock)
 lock_unlock_button.grid(row = 10, column = 1, columnspan = 3, padx = (15, 30), pady = 15, sticky = "w")
+
+# Bind the entry boxes to the return key
+substrate_entry.bind('<KP_Enter>', lambda event: go_to_next_entry(2))
+solution_entry.bind('<KP_Enter>', lambda event: go_to_next_entry(3))
+depth_entry.bind('<KP_Enter>', lambda event: go_to_next_entry(4))
+immersion_entry.bind('<KP_Enter>', lambda event: go_to_next_entry(5))
+withdrawal_entry.bind('<KP_Enter>', lambda event: go_to_next_entry(6))
+submersion_entry.bind('<KP_Enter>', lambda event: go_to_next_entry(7))
+dips_entry.bind('<KP_Enter>', lambda event: go_to_next_entry(1))
 
 
 ###

@@ -412,11 +412,11 @@ def cancel():
 system_frame = tb.Labelframe(root, text = "System", bootstyle = "primary")
 system_frame.grid(row = 0, column = 0, padx = (5, 0), pady = (5, 0))
 
-shutdown_button = tb.Button(system_frame, text = "Shutdown", bootstyle = "secondary", command = shutdown)
+shutdown_button = tb.Button(system_frame, text = "Shutdown", bootstyle = "secondary", width = 9, command = shutdown)
 shutdown_button.grid(row = 0, column = 0, padx = (9, 5), pady = (7, 10))
 
-exit_button = tb.Button(system_frame, text = "Exit", bootstyle = "secondary", command = exit_program)
-exit_button.grid(row = 0, column = 1, padx = (5, 9), pady = (7, 10))
+exit_button = tb.Button(system_frame, text = "Exit", bootstyle = "secondary", width = 6, command = exit_program)
+exit_button.grid(row = 0, column = 1, padx = (3, 9), pady = (7, 10))
 
 
 ###
@@ -424,15 +424,15 @@ exit_button.grid(row = 0, column = 1, padx = (5, 9), pady = (7, 10))
 
 # Create the control modes frame
 control_frame = tb.Labelframe(root, text = "Control Modes", bootstyle = "primary")
-control_frame.grid(row = 0, column = 1, padx = (3, 5), pady = (5, 0))
+control_frame.grid(row = 0, column = 1, padx = (2, 5), pady = (5, 0))
 
 # Create an new run mode button
-new_run_button = tb.Button(control_frame, text = "New Run", bootstyle = "primary, outline", width = 10, command = new_run_switch)
+new_run_button = tb.Button(control_frame, text = "New Run", bootstyle = "primary, outline", width = 11, command = new_run_switch)
 new_run_button.grid(row = 0, column = 0, padx = (9, 5), pady = (7, 10))
 
 # Create a saved runs mode button
-saved_runs_button = tb.Button(control_frame, text = "Saved Runs", bootstyle = "primary", width = 10, command = saved_runs_switch)
-saved_runs_button.grid(row = 0, column = 2, padx = (5, 9), pady = (7, 10))
+saved_runs_button = tb.Button(control_frame, text = "Saved Runs", bootstyle = "primary", width = 11, command = saved_runs_switch)
+saved_runs_button.grid(row = 0, column = 2, padx = (3, 9), pady = (7, 10))
 
 
 ###
@@ -443,82 +443,82 @@ new_run_frame = tb.Labelframe(root, text = "New Run", bootstyle = "primary")
 new_run_frame.grid(row = 1, column = 0, columnspan = 2, padx = 5, pady = 5)
 
 # Create the descriptor for substrate length, solution height, and dip depth
-measurements_descriptor = tb.Label(new_run_frame, text = "Enter all physical dimensions in millimeters, all speeds in millimeters \nper second, and all times in seconds.", font = ("Helvetica", 14), bootstyle = "dark")
-measurements_descriptor.grid(row = 0, column = 0, columnspan = 3, padx = 15, pady = (10,5), sticky = "w")
+measurements_descriptor = tb.Label(new_run_frame, text = "Enter all physical dimensions in millimeters, all speeds in \nmillimeters per second, and all times in seconds. Note that \nthe maximum dipping depth depends on the first two \nparameters and is always less than the substrate length \nby at least 13 mm.", font = ("Helvetica", 12), bootstyle = "dark")
+measurements_descriptor.grid(row = 0, column = 0, columnspan = 4, padx = 15, pady = (10, 4), sticky = "w")
 
 # Create the substrate length entry box and its labels
-substrate_label = tb.Label(new_run_frame, text = "Substrate length (" + str(min_len) + " mm - " + str(max_len) + " mm):", font = ("Helvetica", 12), bootstyle = "dark")
-substrate_label.grid(row = 1, column = 0, padx = (15, 0), pady = (10, 5), sticky = "w")
+substrate_label = tb.Label(new_run_frame, text = "Substrate length (" + str(min_len) + " - " + str(max_len) + " mm):", font = ("Helvetica", 12), bootstyle = "dark")
+substrate_label.grid(row = 1, column = 0, columnspan = 2, padx = (15, 5), pady = (17, 5), sticky = "w")
 substrate_entry = tb.Entry(new_run_frame, font = ("Helvetica", 12), bootstyle = "secondary", width = 10)
-substrate_entry.grid(row = 1, column = 1, padx = (0, 5), pady = 10, sticky = "e")
+substrate_entry.grid(row = 1, column = 2, padx = (0, 5), pady = (17, 5), sticky = "e")
 substrate_units = tb.Label(new_run_frame, text = "mm", font = ("Helvetica", 12), bootstyle = "dark")
-substrate_units.grid(row = 1, column = 2, sticky = "w", padx = (0, 15))
+substrate_units.grid(row = 1, column = 3, sticky = "w", padx = (0, 15), pady = (17, 5))
 
 # Create the solution height entry box and its labels
-solution_label = tb.Label(new_run_frame, text = "Solution height (" + str(min_sol) + " mm - " + str(max_sol) + " mm):", font = ("Helvetica", 12), bootstyle = "dark")
-solution_label.grid(row = 2, column = 0, padx = (15, 0), pady = (10, 5), sticky = "w")
+solution_label = tb.Label(new_run_frame, text = "Solution height (" + str(min_sol) + " - " + str(max_sol) + " mm):", font = ("Helvetica", 12), bootstyle = "dark")
+solution_label.grid(row = 2, column = 0, columnspan = 2, padx = (15, 5), pady = (17, 5), sticky = "w")
 solution_entry = tb.Entry(new_run_frame, font = ("Helvetica", 12), bootstyle = "secondary", width = 10)
-solution_entry.grid(row = 2, column = 1, padx = (0, 5), pady = 10, sticky = "e")
+solution_entry.grid(row = 2, column = 2, padx = (0, 5), pady = (17, 5), sticky = "e")
 solution_units = tb.Label(new_run_frame, text = "mm", font = ("Helvetica", 12), bootstyle = "dark")
-solution_units.grid(row = 2, column = 2, sticky = "w", padx = (0, 15))
+solution_units.grid(row = 2, column = 3, sticky = "w", padx = (0, 15), pady = (17, 5))
 
 # Create the dipping depth entry box and its labels
-depth_label = tb.Label(new_run_frame, text = "Dipping depth (max. = (sol. ht. - 13) - \nremainder((sol. ht. - 13)/(sub. len. - 13)) mm):", font = ("Helvetica", 12), bootstyle = "dark")
-depth_label.grid(row = 3, column = 0, padx = (15, 0), pady = (10, 5), sticky = "w")
+depth_label = tb.Label(new_run_frame, text = "Substrate dipping depth:", font = ("Helvetica", 12), bootstyle = "dark")
+depth_label.grid(row = 3, column = 0, padx = (15, 5), pady = (17, 5), sticky = "w")
 depth_entry = tb.Entry(new_run_frame, font = ("Helvetica", 12), bootstyle = "secondary", width = 10)
-depth_entry.grid(row = 3, column = 1, padx = (0, 5), pady = 10, sticky = "e")
+depth_entry.grid(row = 3, column = 2, padx = (0, 5), pady = (15, 5), sticky = "e")
 depth_units = tb.Label(new_run_frame, text = "mm", font = ("Helvetica", 12), bootstyle = "dark")
-depth_units.grid(row = 3, column = 2, sticky = "w", padx = (0, 15))
+depth_units.grid(row = 3, column = 3, sticky = "w", padx = (0, 15), pady = (17, 5))
 
 # Create a toggle to autofill the maximum dipping depth
 depth_var = IntVar()
 depth_toggle = tb.Checkbutton(new_run_frame, text = "Check box for automatic maximum dipping depth.", bootstyle = "info", variable = depth_var, onvalue = 1, offvalue = 0, command = lambda: toggler("d"))
-depth_toggle.grid(row = 4, column = 0, columnspan = 2, padx = 15, pady = (10, 5), sticky = "w")
+depth_toggle.grid(row = 4, column = 0, columnspan = 3, padx = 15, pady = (7, 8), sticky = "w")
 
 # Create the immersion speed entry box and labels
-immersion_label = tb.Label(new_run_frame, text = "Immersion speed (" + str(min_speed) + " mm/s - " + str(max_speed) + " mm/s):", font = ("Helvetica", 12), bootstyle = "dark")
-immersion_label.grid(row = 5, column = 0, padx = (15, 0), pady = (10, 5), sticky = "w")
+immersion_label = tb.Label(new_run_frame, text = "Immersion speed (" + str(min_speed) + " - " + str(max_speed) + " mm/s):", font = ("Helvetica", 12), bootstyle = "dark")
+immersion_label.grid(row = 5, column = 0, columnspan = 2, padx = (15, 5), pady = (15, 5), sticky = "w")
 immersion_entry = tb.Entry(new_run_frame, font = ("Helvetica", 12), bootstyle = "secondary", width = 10)
-immersion_entry.grid(row = 5, column = 1, padx = (0, 5), pady = 10, sticky = "e")
+immersion_entry.grid(row = 5, column = 2, padx = (0, 5), pady = (16, 5), sticky = "e")
 immersion_units = tb.Label(new_run_frame, text = "mm/s", font = ("Helvetica", 12), bootstyle = "dark")
-immersion_units.grid(row = 5, column = 2, sticky = "w", padx = (0, 15))
+immersion_units.grid(row = 5, column = 3, sticky = "w", padx = (0, 15), pady = (16, 5))
 
 # Create a toggle to autofill a standard immersion speed
 immersion_var = IntVar()
 immersion_toggle = tb.Checkbutton(new_run_frame, text = "Check box for standard immersion speed.", bootstyle = "info", variable = immersion_var, onvalue = 1, offvalue = 0, command = lambda: toggler("i"))
-immersion_toggle.grid(row = 6, column = 0, columnspan = 2, padx = 15, pady = (10, 5), sticky = "w")
+immersion_toggle.grid(row = 6, column = 0, columnspan = 3, padx = 15, pady = (7, 8), sticky = "w")
 
 # Create the withdrawal speed entry box and its labels
-withdrawal_label = tb.Label(new_run_frame, text = "Withdrawal speed (" + str(min_speed) + " mm/s - " + str(max_speed) + " mm/s):", font = ("Helvetica", 12), bootstyle = "dark")
-withdrawal_label.grid(row = 7, column = 0, padx = (15, 0), pady = (10, 5), sticky = "w")
+withdrawal_label = tb.Label(new_run_frame, text = "Withdrawal speed (" + str(min_speed) + " - " + str(max_speed) + " mm/s):", font = ("Helvetica", 12), bootstyle = "dark")
+withdrawal_label.grid(row = 7, column = 0, columnspan = 2, padx = (15, 5), pady = (15, 5), sticky = "w")
 withdrawal_entry = tb.Entry(new_run_frame, font = ("Helvetica", 12), bootstyle = "secondary", width = 10)
-withdrawal_entry.grid(row = 7, column = 1, padx = (0, 5), pady = 10, sticky = "e")
+withdrawal_entry.grid(row = 7, column = 2, padx = (0, 5), pady = (16, 5), sticky = "e")
 withdrawal_units = tb.Label(new_run_frame, text = "mm/s", font = ("Helvetica", 12), bootstyle = "dark")
-withdrawal_units.grid(row = 7, column = 2, sticky = "w", padx = (0, 15))
+withdrawal_units.grid(row = 7, column = 3, sticky = "w", padx = (0, 15), pady = (16, 5))
 
 # Create the submersion time entry box and its labels
 submersion_label = tb.Label(new_run_frame, text = "Submersion time (max. " + str(max_time) + " s):", font = ("Helvetica", 12), bootstyle = "dark")
-submersion_label.grid(row = 8, column = 0, padx = (15, 0), pady = (10, 5), sticky = "w")
+submersion_label.grid(row = 8, column = 0, columnspan = 2, padx = (15, 5), pady = (17, 5), sticky = "w")
 submersion_entry = tb.Entry(new_run_frame, font = ("Helvetica", 12), bootstyle = "secondary", width = 10)
-submersion_entry.grid(row = 8, column = 1, padx = (0, 5), pady = 10, sticky = "e")
+submersion_entry.grid(row = 8, column = 2, padx = (0, 5), pady = (17, 5), sticky = "e")
 submersion_units = tb.Label(new_run_frame, text = "s", font = ("Helvetica", 12), bootstyle = "dark")
-submersion_units.grid(row = 8, column = 2, sticky = "w", padx = (0, 15))
+submersion_units.grid(row = 8, column = 3, sticky = "w", padx = (0, 15), pady = (17, 5))
 
 # Create the dips number entry box and its labels
 dips_label = tb.Label(new_run_frame, text = "Number of dips (" + str(min_dip) + " - " + str(max_dip) + "):", font = ("Helvetica", 12), bootstyle = "dark")
-dips_label.grid(row = 9, column = 0, padx = (15, 0), pady = (10, 5), sticky = "w")
+dips_label.grid(row = 9, column = 0, padx = (15, 5), pady = (17, 5), sticky = "w")
 dips_entry = tb.Entry(new_run_frame, font = ("Helvetica", 12), bootstyle = "secondary", width = 10)
-dips_entry.grid(row = 9, column = 1, padx = (0, 5), pady = 10, sticky = "e")
+dips_entry.grid(row = 9, column = 2, padx = (0, 5), pady = (17, 5), sticky = "e")
 dips_units = tb.Label(new_run_frame, text = "dips", font = ("Helvetica", 12), bootstyle = "dark")
-dips_units.grid(row = 9, column = 2, sticky = "w", padx = (0, 15))
+dips_units.grid(row = 9, column = 3, sticky = "w", padx = (0, 15), pady = (17, 5))
 
 # Create an edit button
 clear_button = tb.Button(new_run_frame, text = "Clear All", bootstyle = "secondary", width = 20, command = clear_all)
-clear_button.grid(row = 10, column = 0, padx = (30, 15), pady = (10, 15))
+clear_button.grid(row = 10, column = 0, padx = (30, 15), pady = 15)
 
 # Create a save button
 lock_unlock_button = tb.Button(new_run_frame, text = "Lock Parameters", bootstyle = "success", width = 20, command = new_run_lock_unlock)
-lock_unlock_button.grid(row = 10, column = 1, columnspan = 2, padx = (15, 30), pady = (10, 15), sticky = "w")
+lock_unlock_button.grid(row = 10, column = 1, columnspan = 3, padx = (15, 30), pady = 15, sticky = "w")
 
 
 ###

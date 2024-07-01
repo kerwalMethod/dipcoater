@@ -558,11 +558,11 @@ dips_units.grid(row = 9, column = 3, sticky = "w", padx = (0, 15), pady = (17, 5
 clear_button = tb.Button(new_run_frame, text = "Clear All", bootstyle = "secondary", width = 20, command = clear_all)
 clear_button.grid(row = 10, column = 0, padx = (30, 15), pady = 15)
 
-# Create a save button
+# Create a lock/unlock button
 lock_unlock_button = tb.Button(new_run_frame, text = "Lock Parameters", bootstyle = "success", width = 20, command = new_run_lock_unlock)
 lock_unlock_button.grid(row = 10, column = 1, columnspan = 3, padx = (15, 30), pady = 15, sticky = "w")
 
-# Bind the entry boxes to the return key
+# Bind the new run frame, entry boxes, clear all button, and lock/unlock button to the return key
 new_run_frame.bind('<KP_Enter>', lambda event: go_to_next_entry(next_entry))
 substrate_entry.bind('<KP_Enter>', lambda event: go_to_next_entry(2))
 solution_entry.bind('<KP_Enter>', lambda event: go_to_next_entry(3))
@@ -573,6 +573,8 @@ submersion_entry.bind('<KP_Enter>', lambda event: go_to_next_entry(7))
 dips_entry.bind('<KP_Enter>', lambda event: go_to_next_entry(1))
 depth_toggle.bind('<KP_Enter>', lambda event: go_to_next_entry(next_entry))
 immersion_toggle.bind('<KP_Enter>', lambda event: go_to_next_entry(next_entry))
+clear_button.bind('<KP_Enter>', lambda event: go_to_next_entry(next_entry))
+lock_unlock_button.bind('<KP_Enter>', lambda event: go_to_next_entry(next_entry))
 
 # Clear the automatically entered zeros from the frist two entry boxes and set the focus on the entire labelframe
 substrate_entry.delete(0, END)
@@ -590,11 +592,11 @@ saved_runs_frame = tb.Labelframe(root, text = "Saved Runs", bootstyle = "primary
 run_list = ScrolledFrame(saved_runs_frame, bootstyle = "light", width = 410, height = 510)
 run_list.grid(row = 1, column = 0, columnspan = 2, padx = 24, pady = 15)
 
-# Create an edit button
+# Create a delete button
 delete_button = tb.Button(saved_runs_frame, text = "Delete", bootstyle = "danger", width = 20, command = delete_run, state = "disabled")
 delete_button.grid(row = 0, column = 0, padx = 15, pady = (17, 7))
 
-# Create a delete button
+# Create a lock/unlock button
 lock_unlock_button3 = tb.Button(saved_runs_frame, text = "Lock Parameters", bootstyle = "success", width = 17, command = saved_runs_lock_unlock, state = "disabled")
 lock_unlock_button3.grid(row = 0, column = 1, padx = (10, 15), pady = (17, 7), sticky = "w")
 

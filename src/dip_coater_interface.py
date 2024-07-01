@@ -553,7 +553,7 @@ lock_unlock_button = tb.Button(new_run_frame, text = "Lock Parameters", bootstyl
 lock_unlock_button.grid(row = 10, column = 1, columnspan = 3, padx = (15, 30), pady = 15, sticky = "w")
 
 # Bind the entry boxes to the return key
-new_run_frame.biind('<KP_Enter>', lambda event: go_to_next_entry(next_entry))
+new_run_frame.bind('<KP_Enter>', lambda event: go_to_next_entry(next_entry))
 substrate_entry.bind('<KP_Enter>', lambda event: go_to_next_entry(2))
 solution_entry.bind('<KP_Enter>', lambda event: go_to_next_entry(3))
 depth_entry.bind('<KP_Enter>', lambda event: go_to_next_entry(4))

@@ -93,6 +93,7 @@ current_mode = 0
 # Create a function for the new run button
 def new_run_switch():
     global current_mode
+    global next_entry
 
     if current_mode == 1:
         saved_runs_frame.grid_forget()
@@ -100,6 +101,7 @@ def new_run_switch():
         new_run_frame.focus_set()
         new_run_button.config(bootstyle = "primary, outline")
         saved_runs_button.config(bootstyle = "primary")
+        next_entry = 1
         current_mode -= 1
 
     else:
@@ -126,25 +128,33 @@ def saved_runs_switch():
 
 
 # Create a variable to keep track of the entry box to focus on when none are selected
-next_entry = 7
+next_entry = 1
 
 # Create a function to switch to the next entry box
 def go_to_next_entry(x):
+    global next_entry
     
     if x == 1:
         substrate_entry.focus_set()
+        next_entry = 2
     elif x == 2:
         solution_entry.focus_set()
+        next_entry = 3
     elif x == 3:
         depth_entry.focus_set()
+        next_entry = 4
     elif x == 4:
         immersion_entry.focus_set()
+        next_entry = 5
     elif x == 5:
         withdrawal_entry.focus_set()
+        next_entry = 6
     elif x == 6:
         submersion_entry.focus_set()
+        next_entry = 7
     elif x == 7:
         dips_entry.focus_set()
+        next_entry = 1
 
 # Create a function to call the toggler function when either of the first two entry boxes changes
 def call_back(var, index, mode):
@@ -205,6 +215,7 @@ def new_run_lock_unlock():
     global parameters
     global state1
     global saved
+    global next_entry
 
     try:
 
@@ -275,6 +286,8 @@ def new_run_lock_unlock():
                 dips_entry.config(state = "enabled")
                 lock_unlock_button.config(text = "Lock Parameters", bootstyle = "success")
                 run_button.config(state = "disabled")
+                new_run_frame.focus_set()
+                next_entry = 1
                 state1 -= 1
 
     except:
@@ -282,6 +295,8 @@ def new_run_lock_unlock():
 
 # Create a function to clear the new run frame entry boxes
 def clear_all():
+    global next_entry
+    
     depth_var.set(0)
     toggler("d")
     immersion_var.set(0)
@@ -289,6 +304,9 @@ def clear_all():
 
     for x in (substrate_entry, solution_entry, depth_entry, immersion_entry, withdrawal_entry, submersion_entry, dips_entry):
         x.delete(0, END)
+
+    new_run_frame.focus_set()
+    next_entry = 1
 
 # Create a function to save a run
 def save_run():
@@ -548,12 +566,12 @@ dips_units.grid(row = 9, column = 3, sticky = "w", padx = (0, 15), pady = (17, 5
 clear_button = tb.Button(new_run_frame, text = "Clear All", bootstyle = "secondary", width = 20, command = clear_all)
 clear_button.grid(row = 10, column = 0, padx = (30, 15), pady = 15)
 
-# Create a save button
+# Create a lock/unlock button
 lock_unlock_button = tb.Button(new_run_frame, text = "Lock Parameters", bootstyle = "success", width = 20, command = new_run_lock_unlock)
 lock_unlock_button.grid(row = 10, column = 1, columnspan = 3, padx = (15, 30), pady = 15, sticky = "w")
 
-# Bind the entry boxes to the return key
-new_run_frame.biind('<KP_Enter>', lambda event: go_to_next_entry(next_entry))
+# Bind the new run frame, entry boxes, clear all button, and lock/unlock button to the return key
+new_run_frame.bind('<KP_Enter>', lambda event: go_to_next_entry(next_entry))
 substrate_entry.bind('<KP_Enter>', lambda event: go_to_next_entry(2))
 solution_entry.bind('<KP_Enter>', lambda event: go_to_next_entry(3))
 depth_entry.bind('<KP_Enter>', lambda event: go_to_next_entry(4))
@@ -561,10 +579,13 @@ immersion_entry.bind('<KP_Enter>', lambda event: go_to_next_entry(5))
 withdrawal_entry.bind('<KP_Enter>', lambda event: go_to_next_entry(6))
 submersion_entry.bind('<KP_Enter>', lambda event: go_to_next_entry(7))
 dips_entry.bind('<KP_Enter>', lambda event: go_to_next_entry(1))
+depth_toggle.bind('<KP_Enter>', lambda event: go_to_next_entry(next_entry))
+immersion_toggle.bind('<KP_Enter>', lambda event: go_to_next_entry(next_entry))
 
-# Clear the automatically entered zeros from the frist two entry boxes
+# Clear the automatically entered zeros from the frist two entry boxes and set the focus on the entire labelframe
 substrate_entry.delete(0, END)
 solution_entry.delete(0, END)
+new_run_frame.focus_set()
 
 
 ###
@@ -577,11 +598,11 @@ saved_runs_frame = tb.Labelframe(root, text = "Saved Runs", bootstyle = "primary
 run_list = ScrolledFrame(saved_runs_frame, bootstyle = "light", width = 410, height = 510)
 run_list.grid(row = 1, column = 0, columnspan = 2, padx = 24, pady = 15)
 
-# Create an edit button
+# Create a delete button
 delete_button = tb.Button(saved_runs_frame, text = "Delete", bootstyle = "danger", width = 20, command = delete_run, state = "disabled")
 delete_button.grid(row = 0, column = 0, padx = 15, pady = (17, 7))
 
-# Create a delete button
+# Create a lock/unlock button
 lock_unlock_button3 = tb.Button(saved_runs_frame, text = "Lock Parameters", bootstyle = "success", width = 17, command = saved_runs_lock_unlock, state = "disabled")
 lock_unlock_button3.grid(row = 0, column = 1, padx = (10, 15), pady = (17, 7), sticky = "w")
 

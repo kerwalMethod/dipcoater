@@ -215,6 +215,7 @@ def new_run_lock_unlock():
     global parameters
     global state1
     global saved
+    global next_entry
 
     try:
 
@@ -286,6 +287,7 @@ def new_run_lock_unlock():
                 lock_unlock_button.config(text = "Lock Parameters", bootstyle = "success")
                 run_button.config(state = "disabled")
                 new_run_frame.focus_set()
+                next_entry = 1
                 state1 -= 1
 
     except:
@@ -302,6 +304,7 @@ def clear_all():
         x.delete(0, END)
 
     new_run_frame.focus_set()
+    next_entry = 1
 
 # Create a function to save a run
 def save_run():

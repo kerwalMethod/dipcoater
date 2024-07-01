@@ -571,6 +571,8 @@ immersion_entry.bind('<KP_Enter>', lambda event: go_to_next_entry(5))
 withdrawal_entry.bind('<KP_Enter>', lambda event: go_to_next_entry(6))
 submersion_entry.bind('<KP_Enter>', lambda event: go_to_next_entry(7))
 dips_entry.bind('<KP_Enter>', lambda event: go_to_next_entry(1))
+depth_toggle.bind('<KP_Enter>', lambda event: go_to_next_entry(next_entry))
+immersion_toggle.bind('<KP_Enter>', lambda event: go_to_next_entry(next_entry))
 
 # Clear the automatically entered zeros from the frist two entry boxes and set the focus on the entire labelframe
 substrate_entry.delete(0, END)

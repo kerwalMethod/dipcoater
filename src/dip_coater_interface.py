@@ -93,6 +93,7 @@ current_mode = 0
 # Create a function for the new run button
 def new_run_switch():
     global current_mode
+    global next_entry
 
     if current_mode == 1:
         saved_runs_frame.grid_forget()
@@ -100,6 +101,7 @@ def new_run_switch():
         new_run_frame.focus_set()
         new_run_button.config(bootstyle = "primary, outline")
         saved_runs_button.config(bootstyle = "primary")
+        next_entry = 1
         current_mode -= 1
 
     else:
@@ -126,25 +128,33 @@ def saved_runs_switch():
 
 
 # Create a variable to keep track of the entry box to focus on when none are selected
-next_entry = 7
+next_entry = 1
 
 # Create a function to switch to the next entry box
 def go_to_next_entry(x):
+    global next_entry
     
     if x == 1:
         substrate_entry.focus_set()
+        next_entry = 2
     elif x == 2:
         solution_entry.focus_set()
+        next_entry = 3
     elif x == 3:
         depth_entry.focus_set()
+        next_entry = 4
     elif x == 4:
         immersion_entry.focus_set()
+        next_entry = 5
     elif x == 5:
         withdrawal_entry.focus_set()
+        next_entry = 6
     elif x == 6:
         submersion_entry.focus_set()
+        next_entry = 7
     elif x == 7:
         dips_entry.focus_set()
+        next_entry = 1
 
 # Create a function to call the toggler function when either of the first two entry boxes changes
 def call_back(var, index, mode):
@@ -562,9 +572,10 @@ withdrawal_entry.bind('<KP_Enter>', lambda event: go_to_next_entry(6))
 submersion_entry.bind('<KP_Enter>', lambda event: go_to_next_entry(7))
 dips_entry.bind('<KP_Enter>', lambda event: go_to_next_entry(1))
 
-# Clear the automatically entered zeros from the frist two entry boxes
+# Clear the automatically entered zeros from the frist two entry boxes and set the focus on the entire labelframe
 substrate_entry.delete(0, END)
 solution_entry.delete(0, END)
+new_run_frame.focus_set()
 
 
 ###

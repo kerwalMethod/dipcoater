@@ -295,6 +295,8 @@ def new_run_lock_unlock():
 
 # Create a function to clear the new run frame entry boxes
 def clear_all():
+    global next_entry
+    
     depth_var.set(0)
     toggler("d")
     immersion_var.set(0)

@@ -285,6 +285,7 @@ def new_run_lock_unlock():
                 dips_entry.config(state = "enabled")
                 lock_unlock_button.config(text = "Lock Parameters", bootstyle = "success")
                 run_button.config(state = "disabled")
+                new_run_frame.focus_set()
                 state1 -= 1
 
     except:
@@ -299,6 +300,8 @@ def clear_all():
 
     for x in (substrate_entry, solution_entry, depth_entry, immersion_entry, withdrawal_entry, submersion_entry, dips_entry):
         x.delete(0, END)
+
+    new_run_frame.focus_set()
 
 # Create a function to save a run
 def save_run():
@@ -573,8 +576,6 @@ submersion_entry.bind('<KP_Enter>', lambda event: go_to_next_entry(7))
 dips_entry.bind('<KP_Enter>', lambda event: go_to_next_entry(1))
 depth_toggle.bind('<KP_Enter>', lambda event: go_to_next_entry(next_entry))
 immersion_toggle.bind('<KP_Enter>', lambda event: go_to_next_entry(next_entry))
-clear_button.bind('<KP_Enter>', lambda event: go_to_next_entry(next_entry))
-lock_unlock_button.bind('<KP_Enter>', lambda event: go_to_next_entry(next_entry))
 
 # Clear the automatically entered zeros from the frist two entry boxes and set the focus on the entire labelframe
 substrate_entry.delete(0, END)

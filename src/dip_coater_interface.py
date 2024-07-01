@@ -143,29 +143,30 @@ def go_to_next_entry(x):
     elif x == 7:
         dips_entry.focus_set()
 
+# Create a function to call the toggler function when either of the first two entry boxes changes
+def call_back(var, index, mode):
+    toggler("d")
+
 # Create a function for the two toggles
 def toggler(x):
 
     if x == "d":
-        if depth_var.get() == 1:
-            
+        if depth_var.get() == 1:  
             try:
+                depth_entry.config(state = "enabled")
                 depth_entry.delete(0, END)
-                depth_entry.insert(0, (float(solution_entry.get()) - 13) - math.remainder((float(solution_entry.get()) - 13), (float(substrate_entry.get()) - 13)))
-                substrate_entry.config(state = "disabled")
-                solution_entry.config(state = "disabled")
+                if float(solution_entry.get()) >= float(substrate_entry.get()):
+                    depth_entry.insert(0, float(substrate_entry.get()) - 13)
+                else:
+                    depth_entry.insert(0, float(solution_entry.get()) - 13)
                 depth_entry.config(state = "disabled")
             except:
+                depth_entry.config(state = "enabled")
                 depth_entry.insert(0, "")
-                substrate_entry.config(state = "disabled")
-                solution_entry.config(state = "disabled")
                 depth_entry.config(state = "disabled")
 
         elif depth_var.get() == 0:
-            substrate_entry.config(state = "enabled")
-            solution_entry.config(state = "enabled")
             depth_entry.config(state = "enabled")
-            depth_entry.delete(0, END)
 
     elif x == "i":
         if immersion_var.get() == 1:
@@ -175,7 +176,6 @@ def toggler(x):
 
         elif immersion_var.get() == 0:
             immersion_entry.config(state = "enabled")
-            immersion_entry.delete(0, END)
 
 # Define the maximums for run parameters
 min_len = 40
@@ -206,9 +206,9 @@ def new_run_lock_unlock():
     try:
 
         if (float(substrate_entry.get()) < min_len or float(substrate_entry.get()) > max_len or float(solution_entry.get()) < min_sol or float(solution_entry.get()) > max_sol 
-            or float(depth_entry.get()) > (float(solution_entry.get()) - 13) - math.remainder((float(solution_entry.get()) - 13), (float(substrate_entry.get()) - 13)) 
-            or float(immersion_entry.get()) < min_speed or float(immersion_entry.get()) > max_speed or float(withdrawal_entry.get()) < min_speed or float(withdrawal_entry.get()) > max_speed 
-            or float(submersion_entry.get()) > max_time or int(dips_entry.get()) < min_dip or int(dips_entry.get()) > max_dip):
+            or float(depth_entry.get()) > (float(substrate_entry.get()) - 13) or float(depth_entry.get()) > (float(solution_entry.get()) - 13)
+            or float(immersion_entry.get()) < min_speed or float(immersion_entry.get()) > max_speed or float(withdrawal_entry.get()) < min_speed 
+            or float(withdrawal_entry.get()) > max_speed or float(submersion_entry.get()) > max_time or int(dips_entry.get()) < min_dip or int(dips_entry.get()) > max_dip):
 
             showerror(message = "One of the values you entered lies outside the allowable range!")
 
@@ -258,10 +258,10 @@ def new_run_lock_unlock():
                 depth_toggle.config(state = "enabled")
                 immersion_toggle.config(state = "enabled")
                 clear_button.config(text = "Clear All", bootstyle = "secondary", command = clear_all, state = "enabled")
+                substrate_entry.config(state = "enabled")
+                solution_entry.config(state = "enabled")
 
                 if depth_var.get() == 0:
-                    substrate_entry.config(state = "enabled")
-                    solution_entry.config(state = "enabled")
                     depth_entry.config(state = "enabled")
                 
                 if immersion_var.get() == 0:
@@ -284,7 +284,7 @@ def clear_all():
     immersion_var.set(0)
     toggler("i")
 
-    for x in (substrate_entry, solution_entry, withdrawal_entry, submersion_entry, dips_entry):
+    for x in (substrate_entry, solution_entry, depth_entry, immersion_entry, withdrawal_entry, submersion_entry, dips_entry):
         x.delete(0, END)
 
 # Create a function to save a run
@@ -361,10 +361,10 @@ def saved_runs_lock_unlock():
     if state4 == 0:
         conn = sqlite3.connect("savedruns.db")
         c = conn.cursor()
-        c.execute("SELECT 1 FROM savedruns WHERE oid = " + str(option.get()))
-        runs = c.fetchone()
-        for run in runs:
-            parameters.extend([run[0], run[1], run[2], run[3], run[4], run[5], run[6]])
+        c.execute("SELECT * FROM savedruns WHERE oid = " + str(option.get()))
+        run = c.fetchall()
+        for par in run:
+            parameters.extend([par[0], par[1], par[2], par[3], par[4], par[5], par[6]])
         conn.commit()
         conn.close()
 
@@ -465,6 +465,12 @@ saved_runs_button.grid(row = 0, column = 2, padx = (3, 9), pady = (7, 10))
 new_run_frame = tb.Labelframe(root, text = "New Run", bootstyle = "primary")
 new_run_frame.grid(row = 1, column = 0, columnspan = 2, padx = 5, pady = 5)
 
+# Create two variables for autofilling the depth entry box when the maximum depth toggle is on
+substrate_var = DoubleVar()
+solution_var = DoubleVar()
+substrate_var.trace_add("write", call_back)
+solution_var.trace_add("write", call_back)
+
 # Create the descriptor for substrate length, solution height, and dip depth
 measurements_descriptor = tb.Label(new_run_frame, text = "Enter all physical dimensions in millimeters, all speeds in \nmillimeters per second, and all times in seconds. Note that \nthe maximum dipping depth depends on the first two \nparameters and is always less than the substrate length \nby at least 13 mm.", font = ("Helvetica", 12), bootstyle = "dark")
 measurements_descriptor.grid(row = 0, column = 0, columnspan = 4, padx = 15, pady = (10, 4), sticky = "w")
@@ -472,7 +478,7 @@ measurements_descriptor.grid(row = 0, column = 0, columnspan = 4, padx = 15, pad
 # Create the substrate length entry box and its labels
 substrate_label = tb.Label(new_run_frame, text = "Substrate length (" + str(min_len) + " - " + str(max_len) + " mm):", font = ("Helvetica", 12), bootstyle = "dark")
 substrate_label.grid(row = 1, column = 0, columnspan = 2, padx = (15, 5), pady = (17, 5), sticky = "w")
-substrate_entry = tb.Entry(new_run_frame, font = ("Helvetica", 12), bootstyle = "secondary", width = 10)
+substrate_entry = tb.Entry(new_run_frame, font = ("Helvetica", 12), bootstyle = "secondary", width = 10, textvariable = substrate_var)
 substrate_entry.grid(row = 1, column = 2, padx = (0, 5), pady = (17, 5), sticky = "e")
 substrate_units = tb.Label(new_run_frame, text = "mm", font = ("Helvetica", 12), bootstyle = "dark")
 substrate_units.grid(row = 1, column = 3, sticky = "w", padx = (0, 15), pady = (17, 5))
@@ -480,7 +486,7 @@ substrate_units.grid(row = 1, column = 3, sticky = "w", padx = (0, 15), pady = (
 # Create the solution height entry box and its labels
 solution_label = tb.Label(new_run_frame, text = "Solution height (" + str(min_sol) + " - " + str(max_sol) + " mm):", font = ("Helvetica", 12), bootstyle = "dark")
 solution_label.grid(row = 2, column = 0, columnspan = 2, padx = (15, 5), pady = (17, 5), sticky = "w")
-solution_entry = tb.Entry(new_run_frame, font = ("Helvetica", 12), bootstyle = "secondary", width = 10)
+solution_entry = tb.Entry(new_run_frame, font = ("Helvetica", 12), bootstyle = "secondary", width = 10, textvariable = solution_var)
 solution_entry.grid(row = 2, column = 2, padx = (0, 5), pady = (17, 5), sticky = "e")
 solution_units = tb.Label(new_run_frame, text = "mm", font = ("Helvetica", 12), bootstyle = "dark")
 solution_units.grid(row = 2, column = 3, sticky = "w", padx = (0, 15), pady = (17, 5))
@@ -551,6 +557,10 @@ immersion_entry.bind('<KP_Enter>', lambda event: go_to_next_entry(5))
 withdrawal_entry.bind('<KP_Enter>', lambda event: go_to_next_entry(6))
 submersion_entry.bind('<KP_Enter>', lambda event: go_to_next_entry(7))
 dips_entry.bind('<KP_Enter>', lambda event: go_to_next_entry(1))
+
+# Clear the automatically entered zeros from the frist two entry boxes
+substrate_entry.delete(0, END)
+solution_entry.delete(0, END)
 
 
 ###

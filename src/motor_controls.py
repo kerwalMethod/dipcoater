@@ -21,7 +21,7 @@ def run_dip_coater(run_parameters):
     upper_pause_command = "G4 P1000\n"
     commands = []
 
-    for dips in run_parameters[6]:
+    for dip in range(run_parameters[6]):
         commands.append(down_command)
         commands.append(dwell_command)
         commands.append(up_command)

@@ -29,7 +29,7 @@ def run_dip_coater(run_parameters):
         commands.append(up_command)
         commands.append(upper_pause_command)
 
-    commands.append("G0 X0 F600\n")
+    commands.append("G0 X5 F600\n")
     
     try:
         with serial.Serial(serial_port, baud_rate, timeout=1) as ser:
@@ -50,7 +50,7 @@ def get_run_duration(run_parameters):
     down_dwell = run_parameters[5] * 1000
     up_time = ((run_parameters[2] + 10) / run_parameters[4]) * 1000
     up_dwell = 1000
-    singular_up_time = ((240 - (run_parameters[0] + run_parameters[1] + 10)) / 10) * 1000
+    singular_up_time = (abs(240 - (run_parameters[0] + run_parameters[1] + 10 + 5)) / 10) * 1000
 
     total_time = home_time + singular_down_time + (down_time + down_dwell + up_time + up_dwell) * run_parameters[6] + singular_up_time
 

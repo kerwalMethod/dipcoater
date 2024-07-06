@@ -54,7 +54,7 @@ def get_run_duration(run_parameters):
 
     total_time = home_time + singular_down_time + (down_time + down_dwell + up_time + up_dwell) * run_parameters[6] + singular_up_time
 
-    return total_time
+    return int(total_time)
 
 # Create a function to stop the motor in an emergency and reset it
 def stop_and_reset():
@@ -76,3 +76,5 @@ def stop_and_reset():
 
     except serial.SerialException as e:
         print(f"Error opening or communicating with {serial_port}: {e}")
+
+    return int(response[2:7])

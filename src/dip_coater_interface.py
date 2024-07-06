@@ -447,27 +447,19 @@ def run():
 
     motor_controls.run_dip_coater(parameters)
 
-    wait_time = int(motor_controls.get_run_duration(parameters))
+    wait_time = motor_controls.get_run_duration(parameters)
 
     root.after(wait_time, reenabling)
 
 # Create a function to cancel a run
 def cancel():
     run_button.config(text = "Waiting for homing...", state = "disabled")
+
     motor_controls.stop_and_reset()
 
-    if current_mode == 0:
-        if not saved:
-            clear_button.config(state = "enabled")
-            lock_unlock_button.config(state = "enabled")
-        
-        else:
-            lock_unlock_button.config(state = "enabled")
+    wait_time = motor_controls.stop_and_reset()
 
-    elif current_mode == 1:
-        lock_unlock_button3.config(state = "enabled")
-
-    run_button.config(text = "RUN", bootstyle = "info", command = run)
+    root.after(wait_time, reenabling)
 
 
 ###

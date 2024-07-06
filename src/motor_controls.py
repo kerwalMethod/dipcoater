@@ -44,12 +44,15 @@ def run_dip_coater(run_parameters):
 
 def get_run_duration(run_parameters):
 
-    down_time = ((240 - (run_parameters[0] + run_parameters[1]) + run_parameters[2]) / run_parameters[3]) * 1000
+    home_time = 3000
+    singular_down_time = ((240 - (run_parameters[0] + run_parameters[1] + 10)) / run_parameters[3]) * 1000
+    down_time = ((run_parameters[2] + 10) / run_parameters[3]) * 1000
     down_dwell = run_parameters[5] * 1000
     up_time = ((run_parameters[2] + 10) / run_parameters[4]) * 1000
     up_dwell = 1000
+    singular_up_time = ((240 - (run_parameters[0] + run_parameters[1] + 10)) / 10) * 1000
 
-    total_time = 3000 + (down_time + down_dwell + up_time + up_dwell) * run_parameters[6] + (240 - (run_parameters[0] + run_parameters[1] + 10)) / (10)
+    total_time = home_time + singular_down_time + (down_time + down_dwell + up_time + up_dwell) * run_parameters[6] + singular_up_time
 
     return total_time
 

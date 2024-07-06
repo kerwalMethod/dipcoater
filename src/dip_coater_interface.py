@@ -453,8 +453,8 @@ def run():
 
 # Create a function to cancel a run
 def cancel():
-    motor_controls.stop_and_reset()
     run_button.config(text = "Waiting for homing...", state = "disabled")
+    motor_controls.stop_and_reset()
 
     if current_mode == 0:
         if not saved:

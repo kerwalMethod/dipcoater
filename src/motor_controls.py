@@ -28,6 +28,8 @@ def run_dip_coater(run_parameters):
         commands.append(dwell_command)
         commands.append(up_command)
         commands.append(upper_pause_command)
+
+    commands.append("G0 X0 F600\n")
     
     try:
         with serial.Serial(serial_port, baud_rate, timeout=1) as ser:
@@ -47,23 +49,25 @@ def get_run_duration(run_parameters):
     up_time = ((run_parameters[2] + 10) / run_parameters[4]) * 1000
     up_dwell = 1000
 
-    total_time = (down_time + down_dwell + up_time + up_dwell) * run_parameters[6] + (240 - (run_parameters[0] + run_parameters[1] + 10)) / (5/6)
+    total_time = 3000 + (down_time + down_dwell + up_time + up_dwell) * run_parameters[6] + (240 - (run_parameters[0] + run_parameters[1] + 10)) / (10)
 
     return total_time
 
 # Create a function to stop the motor in an emergency and reset it
 def stop_and_reset():
-
-    commands = [
-        "M112\n",
-        "G28 X0\n"
-    ]
     
+    command1 = "M112\n"
+    command2 = "M114\n"
+    command3 = "G28 X0\n"
+
     try:
         with serial.Serial(serial_port, baud_rate, timeout=1) as ser:
 
-            for command in commands:
-                ser.write(command.encode())
+            ser.write(command1.encode())
+            ser.write(command2.encode())
+            response = ser.readline().decode().strip()
+            print(response)
+            ser.write(command3.encode())
 
             ser.close()
 

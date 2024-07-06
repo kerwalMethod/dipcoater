@@ -31,19 +31,11 @@ def run_dip_coater(run_parameters):
     
     try:
         with serial.Serial(serial_port, baud_rate, timeout=1) as ser:
-            print(f"Opened serial port: {serial_port}")
 
             for command in commands:
-                # Send command
                 ser.write(command.encode())
-                print(f"Sent command: {command.strip()}")
 
-                # Read response (optional)
-                response = ser.readline().decode().strip()
-                print(f"Response from Klipper: {response}")
-
-            # Close the serial port
-            print("Serial port closed")
+            ser.close()
 
     except serial.SerialException as e:
         print(f"Error opening or communicating with {serial_port}: {e}")
@@ -61,7 +53,19 @@ def get_run_duration(run_parameters):
 
 # Create a function to stop the motor in an emergency and reset it
 def stop_and_reset():
+
+    commands = [
+        "M112\n",
+        "G28 X0\n"
+    ]
     
-    with open (file_path, 'w') as file:
-        file.write("M112\n")
-        file.write("G28 X0")
+    try:
+        with serial.Serial(serial_port, baud_rate, timeout=1) as ser:
+
+            for command in commands:
+                ser.write(command.encode())
+
+            ser.close()
+
+    except serial.SerialException as e:
+        print(f"Error opening or communicating with {serial_port}: {e}")

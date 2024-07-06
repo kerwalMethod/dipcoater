@@ -1,6 +1,6 @@
 # Test writing to stepper motor
 
-file_path = "/tmp/printer"
+file_path = '/tmp/printer'
 
 try:
 

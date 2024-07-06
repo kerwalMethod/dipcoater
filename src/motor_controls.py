@@ -19,15 +19,15 @@ def run_dip_coater(run_parameters):
     dwell_command = "G4 P" + str(dwell_time) + "\n"
     up_command = "G0 X" + str(up_position) + " F" + str(up_speed) + "\n"
     upper_pause_command = "G4 P1000\n"
+
     commands = []
+    commands.append("G28 X0\n")
 
     for dip in range(run_parameters[6]):
         commands.append(down_command)
         commands.append(dwell_command)
         commands.append(up_command)
         commands.append(upper_pause_command)
-    
-    commands.append("G28 X0\n")
     
     try:
         with serial.Serial(serial_port, baud_rate, timeout=1) as ser:

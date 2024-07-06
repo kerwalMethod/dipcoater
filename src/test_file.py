@@ -1,14 +1,26 @@
-# Test writing to stepper motor
+import serial
+import time
 
-file_path = '/tmp/printer'
+serial_port = "/tmp/printer"
+baud_rate = 250000
 
 try:
+    ser = serial.Serial(serial_port, baud_rate, timeout=1)
+    print(f"Opened serial port: {serial_port}")
 
-    with open (file_path, 'w') as file:
-            file.write("G0 X50 F600")
+    # Example command to send to Klipper
+    command = "G0 X20 F600\n"
 
-            print("Success!")
+    # Send command
+    ser.write(command.encode())
 
-except:
+    # Read response (optional)
+    #response = ser.readline().decode().strip()
+    #print(f"Response from Klipper: {response}")
 
-    print("Error")
+    # Close the serial port
+    ser.close()
+    print("Serial port closed")
+
+except serial.SerialException as e:
+    print(f"Error opening or communicating with {serial_port}: {e}")

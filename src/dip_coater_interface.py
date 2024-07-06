@@ -422,6 +422,18 @@ def saved_runs_lock_unlock():
 ###
 
 
+# Create a function to reenable buttons after a run
+def reenabling():
+    if current_mode == 0:
+        if not saved:
+            clear_button.config(state = "enabled")
+        lock_unlock_button.config(state = "enabled")
+
+    elif current_mode == 1:
+        lock_unlock_button3.config(state = "enabled")
+
+    run_button.config(text = "RUN", bootstyle = "info", command = run)
+
 # Create a function to run the dip coater
 def run():
     if current_mode == 0:
@@ -431,24 +443,13 @@ def run():
     elif current_mode == 1:
         lock_unlock_button3.config(state = "disabled")
 
-    run_button.config(text = "EMERGENCY STOP", bootstyle = "warning", command = cancel)
+    run_button.config(text = "EMERGENCY STOP", bootstyle = "danger", command = cancel)
 
     motor_controls.run_dip_coater(parameters)
 
     wait_time = int(motor_controls.get_run_duration(parameters))
 
-    if current_mode == 0:
-        if not saved:
-            clear_button.after(wait_time, clear_button.config(state = "enabled"))
-            lock_unlock_button.config(state = "enabled")
-
-        else:
-            lock_unlock_button.after(wait_time, lock_unlock_button.config(state = "enabled"))
-
-    elif current_mode == 1:
-        lock_unlock_button3.after(wait_time, lock_unlock_button3.config(state = "enabled"))
-
-    run_button.config(text = "RUN", bootstyle = "info", command = run)
+    root.after(wait_time, reenabling)
 
 # Create a function to cancel a run
 def cancel():

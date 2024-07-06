@@ -18,9 +18,9 @@ try:
         # Send command
         ser.write(command.encode())
 
-    # Read response (optional)
-    response = ser.readline().decode().strip()
-    print(f"Response from Klipper: {response}")
+        # Read response (optional)
+        response = ser.readline().decode().strip()
+        print(f"Response from Klipper: {response}")
 
     # Close the serial port
     ser.close()

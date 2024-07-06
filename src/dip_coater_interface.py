@@ -435,7 +435,7 @@ def run():
 
     motor_controls.run_dip_coater(parameters)
 
-    wait_time = motor_controls.get_run_duration(parameters)
+    wait_time = int(motor_controls.get_run_duration(parameters))
 
     if current_mode == 0:
         if not saved:

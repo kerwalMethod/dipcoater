@@ -9,7 +9,7 @@ try:
     print(f"Opened serial port: {serial_port}")
 
     # Example command to send to Klipper
-    command = "G0 X20 F600\n"
+    command = "G28 X0\nG0 X20 F600\n"
 
     # Send command
     ser.write(command.encode())

@@ -77,4 +77,4 @@ def stop_and_reset():
     except serial.SerialException as e:
         print(f"Error opening or communicating with {serial_port}: {e}")
 
-    return int(response[2:7])
+    return int(response[2:6])

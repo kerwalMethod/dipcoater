@@ -6,7 +6,8 @@ from ttkbootstrap.scrolled import ScrolledFrame
 from ttkbootstrap.dialogs import Messagebox
 import sqlite3
 from subprocess import call
-import math
+import motor_controls
+import time
 
 root = tb.Window(themename = "pulse")
 root.title("Dip Coater Gui")
@@ -169,9 +170,9 @@ def toggler(x):
                 depth_entry.config(state = "enabled")
                 depth_entry.delete(0, END)
                 if float(solution_entry.get()) >= float(substrate_entry.get()):
-                    depth_entry.insert(0, float(substrate_entry.get()) - 13)
+                    depth_entry.insert(0, float(substrate_entry.get()) - 15)
                 else:
-                    depth_entry.insert(0, float(solution_entry.get()) - 13)
+                    depth_entry.insert(0, float(solution_entry.get()) - 15)
                 depth_entry.config(state = "disabled")
             except:
                 depth_entry.config(state = "enabled")
@@ -191,15 +192,15 @@ def toggler(x):
             immersion_entry.config(state = "enabled")
 
 # Define the maximums for run parameters
-min_len = 40
-max_len = 140
-min_sol = 40
-max_sol = 140
-min_speed = 0.1
+min_len = 60
+max_len = 95
+min_sol = 80
+max_sol = 130
+min_speed = 0.5
 max_speed = 35
 max_time = 120
 min_dip = 1
-max_dip = 10
+max_dip = 50
 
 # Create a list for run parameters
 parameters = []
@@ -220,7 +221,7 @@ def new_run_lock_unlock():
     try:
 
         if (float(substrate_entry.get()) < min_len or float(substrate_entry.get()) > max_len or float(solution_entry.get()) < min_sol or float(solution_entry.get()) > max_sol 
-            or float(depth_entry.get()) > (float(substrate_entry.get()) - 13) or float(depth_entry.get()) > (float(solution_entry.get()) - 13)
+            or float(depth_entry.get()) > (float(substrate_entry.get()) - 15) or float(depth_entry.get()) > (float(solution_entry.get()) - 15)
             or float(immersion_entry.get()) < min_speed or float(immersion_entry.get()) > max_speed or float(withdrawal_entry.get()) < min_speed 
             or float(withdrawal_entry.get()) > max_speed or float(submersion_entry.get()) > max_time or int(dips_entry.get()) < min_dip or int(dips_entry.get()) > max_dip):
 
@@ -422,7 +423,9 @@ def saved_runs_lock_unlock():
 
 
 # Create a function to run the dip coater
-def run():    
+def run():
+    global keep_scanning
+    keep_scanning = True
     
     if current_mode == 0:
         clear_button.config(state = "disabled")
@@ -431,22 +434,51 @@ def run():
     elif current_mode == 1:
         lock_unlock_button3.config(state = "disabled")
 
-    run_button.config(text = "Cancel", bootstyle = "warning", command = cancel)
+    run_button.config(text = "EMERGENCY STOP", bootstyle = "warning", command = cancel)
 
-    print(parameters)
+    motor_controls.run_dip_coater(parameters)
+
+    while keep_scanning:
+        time.sleep(1)
+        status = motor_controls.get_status()
+
+        if status == "READY":
+            keep_scanning = False
+
+            if current_mode == 0:
+                if not saved:
+                    clear_button.config(state = "enabled")
+                lock_unlock_button.config(state = "enabled")
+
+            elif current_mode == 1:
+                lock_unlock_button3.config(state = "enabled")
+
+            run_button.config(text = "RUN", bootstyle = "info", command = run)
 
 # Create a function to cancel a run
 def cancel():
-    
-    if current_mode == 0:
-        if not saved:
-            clear_button.config(state = "enabled")
-        lock_unlock_button.config(state = "enabled")
-    
-    elif current_mode == 1:
-        lock_unlock_button3.config(state = "enabled")
+    global keep_scanning
+    keep_scanning = False
 
-    run_button.config(text = "RUN", bootstyle = "info", command = run)
+    motor_controls.stop_and_reset()
+    run_button.config(text = "Waiting for homing...", state = "disabled")
+
+    while True:
+        time.sleep(1)
+        status = motor_controls.get_status()
+
+        if status == "READY":
+            if current_mode == 0:
+                if not saved:
+                    clear_button.config(state = "enabled")
+                lock_unlock_button.config(state = "enabled")
+
+            elif current_mode == 1:
+                lock_unlock_button3.config(state = "enabled")
+
+            run_button.config(text = "RUN", bootstyle = "info", command = run)
+
+            break
 
 
 ###

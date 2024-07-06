@@ -194,8 +194,8 @@ def toggler(x):
 # Define the maximums for run parameters
 min_len = 60
 max_len = 95
-min_sol = 80
-max_sol = 130
+min_sol = 85
+max_sol = 135
 min_speed = 0.5
 max_speed = 35
 max_time = 120
@@ -424,9 +424,6 @@ def saved_runs_lock_unlock():
 
 # Create a function to run the dip coater
 def run():
-    global keep_scanning
-    keep_scanning = True
-    
     if current_mode == 0:
         clear_button.config(state = "disabled")
         lock_unlock_button.config(state = "disabled")
@@ -438,47 +435,38 @@ def run():
 
     motor_controls.run_dip_coater(parameters)
 
-    while keep_scanning:
-        time.sleep(1)
-        status = motor_controls.get_status()
+    wait_time = motor_controls.get_run_duration(parameters)
 
-        if status == "READY":
-            keep_scanning = False
+    if current_mode == 0:
+        if not saved:
+            clear_button.after(wait_time, clear_button.config(state = "enabled"))
+            lock_unlock_button.config(state = "enabled")
 
-            if current_mode == 0:
-                if not saved:
-                    clear_button.config(state = "enabled")
-                lock_unlock_button.config(state = "enabled")
+        else:
+            lock_unlock_button.after(wait_time, lock_unlock_button.config(state = "enabled"))
 
-            elif current_mode == 1:
-                lock_unlock_button3.config(state = "enabled")
+    elif current_mode == 1:
+        lock_unlock_button3.after(wait_time, lock_unlock_button3.config(state = "enabled"))
 
-            run_button.config(text = "RUN", bootstyle = "info", command = run)
+    run_button.config(text = "RUN", bootstyle = "info", command = run)
 
 # Create a function to cancel a run
 def cancel():
-    global keep_scanning
-    keep_scanning = False
-
     motor_controls.stop_and_reset()
     run_button.config(text = "Waiting for homing...", state = "disabled")
 
-    while True:
-        time.sleep(1)
-        status = motor_controls.get_status()
+    if current_mode == 0:
+        if not saved:
+            clear_button.config(state = "enabled")
+            lock_unlock_button.config(state = "enabled")
+        
+        else:
+            lock_unlock_button.config(state = "enabled")
 
-        if status == "READY":
-            if current_mode == 0:
-                if not saved:
-                    clear_button.config(state = "enabled")
-                lock_unlock_button.config(state = "enabled")
+    elif current_mode == 1:
+        lock_unlock_button3.config(state = "enabled")
 
-            elif current_mode == 1:
-                lock_unlock_button3.config(state = "enabled")
-
-            run_button.config(text = "RUN", bootstyle = "info", command = run)
-
-            break
+    run_button.config(text = "RUN", bootstyle = "info", command = run)
 
 
 ###

@@ -4,7 +4,7 @@ import time
 serial_port = "/tmp/printer"
 baud_rate = 250000
 
-commands [
+commands = [
     "G0 X40 F600\n",
     "G4 P3000\n"
     "G0 X0 F600\n"

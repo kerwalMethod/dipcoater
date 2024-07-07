@@ -199,6 +199,7 @@ max_sol = 135
 min_speed = 0.5
 max_speed = 35
 max_time = 120
+max_pause = 120
 min_dip = 1
 max_dip = 50
 
@@ -567,21 +568,29 @@ submersion_entry.grid(row = 8, column = 2, padx = (0, 5), pady = (17, 5), sticky
 submersion_units = tb.Label(new_run_frame, text = "s", font = ("Helvetica", 12), bootstyle = "dark")
 submersion_units.grid(row = 8, column = 3, sticky = "w", padx = (0, 15), pady = (17, 5))
 
+# Create the upper pause entry box and its labels
+pause_label = tb.Label(new_run_frame, text = "Upper pause time (max. " + str(max_pause) + " s):", font = ("Helvetica", 12), bootstyle = "dark")
+pause_label.grid(row = 9, column = 0, columnspan = 2, padx = (15, 5), pady = (17, 5), sticky = "w")
+pause_entry = tb.Entry(new_run_frame, font = ("Helvetica", 12), bootstyle = "secondary", width = 10)
+pause_entry.grid(row = 9, column = 2, padx = (0, 5), pady = (17, 5), sticky = "e")
+pause_units = tb.Label(new_run_frame, text = "s", font = ("Helvetica", 12), bootstyle = "dark")
+pause_units.grid(row = 9, column = 3, sticky = "w", padx = (0, 15), pady = (17, 5))
+
 # Create the dips number entry box and its labels
 dips_label = tb.Label(new_run_frame, text = "Number of dips (" + str(min_dip) + " - " + str(max_dip) + "):", font = ("Helvetica", 12), bootstyle = "dark")
-dips_label.grid(row = 9, column = 0, padx = (15, 5), pady = (17, 5), sticky = "w")
+dips_label.grid(row = 10, column = 0, padx = (15, 5), pady = (17, 5), sticky = "w")
 dips_entry = tb.Entry(new_run_frame, font = ("Helvetica", 12), bootstyle = "secondary", width = 10)
-dips_entry.grid(row = 9, column = 2, padx = (0, 5), pady = (17, 5), sticky = "e")
+dips_entry.grid(row = 10, column = 2, padx = (0, 5), pady = (17, 5), sticky = "e")
 dips_units = tb.Label(new_run_frame, text = "dips", font = ("Helvetica", 12), bootstyle = "dark")
-dips_units.grid(row = 9, column = 3, sticky = "w", padx = (0, 15), pady = (17, 5))
+dips_units.grid(row = 10, column = 3, sticky = "w", padx = (0, 15), pady = (17, 5))
 
 # Create an edit button
 clear_button = tb.Button(new_run_frame, text = "Clear All", bootstyle = "secondary", width = 20, command = clear_all)
-clear_button.grid(row = 10, column = 0, padx = (30, 15), pady = 15)
+clear_button.grid(row = 11, column = 0, padx = (30, 15), pady = 15)
 
 # Create a lock/unlock button
 lock_unlock_button = tb.Button(new_run_frame, text = "Lock Parameters", bootstyle = "success", width = 20, command = new_run_lock_unlock)
-lock_unlock_button.grid(row = 10, column = 1, columnspan = 3, padx = (15, 30), pady = 15, sticky = "w")
+lock_unlock_button.grid(row = 11, column = 1, columnspan = 3, padx = (15, 30), pady = 15, sticky = "w")
 
 # Bind the new run frame, entry boxes, clear all button, and lock/unlock button to the return key
 new_run_frame.bind('<KP_Enter>', lambda event: go_to_next_entry(next_entry))

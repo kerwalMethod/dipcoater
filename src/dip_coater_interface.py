@@ -422,6 +422,18 @@ def saved_runs_lock_unlock():
 ###
 
 
+# Create a function to reenable buttons after a run
+def reenabling():
+    if current_mode == 0:
+        if not saved:
+            clear_button.config(state = "enabled")
+        lock_unlock_button.config(state = "enabled")
+
+    elif current_mode == 1:
+        lock_unlock_button3.config(state = "enabled")
+
+    run_button.config(text = "RUN", bootstyle = "info", command = run)
+
 # Create a function to run the dip coater
 def run():
     if current_mode == 0:
@@ -431,42 +443,23 @@ def run():
     elif current_mode == 1:
         lock_unlock_button3.config(state = "disabled")
 
-    run_button.config(text = "EMERGENCY STOP", bootstyle = "warning", command = cancel)
+    run_button.config(text = "EMERGENCY STOP", bootstyle = "danger", command = cancel)
 
     motor_controls.run_dip_coater(parameters)
 
     wait_time = motor_controls.get_run_duration(parameters)
 
-    if current_mode == 0:
-        if not saved:
-            clear_button.after(wait_time, clear_button.config(state = "enabled"))
-            lock_unlock_button.config(state = "enabled")
-
-        else:
-            lock_unlock_button.after(wait_time, lock_unlock_button.config(state = "enabled"))
-
-    elif current_mode == 1:
-        lock_unlock_button3.after(wait_time, lock_unlock_button3.config(state = "enabled"))
-
-    run_button.config(text = "RUN", bootstyle = "info", command = run)
+    root.after(wait_time, reenabling)
 
 # Create a function to cancel a run
 def cancel():
-    motor_controls.stop_and_reset()
     run_button.config(text = "Waiting for homing...", state = "disabled")
 
-    if current_mode == 0:
-        if not saved:
-            clear_button.config(state = "enabled")
-            lock_unlock_button.config(state = "enabled")
-        
-        else:
-            lock_unlock_button.config(state = "enabled")
+    motor_controls.stop_and_reset()
 
-    elif current_mode == 1:
-        lock_unlock_button3.config(state = "enabled")
+    wait_time = motor_controls.stop_and_reset()
 
-    run_button.config(text = "RUN", bootstyle = "info", command = run)
+    root.after(wait_time, reenabling)
 
 
 ###
@@ -513,7 +506,7 @@ substrate_var.trace_add("write", call_back)
 solution_var.trace_add("write", call_back)
 
 # Create the descriptor for substrate length, solution height, and dip depth
-measurements_descriptor = tb.Label(new_run_frame, text = "Enter all physical dimensions in millimeters, all speeds in \nmillimeters per second, and all times in seconds. Note that \nthe maximum dipping depth depends on the first two \nparameters and is always less than the substrate length \nby at least 13 mm.", font = ("Helvetica", 12), bootstyle = "dark")
+measurements_descriptor = tb.Label(new_run_frame, text = "Place the top of the substrate flush with the top of \nthe rubber clamp ends \nmillimeters per second, and all times in seconds. Note that \nthe maximum dipping depth depends on the first two \nparameters and is always less than the substrate length \nby at least 15 mm.", font = ("Helvetica", 12), bootstyle = "dark")
 measurements_descriptor.grid(row = 0, column = 0, columnspan = 4, padx = 15, pady = (10, 4), sticky = "w")
 
 # Create the substrate length entry box and its labels

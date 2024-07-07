@@ -506,7 +506,7 @@ substrate_var.trace_add("write", call_back)
 solution_var.trace_add("write", call_back)
 
 # Create the descriptor for substrate length, solution height, and dip depth
-measurements_descriptor = tb.Label(new_run_frame, text = "Place the top of the substrate flush with the top of \nthe rubber clamp ends \nmillimeters per second, and all times in seconds. Note that \nthe maximum dipping depth depends on the first two \nparameters and is always less than the substrate length \nby at least 15 mm.", font = ("Helvetica", 12), bootstyle = "dark")
+measurements_descriptor = tb.Label(new_run_frame, text = "Place the top of the substrate flush with the top of the \nrubber clamp ends (which should be 240 mm above table).", font = ("Helvetica", 12), bootstyle = "dark")
 measurements_descriptor.grid(row = 0, column = 0, columnspan = 4, padx = 15, pady = (10, 4), sticky = "w")
 
 # Create the substrate length entry box and its labels

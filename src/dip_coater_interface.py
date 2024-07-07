@@ -21,7 +21,6 @@ conn = sqlite3.connect("savedruns.db")
 c = conn.cursor()
 
 # Create a table
-'''
 c.execute("""CREATE TABLE savedruns (
     substrate_length float,
     solution_height float,
@@ -29,9 +28,9 @@ c.execute("""CREATE TABLE savedruns (
     immersion_speed float,
     withdrawal_speed float,
     submersion_time float,
+    pause_time float,
     dips_number integer
     )""")
-'''
 
 ###
 
@@ -154,6 +153,9 @@ def go_to_next_entry(x):
         submersion_entry.focus_set()
         next_entry = 7
     elif x == 7:
+        pause_entry.focus_set()
+        next_entry = 8
+    elif x == 8:
         dips_entry.focus_set()
         next_entry = 1
 
@@ -224,14 +226,14 @@ def new_run_lock_unlock():
         if (float(substrate_entry.get()) < min_len or float(substrate_entry.get()) > max_len or float(solution_entry.get()) < min_sol or float(solution_entry.get()) > max_sol 
             or float(depth_entry.get()) > (float(substrate_entry.get()) - 15) or float(depth_entry.get()) > (float(solution_entry.get()) - 15)
             or float(immersion_entry.get()) < min_speed or float(immersion_entry.get()) > max_speed or float(withdrawal_entry.get()) < min_speed 
-            or float(withdrawal_entry.get()) > max_speed or float(submersion_entry.get()) > max_time or int(dips_entry.get()) < min_dip or int(dips_entry.get()) > max_dip):
+            or float(withdrawal_entry.get()) > max_speed or float(submersion_entry.get()) > max_time or float(pause_entry) > max_pause or int(dips_entry.get()) < min_dip or int(dips_entry.get()) > max_dip):
 
             showerror(message = "One of the values you entered lies outside the allowable range!")
 
         else:
 
             if state1 == 0:
-                    parameters.extend([float(substrate_entry.get()), float(solution_entry.get()), float(depth_entry.get()), float(immersion_entry.get()), float(withdrawal_entry.get()), float(submersion_entry.get()), int(dips_entry.get())])
+                    parameters.extend([float(substrate_entry.get()), float(solution_entry.get()), float(depth_entry.get()), float(immersion_entry.get()), float(withdrawal_entry.get()), float(submersion_entry.get()), float(pause_entry.get()), int(dips_entry.get())])
                     new_run_button.config(state = "disabled")
                     saved_runs_button.config(state = "disabled")
                     shutdown_button.config(state = "disabled")
@@ -243,7 +245,7 @@ def new_run_lock_unlock():
                     conn = sqlite3.connect("savedruns.db")
                     c = conn.cursor()
                     c.execute("SELECT 1 FROM savedruns WHERE substrate_length = '" + str(substrate_entry.get()) + "' AND solution_height = '" + str(solution_entry.get()) + "' AND dip_depth = '" + str(depth_entry.get()) + "' AND immersion_speed = '" + str(immersion_entry.get()) + 
-                                "' AND withdrawal_speed = '" + str(withdrawal_entry.get()) + "' AND submersion_time = '" + str(submersion_entry.get()) + "' AND dips_number = '" + str(dips_entry.get()) + "'")
+                                "' AND withdrawal_speed = '" + str(withdrawal_entry.get()) + "' AND submersion_time = '" + str(submersion_entry.get()) + "' AND pause_time = '" + str(pause_entry.get()) + "' AND dips_number = '" + str(dips_entry.get()) + "'")
 
                     existing_runs = c.fetchone()
 
@@ -257,7 +259,7 @@ def new_run_lock_unlock():
                     conn.commit()
                     conn.close()
 
-                    for x in (substrate_entry, solution_entry, depth_entry, immersion_entry, withdrawal_entry, submersion_entry, dips_entry):
+                    for x in (substrate_entry, solution_entry, depth_entry, immersion_entry, withdrawal_entry, submersion_entry, pause_entry, dips_entry):
                         x.config(state = "disabled")
 
                     lock_unlock_button.config(text = "Unlock Parameters", bootstyle = "warning")
@@ -285,6 +287,7 @@ def new_run_lock_unlock():
 
                 withdrawal_entry.config(state = "enabled")
                 submersion_entry.config(state = "enabled")
+                pause_entry.config(state = "enabled")
                 dips_entry.config(state = "enabled")
                 lock_unlock_button.config(text = "Lock Parameters", bootstyle = "success")
                 run_button.config(state = "disabled")
@@ -304,7 +307,7 @@ def clear_all():
     immersion_var.set(0)
     toggler("i")
 
-    for x in (substrate_entry, solution_entry, depth_entry, immersion_entry, withdrawal_entry, submersion_entry, dips_entry):
+    for x in (substrate_entry, solution_entry, depth_entry, immersion_entry, withdrawal_entry, submersion_entry, pause_entry, dips_entry):
         x.delete(0, END)
 
     new_run_frame.focus_set()
@@ -316,7 +319,7 @@ def save_run():
 
     conn = sqlite3.connect("savedruns.db")
     c = conn.cursor()
-    c.execute("INSERT INTO savedruns VALUES (:substrate_length, :solution_height, :dip_depth, :immersion_speed, :withdrawal_speed, :submersion_time, :dips_number)",
+    c.execute("INSERT INTO savedruns VALUES (:substrate_length, :solution_height, :dip_depth, :immersion_speed, :withdrawal_speed, :submersion_time, :pause_time, :dips_number)",
             {
                 "substrate_length": parameters[0],
                 "solution_height": parameters[1],
@@ -324,7 +327,8 @@ def save_run():
                 "immersion_speed": parameters[3],
                 "withdrawal_speed": parameters[4],
                 "submersion_time": parameters[5],
-                "dips_number": parameters[6]
+                "pause_time": parameters[6],
+                "dips_number": parameters[7]
             }
         )
     conn.commit()
@@ -508,7 +512,7 @@ solution_var.trace_add("write", call_back)
 
 # Create the descriptor for substrate length, solution height, and dip depth
 measurements_descriptor = tb.Label(new_run_frame, text = "Place the top of the substrate flush with the top of the \nrubber clamp ends (which should be 240 mm above table).", font = ("Helvetica", 12), bootstyle = "dark")
-measurements_descriptor.grid(row = 0, column = 0, columnspan = 4, padx = 15, pady = (10, 4), sticky = "w")
+measurements_descriptor.grid(row = 0, column = 0, columnspan = 4, padx = 15, pady = (10, 2), sticky = "w")
 
 # Create the substrate length entry box and its labels
 substrate_label = tb.Label(new_run_frame, text = "Substrate length (" + str(min_len) + " - " + str(max_len) + " mm):", font = ("Helvetica", 12), bootstyle = "dark")
@@ -600,6 +604,7 @@ depth_entry.bind('<KP_Enter>', lambda event: go_to_next_entry(4))
 immersion_entry.bind('<KP_Enter>', lambda event: go_to_next_entry(5))
 withdrawal_entry.bind('<KP_Enter>', lambda event: go_to_next_entry(6))
 submersion_entry.bind('<KP_Enter>', lambda event: go_to_next_entry(7))
+pause_entry.bind('<KP_Enter>', lambda event: go_to_next_entry(8))
 dips_entry.bind('<KP_Enter>', lambda event: go_to_next_entry(1))
 depth_toggle.bind('<KP_Enter>', lambda event: go_to_next_entry(next_entry))
 immersion_toggle.bind('<KP_Enter>', lambda event: go_to_next_entry(next_entry))

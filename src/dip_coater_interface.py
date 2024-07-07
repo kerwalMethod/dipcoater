@@ -357,7 +357,7 @@ def display_runs():
     option.set(0)
 
     for run in runs:
-        choice = tb.Radiobutton(run_list, text = "Run " + str(run[7]) + ": \nsubstrate length: " + str(run[0]) + " mm, solution height: " + str(run[1]) + " mm, \ndipping depth: " + str(run[2]) + " mm, immersion speed: " + str(run[3]) + " mm/s, \nwithdrawal speed: " + str(run[4]) + " mm/s, submersion time: " + str(run[5]) + " s, \npause time:" + str(run[6]) + " s, number of dips: " + str(run[7]) + " dips",
+        choice = tb.Radiobutton(run_list, text = "Run " + str(run[7]) + ": \nsubstrate length: " + str(run[0]) + " mm, solution height: " + str(run[1]) + " mm, \ndipping depth: " + str(run[2]) + " mm, immersion speed: " + str(run[3]) + " mm/s, \nwithdrawal speed: " + str(run[4]) + " mm/s, submersion time: " + str(run[5]) + " s, \npause time: " + str(run[6]) + " s, number of dips: " + str(run[7]) + " dips",
                                 variable = option, value = run[8], command = enable_stuff)
         choice.pack(anchor = "w", pady = 10)
     
@@ -511,7 +511,7 @@ substrate_var.trace_add("write", call_back)
 solution_var.trace_add("write", call_back)
 
 # Create the descriptor for substrate length, solution height, and dip depth
-measurements_descriptor = tb.Label(new_run_frame, text = "Place the top of the substrate flush with the top of the \nrubber clamp ends (which should be 240 mm above table).", font = ("Helvetica", 12), bootstyle = "dark")
+measurements_descriptor = tb.Label(new_run_frame, text = "Place the top edge of the substrate flush with the top of the \nrubber clamp ends (should be 240 mm above the table).", font = ("Helvetica", 12), bootstyle = "dark")
 measurements_descriptor.grid(row = 0, column = 0, columnspan = 4, padx = 15, pady = (10, 2), sticky = "w")
 
 # Create the substrate length entry box and its labels

@@ -13,17 +13,17 @@ def run_dip_coater(run_parameters):
     dwell_time = run_parameters[5] * 1000
     up_position = 240 - (run_parameters[0] + run_parameters[1] + 10)
     up_speed = run_parameters[4] * 60
-
+    pause_time = run_parameters[6] * 1000
 
     down_command = "G0 X" + str(down_position) + " F" + str(down_speed) + "\n"
     dwell_command = "G4 P" + str(dwell_time) + "\n"
     up_command = "G0 X" + str(up_position) + " F" + str(up_speed) + "\n"
-    upper_pause_command = "G4 P1000\n"
+    upper_pause_command = "G4 P" + str(pause_time) + "\n"
 
     commands = []
     commands.append("G28 X0\n")
 
-    for dip in range(run_parameters[6]):
+    for dip in range(run_parameters[7]):
         commands.append(down_command)
         commands.append(dwell_command)
         commands.append(up_command)
@@ -49,10 +49,10 @@ def get_run_duration(run_parameters):
     down_time = ((run_parameters[2] + 10) / run_parameters[3]) * 1000
     down_dwell = run_parameters[5] * 1000
     up_time = ((run_parameters[2] + 10) / run_parameters[4]) * 1000
-    up_dwell = 1000
+    up_dwell = run_parameters[6] * 1000
     singular_up_time = (abs(240 - (run_parameters[0] + run_parameters[1] + 10 + 5)) / 10) * 1000
 
-    total_time = home_time + singular_down_time + (down_time + down_dwell + up_time + up_dwell) * run_parameters[6] + singular_up_time
+    total_time = home_time + singular_down_time + (down_time + down_dwell + up_time + up_dwell) * run_parameters[7] + singular_up_time
 
     return int(total_time)
 
@@ -79,4 +79,4 @@ def stop_and_reset():
 
     wait_time = (response[2:6] / 5) * 1000
 
-    return int(response[2:6])
+    return int(wait_time)

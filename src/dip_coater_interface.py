@@ -19,7 +19,7 @@ conn = sqlite3.connect("savedruns.db")
 
 # Create a cursor
 c = conn.cursor()
-
+'''
 # Create a table
 c.execute("""CREATE TABLE savedruns (
     substrate_length float,
@@ -31,7 +31,7 @@ c.execute("""CREATE TABLE savedruns (
     pause_time float,
     dips_number integer
     )""")
-
+'''
 ###
 
 

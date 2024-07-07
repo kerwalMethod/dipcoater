@@ -77,4 +77,6 @@ def stop_and_reset():
     except serial.SerialException as e:
         print(f"Error opening or communicating with {serial_port}: {e}")
 
+    wait_time = (response[2:6] / 5) * 1000
+
     return int(response[2:6])

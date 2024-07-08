@@ -360,7 +360,7 @@ def display_runs():
     option.set(0)
 
     for run in runs:
-        choice = tb.Radiobutton(run_list, text = "Run " + str(run[7]) + ": \nsubstrate length: " + str(run[0]) + " mm, solution height: " + str(run[1]) + " mm, \ndipping depth: " + str(run[2]) + " mm, immersion speed: " + str(run[3]) + " mm/s, \nwithdrawal speed: " + str(run[4]) + " mm/s, submersion time: " + str(run[5]) + " s, \npause time: " + str(run[6]) + " s, number of dips: " + str(run[7]) + " dips",
+        choice = tb.Radiobutton(run_list, text = "Run " + str(run[8]) + ": \nsubstrate length: " + str(run[0]) + " mm, solution height: " + str(run[1]) + " mm, \ndipping depth: " + str(run[2]) + " mm, immersion speed: " + str(run[3]) + " mm/s, \nwithdrawal speed: " + str(run[4]) + " mm/s, submersion time: " + str(run[5]) + " s, \npause time: " + str(run[6]) + " s, number of dips: " + str(run[7]) + " dips",
                                 variable = option, value = run[8], command = enable_stuff)
         choice.pack(anchor = "w", pady = 10)
     

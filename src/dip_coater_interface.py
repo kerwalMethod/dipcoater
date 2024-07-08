@@ -200,7 +200,9 @@ min_sol = 85
 max_sol = 135
 min_speed = 0.5
 max_speed = 35
+min_time = 0
 max_time = 120
+min_pause = 0
 max_pause = 120
 min_dip = 1
 max_dip = 50
@@ -226,7 +228,8 @@ def new_run_lock_unlock():
         if (float(substrate_entry.get()) < min_len or float(substrate_entry.get()) > max_len or float(solution_entry.get()) < min_sol or float(solution_entry.get()) > max_sol 
             or float(depth_entry.get()) > (float(substrate_entry.get()) - 15) or float(depth_entry.get()) > (float(solution_entry.get()) - 15)
             or float(immersion_entry.get()) < min_speed or float(immersion_entry.get()) > max_speed or float(withdrawal_entry.get()) < min_speed 
-            or float(withdrawal_entry.get()) > max_speed or float(submersion_entry.get()) > max_time or float(pause_entry.get()) > max_pause or int(dips_entry.get()) < min_dip or int(dips_entry.get()) > max_dip):
+            or float(withdrawal_entry.get()) > max_speed or float(submersion_entry.get()) < min_time or float(submersion_entry.get()) > max_time 
+            or float(pause_entry.get()) < min_pause or float(pause_entry.get()) > max_pause or int(dips_entry.get()) < min_dip or int(dips_entry.get()) > max_dip):
 
             showerror(message = "One of the values you entered lies outside the allowable range!")
 

@@ -62,6 +62,7 @@ def stop_and_reset():
     command1 = "M112\n"
     command2 = "M114\n"
     command3 = "G28 X0\n"
+    command4 = "G0 X5 F600\n"
 
     try:
         with serial.Serial(serial_port, baud_rate, timeout=1) as ser:
@@ -69,14 +70,14 @@ def stop_and_reset():
             ser.write(command1.encode())
             ser.write(command2.encode())
             response = ser.readline().decode().strip()
-            print(response)
             ser.write(command3.encode())
+            ser.write(command4.encode())
 
             ser.close()
 
     except serial.SerialException as e:
         print(f"Error opening or communicating with {serial_port}: {e}")
 
-    wait_time = (response[2:6] / 5) * 1000
+    wait_time = (response[2:6] / 5) * 1000 + 1000
 
     return int(wait_time)

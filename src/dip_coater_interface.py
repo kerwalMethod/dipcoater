@@ -53,6 +53,7 @@ def exit_program():
 
         if password_entry.get() == "176371092":
             root.destroy()
+            call("sudo systemctl stop autolaunch.service", shell = True)
 
         else:
             feedback_label = tb.Label(authentication_popup, text = "That's not the correct password.", bootstyle = "danger")
@@ -61,11 +62,11 @@ def exit_program():
     # Set up the popup window
     authentication_popup = tb.Toplevel()
     authentication_popup.title("Authentication to Exit")
-    authentication_popup.geometry("300x200")
+    authentication_popup.geometry("300x210")
     authentication_popup.resizable(False, False)
 
     # Create a label to prompt the user
-    prompt_label = tb.Label(authentication_popup, text = "Enter the password to exit the program.", bootstyle = "dark")
+    prompt_label = tb.Label(authentication_popup, text = "Enter the password to exit the program. \n(This will stop the systemd service!)", bootstyle = "dark")
     prompt_label.grid(row = 0, column = 0, columnspan = 4, padx = 18, pady = (25, 15))
 
     # Create an entry box for the password

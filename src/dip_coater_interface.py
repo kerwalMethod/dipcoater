@@ -53,6 +53,7 @@ def exit_program():
 
         if password_entry.get() == "176371092":
             root.destroy()
+            call("sudo systemctl stop autolaunch.service", shell = True)
 
         else:
             feedback_label = tb.Label(authentication_popup, text = "That's not the correct password.", bootstyle = "danger")
@@ -61,11 +62,11 @@ def exit_program():
     # Set up the popup window
     authentication_popup = tb.Toplevel()
     authentication_popup.title("Authentication to Exit")
-    authentication_popup.geometry("300x200")
+    authentication_popup.geometry("300x210")
     authentication_popup.resizable(False, False)
 
     # Create a label to prompt the user
-    prompt_label = tb.Label(authentication_popup, text = "Enter the password to exit the program.", bootstyle = "dark")
+    prompt_label = tb.Label(authentication_popup, text = "Enter the password to exit the program. \n(This will stop the systemd service!)", bootstyle = "dark")
     prompt_label.grid(row = 0, column = 0, columnspan = 4, padx = 18, pady = (25, 15))
 
     # Create an entry box for the password
@@ -200,7 +201,9 @@ min_sol = 85
 max_sol = 135
 min_speed = 0.5
 max_speed = 35
+min_time = 0
 max_time = 120
+min_pause = 0
 max_pause = 120
 min_dip = 1
 max_dip = 50
@@ -226,7 +229,8 @@ def new_run_lock_unlock():
         if (float(substrate_entry.get()) < min_len or float(substrate_entry.get()) > max_len or float(solution_entry.get()) < min_sol or float(solution_entry.get()) > max_sol 
             or float(depth_entry.get()) > (float(substrate_entry.get()) - 15) or float(depth_entry.get()) > (float(solution_entry.get()) - 15)
             or float(immersion_entry.get()) < min_speed or float(immersion_entry.get()) > max_speed or float(withdrawal_entry.get()) < min_speed 
-            or float(withdrawal_entry.get()) > max_speed or float(submersion_entry.get()) > max_time or float(pause_entry.get()) > max_pause or int(dips_entry.get()) < min_dip or int(dips_entry.get()) > max_dip):
+            or float(withdrawal_entry.get()) > max_speed or float(submersion_entry.get()) < min_time or float(submersion_entry.get()) > max_time 
+            or float(pause_entry.get()) < min_pause or float(pause_entry.get()) > max_pause or int(dips_entry.get()) < min_dip or int(dips_entry.get()) > max_dip):
 
             showerror(message = "One of the values you entered lies outside the allowable range!")
 
@@ -357,7 +361,7 @@ def display_runs():
     option.set(0)
 
     for run in runs:
-        choice = tb.Radiobutton(run_list, text = "Run " + str(run[7]) + ": \nsubstrate length: " + str(run[0]) + " mm, solution height: " + str(run[1]) + " mm, \ndipping depth: " + str(run[2]) + " mm, immersion speed: " + str(run[3]) + " mm/s, \nwithdrawal speed: " + str(run[4]) + " mm/s, submersion time: " + str(run[5]) + " s, \npause time: " + str(run[6]) + " s, number of dips: " + str(run[7]) + " dips",
+        choice = tb.Radiobutton(run_list, text = "Run " + str(run[8]) + ": \nsubstrate length: " + str(run[0]) + " mm, solution height: " + str(run[1]) + " mm, \ndipping depth: " + str(run[2]) + " mm, immersion speed: " + str(run[3]) + " mm/s, \nwithdrawal speed: " + str(run[4]) + " mm/s, submersion time: " + str(run[5]) + " s, \npause time: " + str(run[6]) + " s, number of dips: " + str(run[7]) + " dips",
                                 variable = option, value = run[8], command = enable_stuff)
         choice.pack(anchor = "w", pady = 10)
     

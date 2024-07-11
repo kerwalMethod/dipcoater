@@ -38,7 +38,7 @@ c.execute("""CREATE TABLE savedruns (
 def power_off_backlight():
     call("echo 1 | sudo tee /sys/class/backlight/10-0045/bl_power", shell = True)
 
-def power_on_backlight():
+def power_on_backlight(event=None):
     call("echo 0 | sudo tee /sys/class/backlight/10-0045/bl_power", shell = True)
 
 

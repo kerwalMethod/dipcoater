@@ -138,8 +138,8 @@ def exit_program():
 
         if password_entry.get() == "176371092":
             root.after_cancel(backlight_poweroff)
-            root.destroy()
             call("sudo systemctl stop autolaunch.service", shell = True)
+            root.destroy()
 
         else:
             feedback_label = tb.Label(authentication_popup, text = "That's not the correct password.", bootstyle = "danger")

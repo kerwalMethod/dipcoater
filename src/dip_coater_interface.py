@@ -771,6 +771,5 @@ root.bind('<KP_6>', reset_poweroff)
 root.bind('<KP_7>', reset_poweroff)
 root.bind('<KP_8>', reset_poweroff)
 root.bind('<KP_9>', reset_poweroff)
-root.bind('<KP_Period>', reset_poweroff)
 
 root.mainloop()

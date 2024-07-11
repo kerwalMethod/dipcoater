@@ -35,6 +35,88 @@ c.execute("""CREATE TABLE savedruns (
 ###
 
 
+# Create a power state variable
+power_state = 0
+
+# Create a function to power off the backlight
+def power_off_backlight():
+    global power_state
+
+    if power_state == 0:
+        call("echo 1 | sudo tee /sys/class/backlight/10-0045/bl_power", shell = True)
+        power_state += 1
+
+        if current_mode == 0:
+            if state1 == 0:
+                for x in (new_run_button, saved_runs_button, shutdown_button, exit_button, depth_toggle, immersion_toggle, clear_button, lock_unlock_button, substrate_entry, solution_entry, depth_entry, immersion_entry, withdrawal_entry, submersion_entry, pause_entry, dips_entry):
+                    x.config(state = "disabled")
+
+            elif state1 == 1:
+                for x in (clear_button, lock_unlock_button, run_button):
+                    x.config(state = "disabled")
+
+        elif current_mode == 1:
+            if state2 == 0:
+                for x in (new_run_button, saved_runs_button, shutdown_button, exit_button):
+                    x.config(state = "disabled")
+
+                for widget in run_list.winfo_children():
+                    widget.config(state = "disabled")
+
+            elif state2 == 1:
+                for x in (delete_button, lock_unlock_button2, run_button):
+                    x.config(state = "disabled")
+    
+    elif power_state == 1:
+        pass
+
+# Create a function to power on the backlight
+def power_on_backlight(event=None):
+    global power_state
+
+    if power_state == 1:
+        call("echo 0 | sudo tee /sys/class/backlight/10-0045/bl_power", shell = True)
+        power_state -= 1
+
+        if current_mode == 0:
+            if state1 == 0:
+                for x in (new_run_button, saved_runs_button, shutdown_button, exit_button, depth_toggle, immersion_toggle, clear_button, lock_unlock_button, substrate_entry, solution_entry, depth_entry, immersion_entry, withdrawal_entry, submersion_entry, pause_entry, dips_entry):
+                    x.config(state = "enabled")
+
+            elif state1 == 1:
+                for x in (clear_button, lock_unlock_button, run_button):
+                    x.config(state = "enabled")
+
+        elif current_mode == 1:
+            if state2 == 0:
+                for x in (new_run_button, saved_runs_button, shutdown_button, exit_button):
+                    x.config(state = "enabled")
+
+                for widget in run_list.winfo_children():
+                    widget.config(state = "enabled")
+
+            elif state2 == 1:
+                for x in (delete_button, lock_unlock_button2, run_button):
+                    x.config(state = "enabled")
+    
+    elif power_state == 0:
+        pass
+
+# Create a function to reset the power off timeout
+def reset_poweroff(event=None):
+    global backlight_poweroff
+
+    if power_state == 0:
+        root.after_cancel(backlight_poweroff)
+        backlight_poweroff = root.after(600000, power_off_backlight)
+    
+    elif power_state == 1:
+        pass
+
+
+###
+
+
 # Create a function that displays a confirmation message box for shutting down the system
 def shutdown():
     mb = Messagebox.yesno("Are you sure you want to shutdown the system?", "System Shutdown")
@@ -104,6 +186,7 @@ def new_run_switch():
         saved_runs_button.config(bootstyle = "primary")
         next_entry = 1
         current_mode -= 1
+        reset_poweroff()
 
     else:
         pass
@@ -120,6 +203,7 @@ def saved_runs_switch():
         saved_runs_button.config(bootstyle = "primary, outline")
         new_run_button.config(bootstyle = "primary")
         current_mode += 1
+        reset_poweroff()
 
     else:
         pass
@@ -202,9 +286,9 @@ max_sol = 135
 min_speed = 0.5
 max_speed = 35
 min_time = 0
-max_time = 120
+max_time = 90
 min_pause = 0
-max_pause = 120
+max_pause = 300
 min_dip = 1
 max_dip = 50
 
@@ -223,6 +307,8 @@ def new_run_lock_unlock():
     global state1
     global saved
     global next_entry
+
+    reset_poweroff()
 
     try:
 
@@ -305,6 +391,8 @@ def new_run_lock_unlock():
 # Create a function to clear the new run frame entry boxes
 def clear_all():
     global next_entry
+
+    reset_poweroff()
     
     depth_var.set(0)
     toggler("d")
@@ -320,6 +408,8 @@ def clear_all():
 # Create a function to save a run
 def save_run():
     global saved
+
+    reset_poweroff()
 
     conn = sqlite3.connect("savedruns.db")
     c = conn.cursor()
@@ -347,7 +437,7 @@ def save_run():
 # Create a function that displays the saved runs
 def display_runs():
     delete_button.config(state = "disabled")
-    lock_unlock_button3.config(state = "disabled")
+    lock_unlock_button2.config(state = "disabled")
     conn = sqlite3.connect("savedruns.db")
     c = conn.cursor()
     c.execute("SELECT *, oid FROM savedruns")
@@ -371,7 +461,8 @@ def display_runs():
 # Create a function to turn on the run button
 def enable_stuff():
     delete_button.config(state = "enabled")
-    lock_unlock_button3.config(state = "enabled")
+    lock_unlock_button2.config(state = "enabled")
+    reset_poweroff()
 
 # Create a delete function
 def delete_run():
@@ -381,21 +472,24 @@ def delete_run():
     conn.commit()
     conn.close()
     display_runs()
+    reset_poweroff()
 
 # Create a state variable
-state4 = 0
+state2 = 0
 
 # Create a function to lock and unlock the saved run selection
 def saved_runs_lock_unlock():
-    global state4
+    global state2
 
-    if state4 == 0:
+    reset_poweroff()
+
+    if state2 == 0:
         conn = sqlite3.connect("savedruns.db")
         c = conn.cursor()
         c.execute("SELECT * FROM savedruns WHERE oid = " + str(option.get()))
         run = c.fetchall()
         for par in run:
-            parameters.extend([par[0], par[1], par[2], par[3], par[4], par[5], par[6]])
+            parameters.extend([par[0], par[1], par[2], par[3], par[4], par[5], par[6], par[7]])
         conn.commit()
         conn.close()
 
@@ -404,28 +498,28 @@ def saved_runs_lock_unlock():
         shutdown_button.config(state = "disabled")
         exit_button.config(state = "disabled")
         delete_button.config(state = "disabled")
-        lock_unlock_button3.config(text = "Unlock Parameters", bootstyle = "warning")
+        lock_unlock_button2.config(text = "Unlock Parameters", bootstyle = "warning")
 
         for widget in run_list.winfo_children():
             widget.config(state = "disabled")
 
         run_button.config(state = "enabled")
-        state4 += 1
+        state2 += 1
     
-    elif state4 == 1:
+    elif state2 == 1:
         parameters.clear()
         new_run_button.config(state = "enabled")
         saved_runs_button.config(state = "enabled")
         shutdown_button.config(state = "enabled")
         exit_button.config(state = "enabled")
         delete_button.config(state = "enabled")
-        lock_unlock_button3.config(text = "Lock Parameters", bootstyle = "success")
+        lock_unlock_button2.config(text = "Lock Parameters", bootstyle = "success")
 
         for widget in run_list.winfo_children():
             widget.config(state = "enabled")
 
         run_button.config(state = "disabled")
-        state4 -= 1
+        state2 -= 1
 
 
 ###
@@ -433,42 +527,48 @@ def saved_runs_lock_unlock():
 
 # Create a function to reenable buttons after a run
 def reenabling():
+    global backlight_poweroff
+
     if current_mode == 0:
         if not saved:
             clear_button.config(state = "enabled")
         lock_unlock_button.config(state = "enabled")
 
     elif current_mode == 1:
-        lock_unlock_button3.config(state = "enabled")
+        lock_unlock_button2.config(state = "enabled")
 
-    run_button.config(text = "RUN", bootstyle = "info", command = run)
+    run_button.config(text = "RUN", bootstyle = "info", state = "enabled", command = run)
+    call("echo 255 | sudo tee /sys/class/backlight/10-0045/brightness", shell = True)
+    backlight_poweroff = root.after(600000, power_off_backlight)
 
 # Create a function to run the dip coater
 def run():
+    global run_wait
+    global backlight_poweroff
+
     if current_mode == 0:
         clear_button.config(state = "disabled")
         lock_unlock_button.config(state = "disabled")
     
     elif current_mode == 1:
-        lock_unlock_button3.config(state = "disabled")
+        lock_unlock_button2.config(state = "disabled")
 
     run_button.config(text = "EMERGENCY STOP", bootstyle = "danger", command = cancel)
-
+    root.after_cancel(backlight_poweroff)
     motor_controls.run_dip_coater(parameters)
-
     wait_time = motor_controls.get_run_duration(parameters)
-
-    root.after(wait_time, reenabling)
+    run_wait = root.after(wait_time, reenabling)
+    call("echo 100 | sudo tee /sys/class/backlight/10-0045/brightness", shell = True)
 
 # Create a function to cancel a run
 def cancel():
+    global run_wait
+
     run_button.config(text = "Waiting for homing...", state = "disabled")
-
     motor_controls.stop_and_reset()
-
-    wait_time = motor_controls.stop_and_reset()
-
-    root.after(wait_time, reenabling)
+    wait_time = 35 * 1000
+    root.after_cancel(run_wait)
+    stop_wait = root.after(wait_time, reenabling)
 
 
 ###
@@ -634,8 +734,8 @@ delete_button = tb.Button(saved_runs_frame, text = "Delete", bootstyle = "danger
 delete_button.grid(row = 0, column = 0, padx = 15, pady = (17, 7))
 
 # Create a lock/unlock button
-lock_unlock_button3 = tb.Button(saved_runs_frame, text = "Lock Parameters", bootstyle = "success", width = 17, command = saved_runs_lock_unlock, state = "disabled")
-lock_unlock_button3.grid(row = 0, column = 1, padx = (10, 15), pady = (17, 7), sticky = "w")
+lock_unlock_button2 = tb.Button(saved_runs_frame, text = "Lock Parameters", bootstyle = "success", width = 17, command = saved_runs_lock_unlock, state = "disabled")
+lock_unlock_button2.grid(row = 0, column = 1, padx = (10, 15), pady = (17, 7), sticky = "w")
 
 
 ###
@@ -657,5 +757,19 @@ conn.commit()
 
 # Close the connection
 conn.close()
+
+# Create a timeout to power off the backlight and add keybindings to turn backlight on and reset timeout
+backlight_poweroff = root.after(600000, power_off_backlight)
+root.bind('<KP_Add>', power_on_backlight)
+root.bind('<KP_0>', reset_poweroff)
+root.bind('<KP_1>', reset_poweroff)
+root.bind('<KP_2>', reset_poweroff)
+root.bind('<KP_3>', reset_poweroff)
+root.bind('<KP_4>', reset_poweroff)
+root.bind('<KP_5>', reset_poweroff)
+root.bind('<KP_6>', reset_poweroff)
+root.bind('<KP_7>', reset_poweroff)
+root.bind('<KP_8>', reset_poweroff)
+root.bind('<KP_9>', reset_poweroff)
 
 root.mainloop()

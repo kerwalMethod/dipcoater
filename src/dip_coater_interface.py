@@ -286,9 +286,9 @@ max_sol = 135
 min_speed = 0.5
 max_speed = 35
 min_time = 0
-max_time = 120
+max_time = 90
 min_pause = 0
-max_pause = 120
+max_pause = 300
 min_dip = 1
 max_dip = 50
 

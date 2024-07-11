@@ -441,7 +441,7 @@ def reenabling():
     elif current_mode == 1:
         lock_unlock_button3.config(state = "enabled")
 
-    run_button.config(text = "RUN", bootstyle = "info", command = run)
+    run_button.config(text = "RUN", bootstyle = "info", state = "enabled", command = run)
 
 # Create a function to run the dip coater
 def run():

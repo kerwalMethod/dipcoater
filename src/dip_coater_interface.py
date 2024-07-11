@@ -443,6 +443,8 @@ def reenabling():
 
     run_button.config(text = "RUN", bootstyle = "info", state = "enabled", command = run)
 
+    call("echo 255 | sudo tee /sys/class/backlight/10-0045/brightness", shell = True)
+
 # Create a function to run the dip coater
 def run():
     global run_wait
@@ -461,6 +463,8 @@ def run():
     wait_time = motor_controls.get_run_duration(parameters)
 
     run_wait = root.after(wait_time, reenabling)
+
+    call("echo 100 | sudo tee /sys/class/backlight/10-0045/brightness", shell = True)
 
 # Create a function to cancel a run
 def cancel():

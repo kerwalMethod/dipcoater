@@ -78,6 +78,17 @@ def stop_and_reset():
         with serial.Serial(serial_port, baud_rate, timeout=1) as ser:
 
             ser.write(command2.encode())
+
+            ser.close()
+
+    except serial.SerialException as e:
+        print(f"Error opening or communicating with {serial_port}: {e}")
+
+    time.sleep(3)
+
+    try:
+        with serial.Serial(serial_port, baud_rate, timeout=1) as ser:
+
             ser.write(command3.encode())
             ser.write(command4.encode())
 

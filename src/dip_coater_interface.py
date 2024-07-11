@@ -466,7 +466,7 @@ def cancel():
 
     motor_controls.stop_and_reset()
 
-    wait_time = 32 * 1000
+    wait_time = 35 * 1000
 
     root.after(wait_time, reenabling)
 

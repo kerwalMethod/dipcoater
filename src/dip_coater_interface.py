@@ -678,6 +678,6 @@ conn.close()
 
 backlight_poweroff = root.after(30000, power_off_backlight)
 
-root.bind('<KP_asterisk>', power_on_backlight)
+root.bind('<KP_star>', power_on_backlight)
 
 root.mainloop()

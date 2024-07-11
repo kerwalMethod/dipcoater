@@ -60,7 +60,7 @@ def get_run_duration(run_parameters):
 def stop_and_reset():
     
     command1 = "M112\n"
-    command2 = "M114\n"
+    command2 = "FIRMWARE_RESTART\n"
     command3 = "G28 X0\n"
     command4 = "G0 X5 F600\n"
 
@@ -69,7 +69,6 @@ def stop_and_reset():
 
             ser.write(command1.encode())
             ser.write(command2.encode())
-            response = ser.readline().decode().strip()
             ser.write(command3.encode())
             ser.write(command4.encode())
 
@@ -77,7 +76,3 @@ def stop_and_reset():
 
     except serial.SerialException as e:
         print(f"Error opening or communicating with {serial_port}: {e}")
-
-    wait_time = (response[2:6] / 5) * 1000 + 1000
-
-    return int(wait_time)

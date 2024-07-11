@@ -35,6 +35,16 @@ c.execute("""CREATE TABLE savedruns (
 ###
 
 
+def power_off_backlight():
+    call("echo 1 | sudo tee /sys/class/backlight/10-0045/bl_power", shell = True)
+
+def power_on_backlight():
+    call("echo 0 | sudo tee /sys/class/backlight/10-0045/bl_power", shell = True)
+
+
+###
+
+
 # Create a function that displays a confirmation message box for shutting down the system
 def shutdown():
     mb = Messagebox.yesno("Are you sure you want to shutdown the system?", "System Shutdown")
@@ -665,5 +675,9 @@ conn.commit()
 
 # Close the connection
 conn.close()
+
+backlight_poweroff = root.after(30000, power_off_backlight)
+
+root.bind('<KP_*>', power_on_backlight)
 
 root.mainloop()

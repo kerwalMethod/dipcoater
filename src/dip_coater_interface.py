@@ -64,7 +64,7 @@ def power_off_backlight():
                     widget.config(state = "disabled")
 
             elif state2 == 1:
-                for x in (delete_button, lock_unlock_button3, run_button):
+                for x in (delete_button, lock_unlock_button2, run_button):
                     x.config(state = "disabled")
     
     elif power_state == 1:
@@ -96,7 +96,7 @@ def power_on_backlight(event=None):
                     widget.config(state = "enabled")
 
             elif state2 == 1:
-                for x in (delete_button, lock_unlock_button3, run_button):
+                for x in (delete_button, lock_unlock_button2, run_button):
                     x.config(state = "enabled")
     
     elif power_state == 0:
@@ -437,7 +437,7 @@ def save_run():
 # Create a function that displays the saved runs
 def display_runs():
     delete_button.config(state = "disabled")
-    lock_unlock_button3.config(state = "disabled")
+    lock_unlock_button2.config(state = "disabled")
     conn = sqlite3.connect("savedruns.db")
     c = conn.cursor()
     c.execute("SELECT *, oid FROM savedruns")
@@ -461,7 +461,7 @@ def display_runs():
 # Create a function to turn on the run button
 def enable_stuff():
     delete_button.config(state = "enabled")
-    lock_unlock_button3.config(state = "enabled")
+    lock_unlock_button2.config(state = "enabled")
     reset_poweroff()
 
 # Create a delete function
@@ -498,7 +498,7 @@ def saved_runs_lock_unlock():
         shutdown_button.config(state = "disabled")
         exit_button.config(state = "disabled")
         delete_button.config(state = "disabled")
-        lock_unlock_button3.config(text = "Unlock Parameters", bootstyle = "warning")
+        lock_unlock_button2.config(text = "Unlock Parameters", bootstyle = "warning")
 
         for widget in run_list.winfo_children():
             widget.config(state = "disabled")
@@ -513,7 +513,7 @@ def saved_runs_lock_unlock():
         shutdown_button.config(state = "enabled")
         exit_button.config(state = "enabled")
         delete_button.config(state = "enabled")
-        lock_unlock_button3.config(text = "Lock Parameters", bootstyle = "success")
+        lock_unlock_button2.config(text = "Lock Parameters", bootstyle = "success")
 
         for widget in run_list.winfo_children():
             widget.config(state = "enabled")
@@ -535,7 +535,7 @@ def reenabling():
         lock_unlock_button.config(state = "enabled")
 
     elif current_mode == 1:
-        lock_unlock_button3.config(state = "enabled")
+        lock_unlock_button2.config(state = "enabled")
 
     run_button.config(text = "RUN", bootstyle = "info", state = "enabled", command = run)
     call("echo 255 | sudo tee /sys/class/backlight/10-0045/brightness", shell = True)
@@ -551,7 +551,7 @@ def run():
         lock_unlock_button.config(state = "disabled")
     
     elif current_mode == 1:
-        lock_unlock_button3.config(state = "disabled")
+        lock_unlock_button2.config(state = "disabled")
 
     run_button.config(text = "EMERGENCY STOP", bootstyle = "danger", command = cancel)
     root.after_cancel(backlight_poweroff)
@@ -734,8 +734,8 @@ delete_button = tb.Button(saved_runs_frame, text = "Delete", bootstyle = "danger
 delete_button.grid(row = 0, column = 0, padx = 15, pady = (17, 7))
 
 # Create a lock/unlock button
-lock_unlock_button3 = tb.Button(saved_runs_frame, text = "Lock Parameters", bootstyle = "success", width = 17, command = saved_runs_lock_unlock, state = "disabled")
-lock_unlock_button3.grid(row = 0, column = 1, padx = (10, 15), pady = (17, 7), sticky = "w")
+lock_unlock_button2 = tb.Button(saved_runs_frame, text = "Lock Parameters", bootstyle = "success", width = 17, command = saved_runs_lock_unlock, state = "disabled")
+lock_unlock_button2.grid(row = 0, column = 1, padx = (10, 15), pady = (17, 7), sticky = "w")
 
 
 ###

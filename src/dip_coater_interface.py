@@ -98,6 +98,8 @@ def power_on_backlight(event=None):
             elif state2 == 1:
                 for x in (delete_button, lock_unlock_button2, run_button):
                     x.config(state = "enabled")
+
+        reset_poweroff()
     
     elif power_state == 0:
         pass
@@ -122,6 +124,7 @@ def shutdown():
     mb = Messagebox.yesno("Are you sure you want to shutdown the system?", "System Shutdown")
 
     if mb == "Yes":
+        root.after_cancel(backlight_poweroff)
         call("sudo nohup shutdown -h now", shell = True)
 
     else:
@@ -134,6 +137,7 @@ def exit_program():
     def check_password():
 
         if password_entry.get() == "176371092":
+            root.after_cancel(backlight_poweroff)
             root.destroy()
             call("sudo systemctl stop autolaunch.service", shell = True)
 
@@ -615,7 +619,7 @@ substrate_var.trace_add("write", call_back)
 solution_var.trace_add("write", call_back)
 
 # Create the descriptor for substrate length, solution height, and dip depth
-measurements_descriptor = tb.Label(new_run_frame, text = "Place the top edge of the substrate flush with the top of the \nrubber clamp ends (should be 240 mm above the table).", font = ("Helvetica", 12), bootstyle = "dark")
+measurements_descriptor = tb.Label(new_run_frame, text = "Place the top edge of the substrate flush with the top of the \nrubber clamp ends (should be 235 mm above the table).", font = ("Helvetica", 12), bootstyle = "dark")
 measurements_descriptor.grid(row = 0, column = 0, columnspan = 4, padx = 15, pady = (10, 2), sticky = "w")
 
 # Create the substrate length entry box and its labels

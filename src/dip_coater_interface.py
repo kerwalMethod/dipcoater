@@ -445,6 +445,8 @@ def reenabling():
 
 # Create a function to run the dip coater
 def run():
+    global run_wait
+
     if current_mode == 0:
         clear_button.config(state = "disabled")
         lock_unlock_button.config(state = "disabled")
@@ -458,7 +460,7 @@ def run():
 
     wait_time = motor_controls.get_run_duration(parameters)
 
-    root.after(wait_time, reenabling)
+    run_wait = root.after(wait_time, reenabling)
 
 # Create a function to cancel a run
 def cancel():
@@ -468,7 +470,9 @@ def cancel():
 
     wait_time = 35 * 1000
 
-    root.after(wait_time, reenabling)
+    root.after_cancel(run_wait)
+
+    stop_wait = root.after(wait_time, reenabling)
 
 
 ###

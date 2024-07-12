@@ -556,25 +556,27 @@ def run():
     if current_mode == 0:
         clear_button.config(state = "disabled")
         lock_unlock_button.config(state = "disabled")
+        run_button.config(text = "EMERGENCY STOP", bootstyle = "danger", command = cancel)
+        call("echo 100 | sudo tee /sys/class/backlight/10-0045/brightness", shell = True)
     
     elif current_mode == 1:
         lock_unlock_button2.config(state = "disabled")
-
-    run_button.config(text = "EMERGENCY STOP", bootstyle = "danger", command = cancel)
+        run_button.config(text = "EMERGENCY STOP", bootstyle = "danger", command = cancel)
+        call("echo 100 | sudo tee /sys/class/backlight/10-0045/brightness", shell = True)
+    
     root.after_cancel(backlight_poweroff)
-    motor_controls.run_dip_coater(parameters)
     wait_time = motor_controls.get_run_duration(parameters)
+    motor_controls.run_dip_coater(parameters)
     run_wait = root.after(wait_time, reenabling)
-    call("echo 100 | sudo tee /sys/class/backlight/10-0045/brightness", shell = True)
 
 # Create a function to cancel a run
 def cancel():
     global run_wait
 
     run_button.config(text = "Waiting for homing...", state = "disabled")
+    root.after_cancel(run_wait)
     motor_controls.stop_and_reset()
     wait_time = 35 * 1000
-    root.after_cancel(run_wait)
     stop_wait = root.after(wait_time, reenabling)
 
 

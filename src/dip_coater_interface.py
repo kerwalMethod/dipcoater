@@ -565,8 +565,8 @@ def run():
         call("echo 100 | sudo tee /sys/class/backlight/10-0045/brightness", shell = True)
     
     root.after_cancel(backlight_poweroff)
-    wait_time = motor_controls.get_run_duration(parameters)
     motor_controls.run_dip_coater(parameters)
+    wait_time = motor_controls.get_run_duration(parameters)
     run_wait = root.after(wait_time, reenabling)
 
 # Create a function to cancel a run
@@ -768,7 +768,6 @@ conn.commit()
 conn.close()
 
 # Create a timeout to power off the backlight and add keybindings to turn backlight on and reset timeout
-backlight_poweroff = root.after(600000, power_off_backlight)
 root.bind('<KP_Add>', power_on_backlight)
 root.bind('<KP_0>', reset_poweroff)
 root.bind('<KP_1>', reset_poweroff)
@@ -780,5 +779,8 @@ root.bind('<KP_6>', reset_poweroff)
 root.bind('<KP_7>', reset_poweroff)
 root.bind('<KP_8>', reset_poweroff)
 root.bind('<KP_9>', reset_poweroff)
+backlight_poweroff = root.after(600000, power_off_backlight)
+
+reset_poweroff()
 
 root.mainloop()

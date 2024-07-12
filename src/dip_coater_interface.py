@@ -73,6 +73,7 @@ def power_off_backlight():
 # Create a function to power on the backlight
 def power_on_backlight(event=None):
     global power_state
+    global backlight_poweroff
 
     if power_state == 1:
         call("echo 0 | sudo tee /sys/class/backlight/10-0045/bl_power", shell = True)
@@ -99,7 +100,7 @@ def power_on_backlight(event=None):
                 for x in (delete_button, lock_unlock_button2, run_button):
                     x.config(state = "enabled")
 
-        reset_poweroff()
+        backlight_poweroff = root.after(600000, power_off_backlight)
     
     elif power_state == 0:
         pass
@@ -547,9 +548,6 @@ def reenabling():
     call("echo 255 | sudo tee /sys/class/backlight/10-0045/brightness", shell = True)
     backlight_poweroff = root.after(600000, power_off_backlight)
 
-# Set the run wait time to zero initially
-run_wait = 0
-
 # Create a function to run the dip coater
 def run():
     global run_wait
@@ -561,13 +559,14 @@ def run():
         lock_unlock_button.config(state = "disabled")
         run_button.config(text = "EMERGENCY STOP", bootstyle = "danger", command = cancel)
         call("echo 100 | sudo tee /sys/class/backlight/10-0045/brightness", shell = True)
+        root.after_cancel(backlight_poweroff)
     
     elif current_mode == 1:
         lock_unlock_button2.config(state = "disabled")
         run_button.config(text = "EMERGENCY STOP", bootstyle = "danger", command = cancel)
         call("echo 100 | sudo tee /sys/class/backlight/10-0045/brightness", shell = True)
+        root.after_cancel(backlight_poweroff)
     
-    root.after_cancel(backlight_poweroff)
     motor_controls.run_dip_coater(parameters)
     wait_time = motor_controls.get_run_duration(parameters)
     run_wait = root.after(wait_time, reenabling)

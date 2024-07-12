@@ -34,7 +34,7 @@ c.execute("""CREATE TABLE savedruns (
 '''
 ###
 
-
+'''
 # Create a power state variable
 power_state = 0
 
@@ -114,7 +114,7 @@ def reset_poweroff(event=None):
     
     elif power_state == 1:
         pass
-
+'''
 
 ###
 
@@ -124,7 +124,7 @@ def shutdown():
     mb = Messagebox.yesno("Are you sure you want to shutdown the system?", "System Shutdown")
 
     if mb == "Yes":
-        root.after_cancel(backlight_poweroff)
+        #root.after_cancel(backlight_poweroff)
         call("sudo nohup shutdown -h now", shell = True)
 
     else:
@@ -137,7 +137,7 @@ def exit_program():
     def check_password():
 
         if password_entry.get() == "176371092":
-            root.after_cancel(backlight_poweroff)
+            #root.after_cancel(backlight_poweroff)
             call("sudo systemctl stop autolaunch.service", shell = True)
             root.destroy()
 
@@ -190,7 +190,7 @@ def new_run_switch():
         saved_runs_button.config(bootstyle = "primary")
         next_entry = 1
         current_mode -= 1
-        reset_poweroff()
+        #reset_poweroff()
 
     else:
         pass
@@ -207,7 +207,7 @@ def saved_runs_switch():
         saved_runs_button.config(bootstyle = "primary, outline")
         new_run_button.config(bootstyle = "primary")
         current_mode += 1
-        reset_poweroff()
+        #reset_poweroff()
 
     else:
         pass
@@ -396,7 +396,7 @@ def new_run_lock_unlock():
 def clear_all():
     global next_entry
 
-    reset_poweroff()
+    #reset_poweroff()
     
     depth_var.set(0)
     toggler("d")
@@ -414,7 +414,7 @@ def save_run():
     global saved
     global parameters
 
-    reset_poweroff()
+    #reset_poweroff()
 
     conn = sqlite3.connect("savedruns.db")
     c = conn.cursor()
@@ -467,7 +467,7 @@ def display_runs():
 def enable_stuff():
     delete_button.config(state = "enabled")
     lock_unlock_button2.config(state = "enabled")
-    reset_poweroff()
+    #reset_poweroff()
 
 # Create a delete function
 def delete_run():
@@ -477,7 +477,7 @@ def delete_run():
     conn.commit()
     conn.close()
     display_runs()
-    reset_poweroff()
+    #reset_poweroff()
 
 # Create a state variable
 state2 = 0
@@ -533,7 +533,7 @@ def saved_runs_lock_unlock():
 
 # Create a function to reenable buttons after a run
 def reenabling():
-    global backlight_poweroff
+    #global backlight_poweroff
 
     if current_mode == 0:
         if not saved:
@@ -545,12 +545,12 @@ def reenabling():
 
     run_button.config(text = "RUN", bootstyle = "info", state = "enabled", command = run)
     call("echo 255 | sudo tee /sys/class/backlight/10-0045/brightness", shell = True)
-    backlight_poweroff = root.after(600000, power_off_backlight)
+    #backlight_poweroff = root.after(600000, power_off_backlight)
 
 # Create a function to run the dip coater
 def run():
     global run_wait
-    global backlight_poweroff
+    #global backlight_poweroff
     global parameters
 
     if current_mode == 0:
@@ -561,7 +561,7 @@ def run():
         lock_unlock_button2.config(state = "disabled")
 
     run_button.config(text = "EMERGENCY STOP", bootstyle = "danger", command = cancel)
-    root.after_cancel(backlight_poweroff)
+    #root.after_cancel(backlight_poweroff)
     motor_controls.run_dip_coater(parameters)
     wait_time = motor_controls.get_run_duration(parameters)
     run_wait = root.after(wait_time, reenabling)
@@ -766,6 +766,7 @@ conn.commit()
 conn.close()
 
 # Create a timeout to power off the backlight and add keybindings to turn backlight on and reset timeout
+'''
 backlight_poweroff = root.after(600000, power_off_backlight)
 root.bind('<KP_Add>', power_on_backlight)
 root.bind('<KP_0>', reset_poweroff)
@@ -778,5 +779,5 @@ root.bind('<KP_6>', reset_poweroff)
 root.bind('<KP_7>', reset_poweroff)
 root.bind('<KP_8>', reset_poweroff)
 root.bind('<KP_9>', reset_poweroff)
-
+'''
 root.mainloop()

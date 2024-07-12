@@ -547,6 +547,9 @@ def reenabling():
     call("echo 255 | sudo tee /sys/class/backlight/10-0045/brightness", shell = True)
     backlight_poweroff = root.after(600000, power_off_backlight)
 
+# Set the run wait time to zero initially
+run_wait = 0
+
 # Create a function to run the dip coater
 def run():
     global run_wait

@@ -122,6 +122,8 @@ def reset_poweroff(event=None):
 
 # Create a function that displays a confirmation message box for shutting down the system
 def shutdown():
+    global backlight_poweroff
+
     mb = Messagebox.yesno("Are you sure you want to shutdown the system?", "System Shutdown")
 
     if mb == "Yes":
@@ -133,6 +135,7 @@ def shutdown():
 
 # Create a function to exit the dip coater software
 def exit_program():
+    global backlight_poweroff
 
     # Create a function to check the password
     def check_password():

@@ -126,6 +126,7 @@ def shutdown():
 
     if mb == "Yes":
         root.after_cancel(backlight_poweroff)
+        root.destroy()
         call("sudo nohup shutdown -h now", shell = True)
 
     else:

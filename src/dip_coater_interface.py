@@ -126,6 +126,7 @@ def shutdown():
 
     if mb == "Yes":
         root.after_cancel(backlight_poweroff)
+        call("sudo systemctl stop autolaunch.service", shell = True)
         root.destroy()
         call("sudo nohup shutdown -h now", shell = True)
 

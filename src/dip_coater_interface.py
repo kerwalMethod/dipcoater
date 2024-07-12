@@ -170,6 +170,7 @@ def exit_program():
 
     # Set the focus to the entry box
     password_entry.focus_set()
+    password_entry.delete(0, END)
 
 
 ###

@@ -312,7 +312,7 @@ def new_run_lock_unlock():
     global saved
     global next_entry
 
-    reset_poweroff()
+    #reset_poweroff()
 
     try:
 
@@ -412,6 +412,7 @@ def clear_all():
 # Create a function to save a run
 def save_run():
     global saved
+    global parameters
 
     reset_poweroff()
 
@@ -484,8 +485,9 @@ state2 = 0
 # Create a function to lock and unlock the saved run selection
 def saved_runs_lock_unlock():
     global state2
+    global parameters
 
-    reset_poweroff()
+    #reset_poweroff()
 
     if state2 == 0:
         conn = sqlite3.connect("savedruns.db")
@@ -549,6 +551,7 @@ def reenabling():
 def run():
     global run_wait
     global backlight_poweroff
+    global parameters
 
     if current_mode == 0:
         clear_button.config(state = "disabled")

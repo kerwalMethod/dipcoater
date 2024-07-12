@@ -126,8 +126,6 @@ def shutdown():
 
     if mb == "Yes":
         root.after_cancel(backlight_poweroff)
-        call("sudo systemctl stop autolaunch.service", shell = True)
-        root.destroy()
         call("sudo nohup shutdown -h now", shell = True)
 
     else:
@@ -142,7 +140,7 @@ def exit_program():
         if password_entry.get() == "176371092":
             root.after_cancel(backlight_poweroff)
             call("sudo systemctl stop autolaunch.service", shell = True)
-            root.destroy()
+            root.quit()
 
         else:
             feedback_label = tb.Label(authentication_popup, text = "That's not the correct password.", bootstyle = "danger")

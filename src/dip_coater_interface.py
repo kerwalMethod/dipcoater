@@ -540,11 +540,12 @@ def reenabling():
         if not saved:
             clear_button.config(state = "enabled")
         lock_unlock_button.config(state = "enabled")
+        run_button.config(text = "RUN", bootstyle = "info", state = "enabled", command = run)
 
     elif current_mode == 1:
         lock_unlock_button2.config(state = "enabled")
+        run_button.config(text = "RUN", bootstyle = "info", state = "enabled", command = run)
 
-    run_button.config(text = "RUN", bootstyle = "info", state = "enabled", command = run)
     call("echo 255 | sudo tee /sys/class/backlight/10-0045/brightness", shell = True)
     backlight_poweroff = root.after(600000, power_off_backlight)
 

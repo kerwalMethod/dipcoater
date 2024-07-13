@@ -35,6 +35,12 @@ c.execute("""CREATE TABLE savedruns (
 ###
 
 
+# Create a function to start the power off timeout
+def start_timeout():
+    global backlight_poweroff
+
+    backlight_poweroff = root.after(600000, power_off_backlight)
+
 # Create a power state variable
 power_state = 0
 
@@ -790,6 +796,6 @@ root.bind('<KP_8>', reset_poweroff)
 root.bind('<KP_9>', reset_poweroff)
 
 # Add a short timeout to start main timeout
-root.after(3000, reset_poweroff())
+root.after(500, start_timeout())
 
 root.mainloop()

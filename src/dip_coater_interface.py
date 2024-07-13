@@ -44,6 +44,7 @@ def power_off_backlight():
 
     if power_state == 0:
         call("echo 1 | sudo tee /sys/class/backlight/10-0045/bl_power", shell = True)
+        # print("powering off")
         power_state += 1
 
         if current_mode == 0:
@@ -73,6 +74,7 @@ def power_off_backlight():
 # Create a function to power on the backlight
 def power_on_backlight(event=None):
     global power_state
+    global backlight_poweroff
 
     if power_state == 1:
         call("echo 0 | sudo tee /sys/class/backlight/10-0045/bl_power", shell = True)
@@ -99,7 +101,7 @@ def power_on_backlight(event=None):
                 for x in (delete_button, lock_unlock_button2, run_button):
                     x.config(state = "enabled")
 
-        reset_poweroff()
+        backlight_poweroff = root.after(600000, power_off_backlight)
     
     elif power_state == 0:
         pass
@@ -111,6 +113,7 @@ def reset_poweroff(event=None):
     if power_state == 0:
         root.after_cancel(backlight_poweroff)
         backlight_poweroff = root.after(600000, power_off_backlight)
+        # print("resetting timeout")
     
     elif power_state == 1:
         pass
@@ -121,6 +124,8 @@ def reset_poweroff(event=None):
 
 # Create a function that displays a confirmation message box for shutting down the system
 def shutdown():
+    global backlight_poweroff
+
     mb = Messagebox.yesno("Are you sure you want to shutdown the system?", "System Shutdown")
 
     if mb == "Yes":
@@ -132,6 +137,7 @@ def shutdown():
 
 # Create a function to exit the dip coater software
 def exit_program():
+    global backlight_poweroff
 
     # Create a function to check the password
     def check_password():
@@ -139,7 +145,7 @@ def exit_program():
         if password_entry.get() == "176371092":
             root.after_cancel(backlight_poweroff)
             call("sudo systemctl stop autolaunch.service", shell = True)
-            root.destroy()
+            root.quit()
 
         else:
             feedback_label = tb.Label(authentication_popup, text = "That's not the correct password.", bootstyle = "danger")
@@ -169,6 +175,7 @@ def exit_program():
 
     # Set the focus to the entry box
     password_entry.focus_set()
+    password_entry.delete(0, END)
 
 
 ###
@@ -412,6 +419,7 @@ def clear_all():
 # Create a function to save a run
 def save_run():
     global saved
+    global parameters
 
     reset_poweroff()
 
@@ -484,6 +492,7 @@ state2 = 0
 # Create a function to lock and unlock the saved run selection
 def saved_runs_lock_unlock():
     global state2
+    global parameters
 
     reset_poweroff()
 
@@ -537,11 +546,12 @@ def reenabling():
         if not saved:
             clear_button.config(state = "enabled")
         lock_unlock_button.config(state = "enabled")
+        run_button.config(text = "RUN", bootstyle = "info", state = "enabled", command = run)
 
     elif current_mode == 1:
         lock_unlock_button2.config(state = "enabled")
+        run_button.config(text = "RUN", bootstyle = "info", state = "enabled", command = run)
 
-    run_button.config(text = "RUN", bootstyle = "info", state = "enabled", command = run)
     call("echo 255 | sudo tee /sys/class/backlight/10-0045/brightness", shell = True)
     backlight_poweroff = root.after(600000, power_off_backlight)
 
@@ -549,29 +559,33 @@ def reenabling():
 def run():
     global run_wait
     global backlight_poweroff
+    global parameters
 
     if current_mode == 0:
         clear_button.config(state = "disabled")
         lock_unlock_button.config(state = "disabled")
+        run_button.config(text = "EMERGENCY STOP", bootstyle = "danger", command = cancel)
+        call("echo 100 | sudo tee /sys/class/backlight/10-0045/brightness", shell = True)
+        root.after_cancel(backlight_poweroff)
     
     elif current_mode == 1:
         lock_unlock_button2.config(state = "disabled")
-
-    run_button.config(text = "EMERGENCY STOP", bootstyle = "danger", command = cancel)
-    root.after_cancel(backlight_poweroff)
+        run_button.config(text = "EMERGENCY STOP", bootstyle = "danger", command = cancel)
+        call("echo 100 | sudo tee /sys/class/backlight/10-0045/brightness", shell = True)
+        root.after_cancel(backlight_poweroff)
+    
     motor_controls.run_dip_coater(parameters)
     wait_time = motor_controls.get_run_duration(parameters)
     run_wait = root.after(wait_time, reenabling)
-    call("echo 100 | sudo tee /sys/class/backlight/10-0045/brightness", shell = True)
 
 # Create a function to cancel a run
 def cancel():
     global run_wait
 
     run_button.config(text = "Waiting for homing...", state = "disabled")
+    root.after_cancel(run_wait)
     motor_controls.stop_and_reset()
     wait_time = 35 * 1000
-    root.after_cancel(run_wait)
     stop_wait = root.after(wait_time, reenabling)
 
 
@@ -763,7 +777,6 @@ conn.commit()
 conn.close()
 
 # Create a timeout to power off the backlight and add keybindings to turn backlight on and reset timeout
-backlight_poweroff = root.after(600000, power_off_backlight)
 root.bind('<KP_Add>', power_on_backlight)
 root.bind('<KP_0>', reset_poweroff)
 root.bind('<KP_1>', reset_poweroff)
@@ -775,5 +788,9 @@ root.bind('<KP_6>', reset_poweroff)
 root.bind('<KP_7>', reset_poweroff)
 root.bind('<KP_8>', reset_poweroff)
 root.bind('<KP_9>', reset_poweroff)
+backlight_poweroff = root.after(600000, power_off_backlight)
+# print("setting timeout")
+
+reset_poweroff()
 
 root.mainloop()

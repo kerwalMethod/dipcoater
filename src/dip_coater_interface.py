@@ -44,6 +44,7 @@ def power_off_backlight():
 
     if power_state == 0:
         call("echo 1 | sudo tee /sys/class/backlight/10-0045/bl_power", shell = True)
+        print("powering off")
         power_state += 1
 
         if current_mode == 0:
@@ -112,6 +113,7 @@ def reset_poweroff(event=None):
     if power_state == 0:
         root.after_cancel(backlight_poweroff)
         backlight_poweroff = root.after(600000, power_off_backlight)
+        print("resetting timeout")
     
     elif power_state == 1:
         pass
@@ -787,6 +789,7 @@ root.bind('<KP_7>', reset_poweroff)
 root.bind('<KP_8>', reset_poweroff)
 root.bind('<KP_9>', reset_poweroff)
 backlight_poweroff = root.after(600000, power_off_backlight)
+print("setting timeout")
 
 reset_poweroff()
 
